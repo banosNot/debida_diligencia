@@ -2,591 +2,426 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0">
 <meta http-equiv="Cache-Control" content="no-cache">
-<title>Pre-Registro de Datos — Debida Diligencia</title>
+<title>Pre-Registro &mdash; Debida Diligencia</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--teal:#0D7377;--navy:#1B3A6B;--green:#065F46;--red:#7F1D1D;--border:#CBD5E1}
-body{font-family:'Segoe UI',Arial,sans-serif;background:#EEF2F7;color:#1a1a2e;min-height:100vh;font-size:14px}
-
-/* TOPBAR */
+:root{--teal:#0D7377;--navy:#1B3A6B;--border:#CBD5E1}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#EEF2F7;color:#1a1a2e;min-height:100vh;font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 #topbar{background:linear-gradient(135deg,#1B3A6B,#1a3560);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(0,0,0,.3)}
-#topbar-brand{display:flex;align-items:center;gap:10px}
-#topbar-logo{height:34px;width:auto}
-.tb-sep{width:1.5px;height:28px;background:rgba(255,255,255,.2);margin:0 4px}
+.tb-brand{display:flex;align-items:center;gap:10px}
+.tb-logo{height:32px;width:auto}
 .tb-text{display:flex;flex-direction:column}
 .tb-t1{font-size:11px;font-weight:700;color:rgba(255,255,255,.9)}
 .tb-t2{font-size:9px;color:rgba(255,255,255,.55);margin-top:1px}
-#conn-badge{font-size:9px;font-weight:700;padding:4px 10px;border-radius:12px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.2);white-space:nowrap}
-#conn-badge.ok{background:#065F46;color:#fff;border-color:#6EE7B7}
-#conn-badge.err{background:#7F1D1D;color:#fff;border-color:#FCA5A5}
-
-/* LAYOUT */
-#app{max-width:560px;margin:0 auto;padding:16px 12px 32px}
-
-/* INTRO CARD */
+.tb-r{display:flex;gap:8px;align-items:center}
+#cnBdg{font-size:9px;font-weight:700;padding:3px 10px;border-radius:12px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.2)}
+#cnBdg.ok{background:#065F46;color:#fff;border-color:#6EE7B7}
+#cnBdg.err{background:#7F1D1D;color:#fff;border-color:#FCA5A5}
+#cfgBtn{font-size:10px;padding:8px 14px;border-radius:12px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25);cursor:pointer;min-height:36px;display:flex;align-items:center;-webkit-tap-highlight-color:transparent}
+#app{max-width:560px;margin:0 auto;padding:16px 12px 48px}
 .intro{background:linear-gradient(135deg,#0D7377,#0a5e63);color:#fff;border-radius:14px;padding:18px 20px;margin-bottom:18px}
 .intro h1{font-size:16px;font-weight:800;margin-bottom:6px}
 .intro p{font-size:11px;opacity:.85;line-height:1.6}
-.intro .steps{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-.intro .step{background:rgba(255,255,255,.15);border-radius:8px;padding:7px 12px;font-size:10px;font-weight:600;flex:1;min-width:120px;text-align:center}
-
-/* FORM CARD */
+.steps{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.step{background:rgba(255,255,255,.15);border-radius:8px;padding:6px 12px;font-size:10px;font-weight:600;flex:1;min-width:90px;text-align:center}
 .card{background:#fff;border-radius:12px;margin-bottom:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.card-header{background:#0D7377;color:#fff;padding:12px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
-.card-body{padding:16px}
-
-/* CAMPOS */
+.ch{background:#0D7377;color:#fff;padding:11px 16px;font-size:12px;font-weight:700}
+.cb{padding:16px}
 .fld{display:flex;flex-direction:column;gap:4px;margin-bottom:14px}
 .fld:last-child{margin-bottom:0}
 .fld label{font-size:11px;font-weight:700;color:#374151}
-.fld label .req{color:#B71C1C;margin-left:2px}
-.fld label .opt{font-size:9px;font-weight:400;color:#9CA3AF;margin-left:4px}
-input[type=text],input[type=email],input[type=tel],input[type=number],select,textarea{
-  width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;
-  font-size:16px;color:#1a1a2e;background:#fff;font-family:inherit;
-  transition:border-color .2s,-webkit-tap-highlight-color 0s;
-  -webkit-tap-highlight-color:transparent;
-  appearance:none;-webkit-appearance:none}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,115,119,.12)}
-input.err-f{border-color:#EF4444!important;background:#FEF2F2}
-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
-textarea{min-height:80px;resize:vertical;font-size:14px}
+.req{color:#B71C1C;margin-left:2px}
+.opt{font-size:9px;font-weight:400;color:#9CA3AF;margin-left:4px}
+.cc{font-size:9px;color:#9CA3AF;text-align:right;margin-top:1px}
+input[type=text],input[type=email],input[type=tel],input[type=number],select{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:16px;color:#1a1a2e;background:#fff;font-family:inherit;transition:border-color .2s;-webkit-appearance:none;appearance:none}
+input:focus,select:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,115,119,.12)}
+input.ef{border-color:#EF4444!important;background:#FEF2F2}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:44px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:420px){.g2{grid-template-columns:1fr}}
-
-/* HINT */
-.hint{font-size:10px;color:#6B7280;margin-top:3px;line-height:1.5}
-
-/* AUTOCOMPLETE BADGE */
-#auto_badge{display:none;background:#CCFBF1;border:1px solid #6EE7B7;border-radius:8px;padding:10px 14px;margin-top:8px;font-size:11px;color:#065F46;line-height:1.6}
-#auto_badge strong{display:block;font-size:12px;margin-bottom:3px}
-
-/* MONTOS */
-.monto-wrap{position:relative}
-.monto-sym{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:700;color:var(--teal);pointer-events:none}
-.monto-wrap input{padding-left:30px}
-
-/* BOTONES */
-.btn-primary{width:100%;padding:14px;border-radius:12px;font-size:15px;font-weight:700;background:var(--teal);color:#fff;border:none;cursor:pointer;font-family:inherit;transition:all .2s;-webkit-tap-highlight-color:transparent;margin-top:4px}
-.btn-primary:active{transform:scale(.98);background:#0a5e63}
-.btn-primary:disabled{background:#9CA3AF;cursor:not-allowed}
-.btn-sec{width:100%;padding:12px;border-radius:12px;font-size:13px;font-weight:600;background:#fff;color:var(--navy);border:2px solid var(--navy);cursor:pointer;font-family:inherit;margin-top:10px;-webkit-tap-highlight-color:transparent}
-
-/* PROGRESO */
-#prog{display:none;text-align:center;padding:20px}
-.spinner{width:44px;height:44px;border:4px solid #E2E8F0;border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* ÉXITO */
+@media(max-width:480px){.g2{grid-template-columns:1fr}}
+.mwrap{position:relative}
+.msym{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:700;color:var(--teal);pointer-events:none}
+.mwrap input{padding-left:30px}
+.btn-p{width:100%;padding:16px;border-radius:12px;font-size:16px;font-weight:700;background:var(--teal);color:#fff;border:none;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:4px;min-height:52px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.btn-p:active{transform:scale(.98);background:#0a5e63}
+.btn-p:disabled{background:#9CA3AF;cursor:not-allowed}
+.btn-s{width:100%;padding:14px;border-radius:12px;font-size:14px;font-weight:600;background:#fff;color:var(--navy);border:2px solid var(--navy);cursor:pointer;font-family:inherit;margin-top:10px;min-height:48px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+#prog{display:none;text-align:center;padding:24px}
+.spin{width:44px;height:44px;border:4px solid #E2E8F0;border-top-color:var(--teal);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 12px}
+@keyframes sp{to{transform:rotate(360deg)}}
 #success{display:none;background:#D1FAE5;border:1.5px solid #6EE7B7;border-radius:14px;padding:24px;text-align:center;margin-top:8px}
 #success .ico{font-size:48px;margin-bottom:10px}
 #success h2{font-size:18px;font-weight:800;color:#065F46;margin-bottom:6px}
 #success p{font-size:12px;color:#064E3B;line-height:1.65;margin-bottom:16px}
-#success .nro{font-size:20px;font-weight:900;color:var(--teal);font-family:monospace;display:block;margin:10px 0}
-
-/* ERROR */
+.nro{font-size:20px;font-weight:900;color:var(--teal);font-family:monospace;display:block;margin:10px 0}
 .err-box{background:#FEE2E2;border:1.5px solid #FCA5A5;border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:11px;color:#7F1D1D;display:none;line-height:1.6}
-
-/* FOOTER */
-footer{text-align:center;padding:16px;font-size:10px;color:#9CA3AF;margin-top:8px}
+.auto-bdg{display:none;background:#D1FAE5;border:1px solid #6EE7B7;border-radius:7px;padding:7px 10px;margin-top:6px;font-size:11px;color:#065F46;font-weight:700}
+/* MODAL CONFIG */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;align-items:flex-start;justify-content:center;overflow-y:auto;padding:14px;-webkit-overflow-scrolling:touch}
+.ov.show{display:flex}
+.md{background:#fff;border-radius:14px;padding:24px;max-width:520px;width:100%;margin:auto;box-shadow:0 8px 40px rgba(0,0,0,.35)}
+.md h3{font-size:14px;font-weight:800;color:#1B3A6B;margin-bottom:12px}
+.cl{font-size:10px;font-weight:700;color:#374151;display:block;margin-bottom:3px;margin-top:8px}
+.ci{width:100%;padding:8px 10px;border:1.5px solid #CBD5E1;border-radius:7px;font-size:11px;margin-bottom:4px;font-family:inherit}
+.lbdg{display:inline-block;font-size:9px;padding:1px 6px;border-radius:8px;background:#FEE2E2;color:#7F1D1D;font-weight:700;margin-left:6px}
+.btn-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn-row button{padding:9px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn-navy{background:#1B3A6B;color:#fff;border:none}
+.btn-out{background:#fff;color:#1B3A6B;border:2px solid #1B3A6B}
+footer{text-align:center;padding:16px;font-size:10px;color:#9CA3AF}
 footer strong{color:var(--teal)}
 </style>
 </head>
 <body>
-
-<!-- TOPBAR -->
 <div id="topbar">
-  <div id="topbar-brand">
-    <img id="topbar-logo" src="" alt="D&S" id="tblogo">
-    <div class="tb-sep"></div>
+  <div class="tb-brand">
+    <img class="tb-logo" src="data:image/png;base64,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F83qnGv+DF83qlwtJaKJxr/gxfN6pxr/AIMXzeqXC0loonGv+DF83qnGv+DF83qlwtJaKJxr/gxfN6pxr/gxfN6pcLSWiica/wCDF83qnGv+DF83qlwtJaKJxr/gxfN6pxr/AIMXzeqXC0loonGv+DF83qnGv+DF83qlwtJaKJxr/gxfN6pxr/gxfN6pcLSWiica/wCDF83qnGv+DF83qlwtJaKJxr/gxfN6pxr/AIMXzeqXC0loonGv+DF83qnGv+DF83qlwtJaKJxr/gxfN6pxr/gxfN6pcLSWiica/wCDF83qnGv+DF83qlwtJaKJxr/gxfN6pxr/AIMXzeqXC0loonGv+DF83qnGv+DF83qlwtJaKJxr/gxfN6pxr/gxfN6pcLSWiica/wCDF83qnGv+DF83qlwtJaKJxr/gxfN6pxr/AIMXzeqXC0loonGv+DF83qhrX/Bi+b1S4Wkv/YDtKgVcoll9n9FowF+SzySDDnYb7hyC9ShupZKgREUEhERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREB//9k=" alt="D&amp;S">
     <div class="tb-text">
       <span class="tb-t1">Pre-Registro de Datos</span>
-      <span class="tb-t2">Debida Diligencia · Soluciones D&S</span>
+      <span class="tb-t2">Debida Diligencia &middot; Soluciones D&amp;S</span>
     </div>
   </div>
-  <div id="conn-badge">⏳</div>
+  <div class="tb-r">
+    <div id="cfgBtn" onclick="openCfg()">&#9881; Config</div>
+    <div id="cnBdg">...</div>
+  </div>
 </div>
 
+<!-- MODAL CONFIG -->
+<div class="ov" id="ovCfg"><div class="md">
+  <div id="cfgLogin">
+    <h3>&#128274; Configuraci&oacute;n del Sistema</h3>
+    <p style="font-size:11px;color:#555;margin-bottom:12px">Ingrese la contrase&ntilde;a de administrador para acceder.</p>
+    <input type="password" id="cfgPwInp" class="ci" placeholder="Contrase&ntilde;a admin" onkeydown="if(event.key==='Enter')checkCfgPw()">
+    <div id="cfgPwErr" style="color:#B71C1C;font-size:10px;display:none;margin-bottom:8px">Contrase&ntilde;a incorrecta</div>
+    <div class="btn-row">
+      <button class="btn-navy" onclick="checkCfgPw()">Ingresar</button>
+      <button class="btn-out" onclick="closeCfg()">Cancelar</button>
+    </div>
+  </div>
+  <div id="cfgPanel" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h3 style="margin:0">&#9881; Configuraci&oacute;n</h3>
+      <button onclick="closeCfg()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888">&#x2715;</button>
+    </div>
+    <label class="cl">URL del Apps Script (/exec) <span class="req">*</span> <span id="urlLkBdg" class="lbdg" style="display:none">&#128274; Fijo</span></label>
+    <input type="text" id="cfgUrlInp" class="ci" placeholder="https://script.google.com/macros/s/.../exec" style="font-family:monospace;font-size:10px">
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+      <button class="btn-out" style="padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;border-radius:7px;background:#fff;color:#1B3A6B;border:2px solid #1B3A6B" onclick="testCfgConn()">Probar</button>
+      <span id="cfgConnRes" style="font-size:10px"></span>
+    </div>
+    <label class="cl">Nueva contrase&ntilde;a admin <span style="font-size:9px;color:#9CA3AF">(vac&iacute;o = no cambiar)</span></label>
+    <input type="password" id="cfgNewPw" class="ci" placeholder="Nueva contrase&ntilde;a...">
+    <div id="cfgSaveMsg" style="display:none;padding:9px 12px;border-radius:7px;font-size:11px;margin-top:8px"></div>
+    <div class="btn-row">
+      <button class="btn-navy" onclick="saveCfgPR()">&#128190; Guardar</button>
+      <button class="btn-out" onclick="closeCfg()">Cerrar</button>
+    </div>
+    <p style="font-size:9px;color:#aaa;margin-top:8px">La URL se bloquea tras guardar. Para cambiarla ingrese la clave admin de nuevo.</p>
+  </div>
+</div></div>
+
 <div id="app">
+<div class="intro">
+  <h1>Registro previo de datos personales</h1>
+  <p>Complete este formulario antes de su cita notarial. As&iacute; agilizamos el proceso y no tiene que dictar sus datos nuevamente.</p>
+  <div class="steps"><div class="step">1. Complete el formulario</div><div class="step">2. Env&iacute;e sus datos</div><div class="step">3. Lo atendemos m&aacute;s r&aacute;pido</div></div>
+</div>
 
-  <!-- INTRO -->
-  <div class="intro">
-    <h1>📋 Registro previo de datos personales</h1>
-    <p>Complete este formulario con sus datos antes de la cita. Así agilizamos el proceso de la escritura y no tiene que dictar sus datos nuevamente.</p>
-    <div class="steps">
-      <div class="step">1. Llene el formulario</div>
-      <div class="step">2. Envíe sus datos</div>
-      <div class="step">3. ¡Listo! Lo atendemos más rápido</div>
+<div id="formulario">
+
+<div class="card">
+  <div class="ch">Identificaci&oacute;n</div>
+  <div class="cb">
+    <div class="fld"><label>Tipo de documento <span class="req">*</span></label>
+      <select id="tipo_id"><option value="">&#8212; Seleccione &#8212;</option><option>C&eacute;dula</option><option>Pasaporte</option><option>RUC</option></select></div>
+    <div class="fld"><label>N&uacute;mero de C&eacute;dula / Pasaporte <span class="req">*</span> <span class="opt">(m&aacute;x. 15 car.)</span></label>
+      <input type="text" id="cedula" maxlength="15" inputmode="numeric" oninput="cnt('cedula',15)" onblur="autofill(this.value)">
+      <div class="cc">0/15</div>
+      <div class="auto-bdg" id="autoBdg"></div></div>
+    <div class="fld"><label>Apellidos y Nombres completos <span class="req">*</span></label>
+      <input type="text" id="nombres" maxlength="100" oninput="cnt('nombres',100)" placeholder="Primer apellido, segundo apellido, nombres">
+      <div class="cc">0/100</div></div>
+    <div class="g2">
+      <div class="fld"><label>Estado Civil <span class="req">*</span></label>
+        <select id="ecivil"><option value="">&#8212;</option><option>Soltero/a</option><option>Casado/a</option><option>Divorciado/a</option><option>Viudo/a</option><option>Uni&oacute;n libre</option></select></div>
+      <div class="fld"><label>Nacionalidad <span class="req">*</span></label>
+        <select id="nacion"><option value="">&#8212;</option><option selected>Ecuatoriana</option><option>Colombiana</option><option>Peruana</option><option>Venezolana</option><option>Estadounidense</option><option>Espa&ntilde;ola</option><option>Italiana</option><option>Otra</option></select></div>
     </div>
+    <div class="fld"><label>Profesi&oacute;n / Ocupaci&oacute;n <span class="req">*</span></label>
+      <select id="profesion"><option value="">&#8212; Seleccione &#8212;</option><option>Abogado/a</option><option>Administrador/a de Empresas</option><option>Arquitecto/a</option><option>Comerciante</option><option>Contador/a P&uacute;blico/a</option><option>Economista</option><option>Educador/a / Docente</option><option>Empleado/a P&uacute;blico/a</option><option>Estudiante</option><option>Gerente</option><option>Independiente / Freelance</option><option>Ingeniero/a</option><option>Jubilado/a</option><option>M&eacute;dico/a</option><option>Servidor/a P&uacute;blico/a</option><option>Transportista</option><option>Otros</option></select></div>
   </div>
+</div>
 
-  <!-- FORMULARIO -->
-  <div id="formulario">
-
-    <!-- IDENTIFICACIÓN -->
-    <div class="card">
-      <div class="card-header">🪪 Identificación</div>
-      <div class="card-body">
-
-        <div class="fld">
-          <label>Tipo de documento <span class="req">*</span></label>
-          <select id="tipo_id">
-            <option value="">— Seleccione —</option>
-            <option>Cédula</option>
-            <option>Pasaporte</option>
-            <option>RUC</option>
-          </select>
-        </div>
-
-        <div class="fld">
-          <label>Número de Cédula / Pasaporte <span class="req">*</span></label>
-          <input type="text" id="cedula" placeholder="Ej: 1712345678" inputmode="numeric"
-            onblur="_buscarExistente(this.value)">
-          <div id="auto_badge"><strong>✓ Sus datos fueron encontrados</strong><span id="auto_msg"></span></div>
-        </div>
-
-        <div class="fld">
-          <label>Apellidos y Nombres completos <span class="req">*</span></label>
-          <input type="text" id="nombres" placeholder="Primer apellido, segundo apellido, nombres">
-        </div>
-
-        <div class="g2">
-          <div class="fld">
-            <label>Estado Civil <span class="req">*</span></label>
-            <select id="ecivil">
-              <option value="">—</option>
-              <option>Soltero/a</option>
-              <option>Casado/a</option>
-              <option>Divorciado/a</option>
-              <option>Viudo/a</option>
-              <option>Unión libre</option>
-            </select>
-          </div>
-          <div class="fld">
-            <label>Nacionalidad <span class="req">*</span></label>
-            <select id="nacion" id="nacion">
-              <option value="">—</option>
-              <option selected>Ecuatoriana</option>
-              <option>Colombiana</option><option>Peruana</option><option>Venezolana</option>
-              <option>Estadounidense</option><option>Española</option><option>Italiana</option>
-              <option>Otra</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="fld">
-          <label>Profesión / Ocupación <span class="req">*</span></label>
-          <select id="profesion">
-            <option value="">— Seleccione —</option>
-            <option>Abogado/a</option><option>Administrador/a de Empresas</option>
-            <option>Agrónomo/a</option><option>Arquitecto/a</option><option>Auditor/a</option>
-            <option>Comerciante</option><option>Contador/a Público/a</option>
-            <option>Economista</option><option>Educador/a / Docente</option>
-            <option>Empleado/a Público/a</option><option>Enfermero/a</option>
-            <option>Estudiante</option><option>Gerente</option>
-            <option>Independiente / Freelance</option>
-            <option>Ingeniero/a Civil</option><option>Ingeniero/a de Sistemas</option>
-            <option>Jubilado/a / Pensionista</option><option>Médico/a</option>
-            <option>Militar / Policía</option><option>Odontólogo/a</option>
-            <option>Servidor/a Público/a</option><option>Transportista</option><option>Otros</option>
-          </select>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- CONTACTO -->
-    <div class="card">
-      <div class="card-header">📞 Datos de Contacto</div>
-      <div class="card-body">
-
-        <div class="fld">
-          <label>Teléfono / Celular <span class="req">*</span></label>
-          <input type="tel" id="telefono" placeholder="09..." inputmode="tel">
-        </div>
-
-        <div class="fld">
-          <label>Correo Electrónico <span class="opt">(opcional)</span></label>
-          <input type="email" id="correo" placeholder="correo@ejemplo.com" inputmode="email">
-        </div>
-
-        <div class="fld">
-          <label>Dirección Domiciliaria <span class="req">*</span></label>
-          <input type="text" id="direccion" placeholder="Calle, número, sector, referencia...">
-        </div>
-
-        <div class="fld">
-          <label>Ciudad / Provincia <span class="req">*</span></label>
-          <input type="text" id="ciudad" placeholder="Ej: Quito / Pichincha">
-        </div>
-
-        <div class="fld">
-          <label>Empresa / Lugar de trabajo <span class="opt">(opcional)</span></label>
-          <input type="text" id="empresa" placeholder="Nombre de la empresa o institución">
-        </div>
-
-      </div>
-    </div>
-
-    <!-- INFORMACIÓN ECONÓMICA -->
-    <div class="card">
-      <div class="card-header">💰 Información Económica <span style="font-weight:400;font-size:10px;opacity:.8">— Requerida por normativa UAFE</span></div>
-      <div class="card-body">
-
-        <div class="fld">
-          <label>Actividad Económica principal <span class="req">*</span></label>
-          <input type="text" id="actividad" placeholder="Describa a qué se dedica...">
-        </div>
-
-        <div class="g2">
-          <div class="fld">
-            <label>Ingreso Mensual Promedio <span class="req">*</span></label>
-            <div class="monto-wrap">
-              <span class="monto-sym">$</span>
-              <input type="number" id="ingreso" placeholder="0.00" min="0" step="0.01" inputmode="decimal">
-            </div>
-          </div>
-          <div class="fld">
-            <label>Patrimonio Aproximado <span class="opt">(opcional)</span></label>
-            <div class="monto-wrap">
-              <span class="monto-sym">$</span>
-              <input type="number" id="patrimonio" placeholder="0.00" min="0" step="0.01" inputmode="decimal">
-            </div>
-          </div>
-        </div>
-
-        <div class="fld">
-          <label>Origen de los fondos <span class="req">*</span></label>
-          <select id="ofondos">
-            <option value="">— Seleccione —</option>
-            <option>Ahorros propios</option>
-            <option>Crédito bancario</option>
-            <option>Venta de inmueble</option>
-            <option>Actividad comercial</option>
-            <option>Herencia</option>
-            <option>Donación</option>
-            <option>Salario / sueldo</option>
-            <option>Otro</option>
-          </select>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- TRIBUTARIA -->
-    <div class="card">
-      <div class="card-header">🧾 Información Tributaria <span style="font-weight:400;font-size:10px;opacity:.8">(si aplica)</span></div>
-      <div class="card-body">
-
-        <div class="fld">
-          <label>RUC <span class="opt">(si tiene)</span></label>
-          <input type="text" id="ruc" placeholder="RUC de 13 dígitos" inputmode="numeric">
-        </div>
-
-        <div class="g2">
-          <div class="fld">
-            <label>Estado del RUC</label>
-            <select id="eruc">
-              <option value="">—</option>
-              <option>Activo</option><option>Suspendido</option><option>Cancelado</option><option>No tiene</option>
-            </select>
-          </div>
-          <div class="fld">
-            <label>Régimen</label>
-            <select id="regimen">
-              <option value="">—</option>
-              <option>General</option><option>RIMPE-Emprendedor</option><option>RIMPE-Negocio Popular</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="fld">
-          <label>Tiempo de actividad económica</label>
-          <input type="number" id="tact" placeholder="Años" min="0" max="60" inputmode="numeric" style="max-width:140px">
-          <div class="hint">Años que lleva en su actividad económica principal</div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- DECLARACIÓN -->
-    <div class="card" style="border-top:3px solid #0D7377">
-      <div class="card-body" style="background:#F0FDF4">
-        <p style="font-size:11px;color:#065F46;line-height:1.7;text-align:justify">
-          <strong>Declaración:</strong> Al enviar este formulario, declaro que la información proporcionada 
-          es verdadera y completa, y que los fondos a utilizar en la operación notarial tienen origen lícito. 
-          Autorizo el uso de estos datos para los fines de la debida diligencia conforme a la normativa 
-          de prevención de lavado de activos (UAFE).
-        </p>
-      </div>
-    </div>
-
-    <div class="err-box" id="err_box">⚠ <span id="err_msg"></span></div>
-
-    <button class="btn-primary" id="btn_enviar" onclick="_enviar()">
-      📤 Enviar mis datos
-    </button>
-    <button class="btn-sec" onclick="_limpiar()">↺ Limpiar formulario</button>
-
-  </div><!-- /formulario -->
-
-  <!-- PROGRESO -->
-  <div id="prog">
-    <div class="spinner"></div>
-    <p style="font-size:13px;color:#555;font-weight:600">Enviando sus datos...</p>
-    <p style="font-size:11px;color:#9CA3AF;margin-top:4px">Por favor espere</p>
+<div class="card">
+  <div class="ch">Datos de Contacto</div>
+  <div class="cb">
+    <div class="fld"><label>Tel&eacute;fono / Celular <span class="req">*</span> <span class="opt">(m&aacute;x. 15 n&uacute;meros)</span></label>
+      <input type="tel" id="telefono" maxlength="15" inputmode="tel" oninput="cnt('telefono',15);this.value=this.value.replace(/[^0-9+\- ]/g,'')">
+      <div class="cc">0/15</div></div>
+    <div class="fld"><label>Correo Electr&oacute;nico <span class="opt">(opcional)</span></label>
+      <input type="email" id="correo" maxlength="80" inputmode="email"></div>
+    <div class="fld"><label>Direcci&oacute;n Domiciliaria <span class="req">*</span> <span class="opt">(m&aacute;x. 80 car.)</span></label>
+      <input type="text" id="direccion" maxlength="80" oninput="cnt('direccion',80)" placeholder="Calle, n&uacute;mero, sector, referencia...">
+      <div class="cc">0/80</div></div>
+    <div class="fld"><label>Ciudad / Provincia <span class="req">*</span></label>
+      <input type="text" id="ciudad" maxlength="50" oninput="cnt('ciudad',50)" placeholder="Ej: Quito / Pichincha">
+      <div class="cc">0/50</div></div>
+    <div class="fld"><label>Empresa / Lugar de trabajo <span class="opt">(opcional, m&aacute;x. 100 car.)</span></label>
+      <input type="text" id="empresa" maxlength="100" oninput="cnt('empresa',100)">
+      <div class="cc">0/100</div></div>
   </div>
+</div>
 
-  <!-- ÉXITO -->
-  <div id="success">
-    <div class="ico">✅</div>
-    <h2>¡Datos registrados!</h2>
-    <span class="nro" id="nro_reg"></span>
-    <p id="success_msg">Sus datos han sido guardados correctamente. Guarde este número de referencia para su cita.</p>
-    <button class="btn-primary" onclick="_nuevo()" style="max-width:280px;margin:0 auto;display:block">
-      + Registrar otro interviniente
-    </button>
+<div class="card">
+  <div class="ch">Informaci&oacute;n Econ&oacute;mica</div>
+  <div class="cb">
+    <div class="fld"><label>Actividad Econ&oacute;mica principal <span class="req">*</span> <span class="opt">(m&aacute;x. 50 car.)</span></label>
+      <input type="text" id="actividad" maxlength="50" oninput="cnt('actividad',50)" placeholder="Describa a qu&eacute; se dedica...">
+      <div class="cc">0/50</div></div>
+    <div class="g2">
+      <div class="fld"><label>Ingreso Mensual (USD) <span class="req">*</span></label>
+        <div class="mwrap"><span class="msym">$</span><input type="number" id="ingreso" placeholder="0.00" min="0" step="0.01" inputmode="decimal"></div></div>
+      <div class="fld"><label>Patrimonio (USD) <span class="opt">(opcl.)</span></label>
+        <div class="mwrap"><span class="msym">$</span><input type="number" id="patrimonio" placeholder="0.00" min="0" step="0.01" inputmode="decimal"></div></div>
+    </div>
+    <div class="fld"><label>Origen de los fondos <span class="req">*</span></label>
+      <select id="ofondos"><option value="">&#8212; Seleccione &#8212;</option><option>Ahorros propios</option><option>Cr&eacute;dito bancario</option><option>Venta de inmueble</option><option>Actividad comercial</option><option>Herencia</option><option>Donaci&oacute;n</option><option>Salario / sueldo</option><option>Otro</option></select></div>
   </div>
+</div>
 
-</div><!-- /app -->
+<div class="card">
+  <div class="ch">Informaci&oacute;n Tributaria <span style="font-size:10px;font-weight:400;opacity:.8">(si aplica)</span></div>
+  <div class="cb">
+    <div class="fld"><label>RUC <span class="opt">(si tiene, 13 n&uacute;meros)</span></label>
+      <input type="text" id="ruc" maxlength="13" inputmode="numeric" oninput="cnt('ruc',13);this.value=this.value.replace(/[^0-9]/g,'')">
+      <div class="cc">0/13</div></div>
+    <div class="g2">
+      <div class="fld"><label>Estado del RUC</label>
+        <select id="eruc"><option value="">&#8212;</option><option>Activo</option><option>Suspendido</option><option>Cancelado</option><option>No tiene</option></select></div>
+      <div class="fld"><label>R&eacute;gimen</label>
+        <select id="regimen"><option value="">&#8212;</option><option>General</option><option>RIMPE-Emprendedor</option><option>RIMPE-Negocio Popular</option></select></div>
+    </div>
+    <div class="fld"><label>Tiempo de actividad econ&oacute;mica (a&ntilde;os)</label>
+      <input type="number" id="tact" min="0" max="60" inputmode="numeric" style="max-width:140px"></div>
+  </div>
+</div>
 
-<footer>
-  <strong>Soluciones D&S</strong> · Data Analytics &amp; Solutions<br>
-  Formulario de Pre-Registro Debida Diligencia · Sus datos están protegidos
-</footer>
+<div class="card" style="border-top:3px solid #0D7377">
+  <div class="cb" style="background:#F0FDF4">
+    <p style="font-size:11px;color:#065F46;line-height:1.7;text-align:justify">
+      <strong>Declaraci&oacute;n:</strong> Al enviar este formulario declaro que la informaci&oacute;n es verdadera y completa,
+      y que los fondos a utilizar tienen origen l&iacute;cito. Autorizo el uso de estos datos para los fines de la debida diligencia
+      conforme a la normativa UAFE de prevenci&oacute;n de lavado de activos.
+    </p>
+  </div>
+</div>
+
+<div class="err-box" id="errBox"><span id="errMsg"></span></div>
+<button class="btn-p" id="btnEnviar" onclick="doEnviar()">Enviar mis datos</button>
+<button class="btn-s" onclick="doLimpiar()">Limpiar formulario</button>
+</div>
+
+<div id="prog"><div class="spin"></div><p style="font-size:13px;color:#555;font-weight:600">Enviando sus datos...</p></div>
+
+<div id="success">
+  <div class="ico">&#10003;</div>
+  <h2>Datos registrados correctamente</h2>
+  <span class="nro" id="nroReg"></span>
+  <p id="succMsg">Sus datos han sido guardados. Guarde este n&uacute;mero de referencia para su cita.</p>
+  <button class="btn-p" onclick="doNuevo()" style="max-width:280px;margin:0 auto;display:block">+ Registrar otro interviniente</button>
+</div>
+</div>
+
+<footer><strong>Soluciones D&amp;S</strong> &middot; Data Analytics &amp; Solutions<br>Formulario de Pre-Registro &middot; Debida Diligencia</footer>
 
 <script>
-// ── Config ───────────────────────────────────────────────────
-// La URL del script se lee de localStorage (misma clave que el formulario principal)
-// Si no está configurada, mostrar aviso al admin
-var _cfg = {};
-try { _cfg = JSON.parse(localStorage.getItem("dd_cfg") || "{}"); } catch(e) {}
-var _scriptUrl = _cfg.scriptUrl || "";
+var ADMIN_DEF = atob('YWRtaW4yMDI2');
+var CFG_PR = {};
+function loadCfg() {
+  try { CFG_PR = JSON.parse(localStorage.getItem('dd_cfg') || '{}'); } catch(e) { CFG_PR = {}; }
+  CFG_PR.scriptUrl = CFG_PR.scriptUrl || '';
+  CFG_PR.pass = CFG_PR.pass || ADMIN_DEF;
+  CFG_PR._urlL = CFG_PR._urlL || false;
+}
+loadCfg();
 
-const el = id => document.getElementById(id);
-const v  = id => { const e=el(id); return e?e.value.trim():""; };
+var E = function(id) { return document.getElementById(id); };
+var V = function(id) { var e = E(id); return e ? e.value.trim() : ''; };
 
-// ── Conectividad ─────────────────────────────────────────────
-function _ping() {
-  if (!_scriptUrl) {
-    el("conn-badge").textContent = "⚠ Sin URL";
-    el("conn-badge").className = "err";
-    return;
-  }
-  el("conn-badge").textContent = "⏳";
-  _jsonp(_scriptUrl, { action: "ping" }, function(d) {
-    if (d && d.status === "OK") {
-      el("conn-badge").textContent = "✓ Conectado";
-      el("conn-badge").className = "ok";
-    } else {
-      el("conn-badge").textContent = "✗ Error";
-      el("conn-badge").className = "err";
-    }
+function cnt(id, max) {
+  var e = E(id); if (!e) return;
+  var n = e.nextElementSibling;
+  if (n && n.classList.contains('cc')) n.textContent = e.value.length + '/' + max;
+}
+
+// PING
+function ping() {
+  if (!CFG_PR.scriptUrl) { E('cnBdg').textContent = 'Sin URL'; E('cnBdg').className = 'err'; return; }
+  E('cnBdg').textContent = '...';
+  jsonp(CFG_PR.scriptUrl, {action:'ping'}, function(d) {
+    if (d && d.status === 'OK') { E('cnBdg').textContent = 'Conectado'; E('cnBdg').className = 'ok'; }
+    else { E('cnBdg').textContent = 'Error'; E('cnBdg').className = 'err'; }
   });
 }
 
-// ── Buscar cédula existente ───────────────────────────────────
-function _buscarExistente(cedula) {
-  cedula = cedula.trim();
-  if (cedula.length < 5 || !_scriptUrl) return;
-  _jsonp(_scriptUrl, { action: "buscar_cedula", cedula: cedula, fuente: "ambas" }, function(d) {
-    if (d && d.status === "FOUND") {
+// AUTOFILL desde hoja INTERVINIENTES
+function autofill(ced) {
+  ced = ced.trim(); if (ced.length < 5 || !CFG_PR.scriptUrl) return;
+  jsonp(CFG_PR.scriptUrl, {action:'buscar_cedula', cedula:encodeURIComponent(ced)}, function(d) {
+    if (d && d.status === 'FOUND') {
       try {
         var r = JSON.parse(d.msg);
-        // Autocompletar campos
-        if (r.nombres)   { el("nombres").value    = r.nombres; }
-        if (r.ecivil)    { el("ecivil").value      = r.ecivil; }
-        if (r.nacion)    { el("nacion").value       = r.nacion; }
-        if (r.profesion) { el("profesion").value   = r.profesion; }
-        if (r.telefono)  { el("telefono").value    = r.telefono; }
-        if (r.correo)    { el("correo").value      = r.correo; }
-        if (r.direccion) { el("direccion").value   = r.direccion; }
-        if (r.ciudad)    { el("ciudad").value      = r.ciudad; }
-        if (r.empresa)   { el("empresa").value     = r.empresa; }
-        if (r.actividad) { el("actividad").value   = r.actividad; }
-        if (r.ingreso)   { el("ingreso").value     = r.ingreso; }
-        if (r.patrimonio){ el("patrimonio").value  = r.patrimonio; }
-        if (r.ofondos)   { el("ofondos").value     = r.ofondos; }
-        if (r.ruc)       { el("ruc").value         = r.ruc; }
-        if (r.eruc)      { el("eruc").value        = r.eruc; }
-        if (r.regimen)   { el("regimen").value     = r.regimen; }
-        if (r.tact)      { el("tact").value        = r.tact; }
-        if (r.tipo_id)   { el("tipo_id").value     = r.tipo_id; }
-
-        el("auto_msg").textContent =
-          "Datos del " + (r.fuente === "INTERVINIENTES" ? "registro previo" : "formulario anterior") +
-          " — Verifique y corrija si algo cambió.";
-        el("auto_badge").style.display = "block";
+        var fmap = {nombres:'nombres', ecivil:'ecivil', nacion:'nacion', profesion:'profesion',
+          telefono:'telefono', correo:'correo', direccion:'direccion', ciudad:'ciudad',
+          empresa:'empresa', actividad:'actividad', ingreso:'ingreso', patrimonio:'patrimonio',
+          ofondos:'ofondos', ruc:'ruc', eruc:'eruc', regimen:'regimen', tact:'tact', tipo_id:'tipo_id'};
+        Object.keys(fmap).forEach(function(k) { var e = E(fmap[k]); if (e && r[k]) e.value = r[k]; });
+        var b = E('autoBdg'); b.style.display = 'block';
+        b.textContent = '✓ Datos de ' + (r.nombres || 'este interviniente') + ' cargados. Verifique y corrija si algo cambió.';
       } catch(e) {}
     }
   });
 }
 
-// ── Validar ───────────────────────────────────────────────────
-function _validar() {
-  const reqs = [
-    {id:"tipo_id",  lb:"Tipo de documento"},
-    {id:"cedula",   lb:"Cédula / Pasaporte"},
-    {id:"nombres",  lb:"Nombres completos"},
-    {id:"ecivil",   lb:"Estado Civil"},
-    {id:"nacion",   lb:"Nacionalidad"},
-    {id:"profesion",lb:"Profesión"},
-    {id:"telefono", lb:"Teléfono"},
-    {id:"direccion",lb:"Dirección"},
-    {id:"ciudad",   lb:"Ciudad / Provincia"},
-    {id:"actividad",lb:"Actividad Económica"},
-    {id:"ingreso",  lb:"Ingreso Mensual"},
-    {id:"ofondos",  lb:"Origen de fondos"},
-  ];
-  const errs = [];
-  reqs.forEach(r => {
-    const e = el(r.id);
-    if (!e || !e.value.trim()) { errs.push(r.lb); if(e) e.classList.add("err-f"); }
-    else if (e) e.classList.remove("err-f");
+// VALIDAR
+function validar() {
+  var reqs = [['tipo_id','Tipo de documento'],['cedula','Cédula / Pasaporte'],
+    ['nombres','Nombres completos'],['ecivil','Estado Civil'],['nacion','Nacionalidad'],
+    ['profesion','Profesión'],['telefono','Teléfono'],['direccion','Dirección'],
+    ['ciudad','Ciudad / Provincia'],['actividad','Actividad Económica'],
+    ['ingreso','Ingreso Mensual'],['ofondos','Origen de fondos']];
+  var errs = [];
+  reqs.forEach(function(p) {
+    var e = E(p[0]);
+    if (!e || !e.value.trim()) { errs.push(p[1]); if (e) e.classList.add('ef'); }
+    else if (e) e.classList.remove('ef');
   });
-  if (!_scriptUrl) errs.push("URL del script no configurada — contacte al administrador");
+  if (!CFG_PR.scriptUrl) errs.push('URL del script no configurada — presione Config (arriba)');
   return errs;
 }
 
-// ── Construir array de datos ──────────────────────────────────
-function _buildDatos() {
-  // Alineado con HEADERS_INT (25 cols)
+// DATOS PARA SHEET INTERVINIENTES (25 columnas)
+// [0]NInt [1]Fecha [2]Origen [3]FuncRegistro
+// [4]TipoID [5]Cedula [6]Nombres [7]ECivil [8]Nacion [9]Profesion
+// [10]Telefono [11]Correo [12]Direccion [13]Ciudad [14]Empresa
+// [15]Actividad [16]Ingreso [17]Patrimonio [18]OFondos
+// [19]RUC [20]ERuc [21]Regimen [22]Tact
+// [23]Estado [24]Observaciones
+function buildDatos() {
   return [
-    "",                                       // 0: N° (asigna el script)
-    new Date().toISOString(),                 // 1: Fecha Registro
-    "Pre-registro web",                       // 2: Origen
-    "—",                                      // 3: Funcionario Registro
-    v("tipo_id"),                             // 4: Tipo ID
-    v("cedula"),                              // 5: Cédula/Pasaporte
-    v("nombres"),                             // 6: Nombres Completos
-    v("ecivil"),                              // 7: Estado Civil
-    v("nacion"),                              // 8: Nacionalidad
-    v("profesion"),                           // 9: Profesión
-    v("telefono"),                            // 10: Teléfono
-    v("correo"),                              // 11: Correo
-    v("direccion"),                           // 12: Dirección
-    v("ciudad"),                              // 13: Ciudad/Provincia
-    v("empresa"),                             // 14: Empresa/Empleador
-    v("actividad"),                           // 15: Actividad Económica
-    v("ingreso"),                             // 16: Ingreso Mensual $
-    v("patrimonio"),                          // 17: Patrimonio $
-    v("ofondos"),                             // 18: Origen Fondos
-    v("ruc"),                                 // 19: RUC
-    v("eruc"),                                // 20: Estado RUC
-    v("regimen"),                             // 21: Régimen
-    v("tact"),                                // 22: Tiempo Actividad
-    "NUEVO",                                  // 23: Estado
-    ""                                        // 24: Observaciones
+    '', new Date().toISOString(), 'Pre-registro web', '—',
+    V('tipo_id'), V('cedula'), V('nombres'), V('ecivil'), V('nacion'), V('profesion'),
+    V('telefono'), V('correo'), V('direccion'), V('ciudad'), V('empresa'),
+    V('actividad'), V('ingreso'), V('patrimonio'), V('ofondos'),
+    V('ruc'), V('eruc'), V('regimen'), V('tact'),
+    'NUEVO', ''
   ];
 }
 
-// ── Enviar ────────────────────────────────────────────────────
-var _intentos = 0;
-function _enviar() {
-  const errs = _validar();
+var _int = 0;
+function doEnviar() {
+  var errs = validar();
   if (errs.length) {
-    el("err_box").style.display = "block";
-    el("err_msg").textContent = "Complete los campos: " + errs.join(", ");
-    el("err_box").scrollIntoView({ behavior:"smooth", block:"center" });
+    E('errBox').style.display = 'block';
+    E('errMsg').textContent = 'Complete los campos: ' + errs.join(', ');
+    E('errBox').scrollIntoView({behavior:'smooth', block:'center'});
     return;
   }
-  el("err_box").style.display = "none";
-  el("formulario").style.display = "none";
-  el("prog").style.display = "block";
-  el("btn_enviar").disabled = true;
-  _intentos = 0;
-  _enviarDatos();
+  E('errBox').style.display = 'none';
+  E('formulario').style.display = 'none';
+  E('prog').style.display = 'block';
+  E('btnEnviar').disabled = true;
+  _int = 0;
+  enviar();
 }
 
-function _enviarDatos() {
-  _intentos++;
-  const datos = _buildDatos();
-  _jsonp(_scriptUrl, {
-    action: "guardar_interviniente",
-    d: encodeURIComponent(JSON.stringify(datos))
-  }, function(resp) {
-    el("prog").style.display = "none";
-    if (resp && resp.status === "OK") {
-      el("nro_reg").textContent = resp.nro || "Registrado";
-      el("success_msg").textContent = resp.accion === "actualizado"
-        ? "Sus datos han sido actualizados correctamente. Referencia: " + resp.nro
-        : "Sus datos han sido registrados. Guarde este número para su cita. Referencia: " + resp.nro;
-      el("success").style.display = "block";
+function enviar() {
+  _int++;
+  var datos = buildDatos();
+  jsonp(CFG_PR.scriptUrl, {action:'guardar_interviniente', d:encodeURIComponent(JSON.stringify(datos))}, function(resp) {
+    E('prog').style.display = 'none';
+    if (resp && resp.status === 'OK') {
+      E('nroReg').textContent = resp.nro || 'INT-' + Date.now();
+      E('succMsg').textContent = resp.accion === 'actualizado'
+        ? 'Sus datos han sido actualizados. Referencia: ' + (resp.nro || '')
+        : 'Sus datos han sido registrados. Guarde este número para su cita.';
+      E('success').style.display = 'block';
     } else {
-      if (_intentos < 3) {
-        setTimeout(_enviarDatos, _intentos * 2000);
-        el("prog").style.display = "block";
-      } else {
-        el("formulario").style.display = "block";
-        el("btn_enviar").disabled = false;
-        el("err_box").style.display = "block";
-        el("err_msg").textContent = "No se pudo enviar. Verifique su conexión e intente nuevamente. " +
-          (resp ? resp.msg : "Sin respuesta del servidor.");
-      }
+      if (_int < 3) { E('prog').style.display = 'block'; setTimeout(enviar, _int * 2000); return; }
+      E('formulario').style.display = 'block';
+      E('btnEnviar').disabled = false;
+      E('errBox').style.display = 'block';
+      E('errMsg').textContent = 'Error al enviar los datos. Verifique su conexión e intente de nuevo. (' + ((resp && resp.msg) || 'Sin respuesta') + ')';
     }
   });
 }
 
-// ── JSONP (mismo mecanismo que formulario principal) ──────────
-function _jsonp(url, params, cb) {
-  const cbName = "__pr" + Date.now();
-  const sc = document.createElement("script");
-  const tm = setTimeout(() => {
-    delete window[cbName];
-    try { document.head.removeChild(sc); } catch(x) {}
-    cb({ status:"ERROR", msg:"Timeout" });
-  }, 18000);
+function doLimpiar() {
+  document.querySelectorAll('input,select').forEach(function(e) { e.value = ''; e.classList.remove('ef'); });
+  document.querySelectorAll('.cc').forEach(function(e) { var inp = e.previousElementSibling; if (inp && inp.maxLength > 0) e.textContent = '0/' + inp.maxLength; });
+  E('autoBdg').style.display = 'none';
+  E('errBox').style.display = 'none';
+}
 
-  window[cbName] = data => {
-    clearTimeout(tm);
-    delete window[cbName];
-    try { document.head.removeChild(sc); } catch(x) {}
-    cb(data);
-  };
-  sc.onerror = () => {
-    clearTimeout(tm);
-    delete window[cbName];
-    try { document.head.removeChild(sc); } catch(x) {}
-    cb({ status:"ERROR", msg:"Error de red" });
-  };
+function doNuevo() {
+  doLimpiar();
+  E('formulario').style.display = 'block';
+  E('success').style.display = 'none';
+  E('btnEnviar').disabled = false;
+}
 
-  const qs = Object.entries(params)
-    .map(([k,v]) => k + "=" + v)
-    .join("&");
-  sc.src = url + "?" + qs + "&callback=" + cbName + "&t=" + Date.now();
+// CONFIG
+function openCfg() {
+  E('ovCfg').classList.add('show');
+  E('cfgLogin').style.display = 'block'; E('cfgPanel').style.display = 'none';
+  E('cfgPwInp').value = ''; E('cfgPwErr').style.display = 'none';
+  setTimeout(function() { E('cfgPwInp').focus(); }, 100);
+}
+function closeCfg() { E('ovCfg').classList.remove('show'); }
+function checkCfgPw() {
+  if (E('cfgPwInp').value === CFG_PR.pass) {
+    E('cfgLogin').style.display = 'none'; E('cfgPanel').style.display = 'block';
+    E('cfgUrlInp').value = CFG_PR.scriptUrl || '';
+    E('cfgNewPw').value = '';
+    E('urlLkBdg').style.display = CFG_PR._urlL ? 'inline' : 'none';
+    E('cfgUrlInp').disabled = CFG_PR._urlL;
+  } else { E('cfgPwErr').style.display = 'block'; E('cfgPwInp').focus(); }
+}
+function testCfgConn() {
+  var url = E('cfgUrlInp').value.trim(), r = E('cfgConnRes');
+  if (!url) { r.textContent = '⚠ Ingrese URL primero'; r.style.color = '#E65100'; return; }
+  r.textContent = 'Probando...'; r.style.color = '#555';
+  jsonp(url, {action:'ping'}, function(d) {
+    if (d && d.status === 'OK') { r.textContent = '✅ Conexión OK'; r.style.color = '#2E7D32'; }
+    else { r.textContent = '❌ Sin respuesta. Verifique la URL.'; r.style.color = '#B71C1C'; }
+  });
+}
+function saveCfgPR() {
+  var np = E('cfgNewPw').value.trim();
+  if (!CFG_PR._urlL) { CFG_PR.scriptUrl = E('cfgUrlInp').value.trim(); if (CFG_PR.scriptUrl) CFG_PR._urlL = true; }
+  if (np) CFG_PR.pass = np;
+  localStorage.setItem('dd_cfg', JSON.stringify(CFG_PR));
+  var m = E('cfgSaveMsg'); m.style.display = 'block'; m.style.background = '#D1FAE5'; m.style.color = '#065F46';
+  m.textContent = '✅ Configuración guardada. Recargando...';
+  setTimeout(function() { closeCfg(); location.reload(); }, 1200);
+}
+
+// JSONP
+function jsonp(url, params, cb) {
+  var cbn = '__jp' + Date.now(); var sc = document.createElement('script');
+  var tm = setTimeout(function() { delete window[cbn]; try { document.head.removeChild(sc); } catch(x) {} cb({status:'ERROR', msg:'Timeout'}); }, 12000);
+  window[cbn] = function(data) { clearTimeout(tm); delete window[cbn]; try { document.head.removeChild(sc); } catch(x) {} cb(data); };
+  sc.onerror = function() { clearTimeout(tm); delete window[cbn]; try { document.head.removeChild(sc); } catch(x) {} cb({status:'ERROR', msg:'Error de red'}); };
+  var qs = Object.keys(params).map(function(k) { return k + '=' + params[k]; }).join('&');
+  sc.src = url + '?' + qs + '&callback=' + cbn + '&t=' + Date.now();
   document.head.appendChild(sc);
 }
 
-// ── Limpiar ───────────────────────────────────────────────────
-function _limpiar() {
-  ["tipo_id","cedula","nombres","ecivil","nacion","profesion",
-   "telefono","correo","direccion","ciudad","empresa","actividad",
-   "ingreso","patrimonio","ofondos","ruc","eruc","regimen","tact"]
-  .forEach(id => { const e=el(id); if(e){e.value="";e.classList.remove("err-f");} });
-  el("auto_badge").style.display = "none";
-  el("err_box").style.display = "none";
-}
-
-function _nuevo() {
-  el("success").style.display = "none";
-  el("formulario").style.display = "block";
-  el("btn_enviar").disabled = false;
-  _limpiar();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-// ── Cargar logo igual que formulario principal ─────────────────
-(function() {
-  try {
-    var cfg = JSON.parse(localStorage.getItem("dd_cfg")||"{}");
-    // El logo está embebido en el otro index.html — si se usa junto,
-    // se puede compartir la misma URL base. Aquí lo dejamos sin logo
-    // para que el archivo pre-registro sea liviano e independiente.
-  } catch(e) {}
-  _ping();
-})();
+// INIT
+ping();
 </script>
 </body>
 </html>
