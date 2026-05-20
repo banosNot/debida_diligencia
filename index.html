@@ -212,7 +212,7 @@ textarea{resize:vertical;min-height:54px}
       <div style="margin-top:14px">
         <div style="font-size:10px;font-weight:700;color:#374151;margin-bottom:8px">
           Formas de Pago <span class="req">*</span>
-          <span style="font-weight:400;color:#6B7280"> &#8212; La suma debe igualar la <strong>Cuant&iacute;a / Monto Total</strong></span>
+          <span style="font-weight:400;color:#6B7280"> &#8212; La suma debe igualar el <strong>Avalu&oacute; Catastral</strong></span>
           <span id="fpref" style="font-size:10px;color:#0D7377;font-weight:600;margin-left:8px"></span>
         </div>
         <div id="fp_cards">
@@ -313,7 +313,7 @@ textarea{resize:vertical;min-height:54px}
             <span id="fppct" style="color:#6B7280;font-weight:500"></span>
           </div>
           <div id="fpbalb">
-            <div class="fbr"><span>Cuant&iacute;a / Monto Total (referencia)</span><span class="val" id="fprefv">&#8212;</span></div>
+            <div class="fbr"><span>Avalu&oacute; catastral (referencia)</span><span class="val" id="fprefv">&#8212;</span></div>
             <div class="fbr"><span>Total formas de pago</span><span class="val" id="fpsum">$ 0.00</span></div>
             <div class="fbr tot"><span id="fpdtxt">Diferencia</span><span class="val" id="fpdiff">$ 0.00</span></div>
             <div id="fppb"><div id="fppbi"></div></div>
@@ -327,7 +327,7 @@ textarea{resize:vertical;min-height:54px}
         <div class="g3">
           <div class="fld"><label>Tipo de bien</label><select id="tipo_bien" ><option value="">— Seleccionar —</option><option>Casa</option><option>Departamento</option><option>Terreno</option><option>Local comercial</option><option>Oficina</option><option>Bodega</option><option>Galp&oacute;n industrial</option><option>Finca / Hacienda</option><option>Lote urbanizado</option><option>Bien en construcci&oacute;n</option><option>Bien rural</option><option>Condominio / PH</option><option>Otro tipo de bien</option></select></div>
           <div class="fld"><label>Direcci&oacute;n del bien</label><input type="text" id="dir_bien" maxlength="80" placeholder="" oninput="cc(this,80)"><div class="cc">0/80</div></div>
-          <div class="fld"><label>Moneda</label><select id="estado_bien" ><option value="">— Seleccionar —</option><option>USD - D&oacute;lar Americano</option><option>EUR - Euro</option><option>COP - Peso Colombiano</option><option>PEN - Sol Peruano</option><option>GBP - Libra Esterlina</option><option>Otra moneda</option></select></div>
+          <div class="fld"><label>Estado del bien</label><select id="estado_bien" ><option value="">— Seleccionar —</option><option>Nuevo</option><option>Usado</option><option>En construcci&oacute;n</option><option>Preventas</option></select></div>
         </div>
       </div>
       <!-- ENTIDAD -->
@@ -588,7 +588,7 @@ textarea{resize:vertical;min-height:54px}
     <button class="btn bo" onclick="openHist()">&#128203; Historial / Editar</button>
     <button class="btn bo" onclick="doNew()">&#8635; Nuevo</button>
     <button class="btn bp" id="bsv" onclick="doSave()" disabled>&#128190; Guardar</button>
-    <div style="margin-left:auto;font-size:9px;color:#9CA3AF">Powered by <strong style="color:#0D7377">Soluciones D&amp;S</strong> &mdash; <a href="mailto:esantiagoguerrerov@hotmail.com" style="color:#9CA3AF;text-decoration:none">esantiagoguerrerov@hotmail.com</a> &mdash; <a href="tel:+593984759373" style="color:#9CA3AF;text-decoration:none">+593 98 475 9373</a></div>
+    <div style="margin-left:auto;font-size:9px;color:#9CA3AF">Powered by <strong style="color:#0D7377">Soluciones D&amp;S</strong></div>
   </div>
 </div>
 
@@ -685,10 +685,25 @@ function loadCfg() {
   if (!CFG.nombre)    CFG.nombre    = '';
   if (!CFG.mat)       CFG.mat       = ['Funcionario 1','Funcionario 2','Funcionario 3'];
   if (!CFG.tipoActos) CFG.tipoActos = [
-    'Promesas de celebrar contratos','Compraventa','Constitución de hipoteca',
-    'Donación','Permuta','Liquidación de sociedad conyugal','Dación en pago',
-    'Cesión de derechos onerosos','Comodato','Consorcios con cuantía',
-    'Traspaso de crédito','Cesión de participaciones','Otro acto notarial'
+    '73 - Promesas de celebrar contratos',
+    '74 - Compraventa',
+    '75 - Compraventa de inmuebles financiadas con el Bono que otorga el Estado',
+    '76 - Transferencia de dominio con constitución de hipoteca',
+    '77 - Constitución de hipoteca',
+    '78 - Constitución de hipoteca a favor del BIESS - BEV - Municipalidades; Asociaciones',
+    '79 - Constitución de hipoteca abierta',
+    '80 - Constitución de hipoteca en la que intervenga el MIDUVI',
+    '81 - Donación',
+    '82 - Permuta',
+    '83 - Liquidación de la sociedad conyugal',
+    '84 - Liquidación de la sociedad de bienes',
+    '85 - Dación en pago',
+    '86 - Cesión de derechos onerosos',
+    '87 - Comodato',
+    '88 - Constitución de consorcios con cuantía determinada',
+    '89 - Traspaso de un crédito con cuantía',
+    '90 - Cesión de participaciones',
+    '74 - Reconocimiento de firmas de vehículo'
   ];
   if (CFG._nomL  === undefined) CFG._nomL  = false;
   if (CFG._anioL === undefined) CFG._anioL = false;
@@ -803,8 +818,8 @@ function onFPM(k, val) {
 }
 
 function getRef() {
-  // Validar FP contra CUANTÍA
-  return parseFloat(V('cuantia')) || 0;
+  // P10: validar contra AVALÚO únicamente
+  return parseFloat(V('avaluo')) || 0;
 }
 
 function sumFP() {
@@ -830,9 +845,9 @@ function serFP() {
 
 function onAvaluo() {
   calcFP();
-  var c2 = parseFloat(V('cuantia')) || 0;
+  var a = parseFloat(V('avaluo')) || 0;
   var ri = E('fpref');
-  if (ri) ri.innerHTML = c2 > 0 ? '<strong style="color:#0D7377">\u2714 Cuant\u00EDa referencia FP: $' + c2.toFixed(2) + '</strong>' : '';
+  if (ri) ri.innerHTML = a > 0 ? '<strong style="color:#0D7377">\u2714 Avalu\u00F3 referencia FP: $' + a.toFixed(2) + '</strong>' : '';
 }
 
 function calcFP() {
@@ -1038,8 +1053,8 @@ function validate() {
     if (!el || !el.value.trim()) { errs.push(p[1]); if (el) el.classList.add('ef'); }
     else if (el) el.classList.remove('ef');
   });
-  var av = parseFloat(V('cuantia')) || 0;
-  if (av <= 0) errs.push('Ingrese la Cuant\u00EDa (requerida para validar las formas de pago)');
+  var av = parseFloat(V('avaluo')) || 0;
+  if (av <= 0) errs.push('Ingrese el Avalu\u00F3 Catastral (requerido para validar FP)');
   var fpAct = FP_KEYS.filter(function(k) { var c = E('fpc_' + k); return c && c.classList.contains('on'); });
   if (fpAct.length === 0) {
     errs.push('Seleccionar al menos una Forma de Pago');
@@ -1289,7 +1304,7 @@ function doPrint() {
     '<div class="pmi"><div class="pml">Estado</div><div class="pmv">GUARDADO</div></div></div>' +
     '<div class="psec"><div class="psh" style="background:#0D7377">I. INFORMACI\u00D3N GENERAL DE LA OPERACI\u00D3N</div><div class="psb"><div class="pgrd pg3">' +
     fv('N\u00B0 Matriz', d[6]) + fv('Tipo Interviniente', d[7]) + fv('Fecha Operaci\u00F3n', d[8]) +
-    fv('Cuant\u00EDa USD (ref. FP)', d[9]) + fv('Avalu\u00F3 USD', d[10]) + fv('Total Pago USD', d[12]) +
+    fv('Cuant\u00EDa USD', d[9]) + fv('Avalu\u00F3 USD (ref. FP)', d[10]) + fv('Total Pago USD', d[12]) +
     fv('Tipo de Bien', d[30]) + fv('Direcci\u00F3n del Bien', d[31]) + fv('Estado del Bien', d[32]) +
     '</div><div style="margin-top:5px"><div class="pl" style="margin-bottom:3px">FORMAS DE PAGO</div>' + fpPrint + '</div></div></div>' +
     '<div class="psec"><div class="psh" style="background:#1565C0">II. IDENTIFICACI\u00D3N DEL CLIENTE</div><div class="psb"><div class="pgrd pg3">' +
