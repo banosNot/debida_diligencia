@@ -196,6 +196,7 @@ textarea{resize:vertical;min-height:54px}
         </div>
         <div id="intRes" style="margin-top:8px"></div>
         <div id="intBdg" style="display:none;background:#D1FAE5;border:1px solid #6EE7B7;border-radius:7px;padding:7px 10px;margin-top:6px;font-size:11px;color:#065F46;font-weight:700"></div>
+      <div id="intCount" style="display:none;background:#EDE9FE;border:1px solid #C4B5FD;border-radius:7px;padding:7px 10px;margin-top:5px;font-size:11px;color:#5B21B6;font-weight:600"><span id="intCountTxt"></span></div>
       </div>
       <div class="g3">
         <div class="fld"><label>N&deg; de Matriz <span class="req">*</span></label><input type="text" id="nro" maxlength="17" placeholder="" oninput="cc(this,17)"><div class="cc">0/17</div></div>
@@ -930,8 +931,21 @@ function cargarInt(encoded) {
     var el = E(M[s]); if (el && r[s] !== undefined) el.value = r[s];
   });
   var bdg = E('intBdg');
-  if (bdg) { bdg.style.display = 'block'; bdg.textContent = '\u2713 Datos de ' + (r.nombres || 'el interviniente') + ' cargados correctamente.'; }
+  var fuente = r.fuente ? ' (fuente: ' + r.fuente + ')' : '';
+  if (bdg) { bdg.style.display = 'block'; bdg.textContent = '\u2713 Datos de ' + (r.nombres || 'el interviniente') + ' cargados correctamente' + fuente + '.'; }
   E('intRes').innerHTML = '';
+  // Consultar cuántas veces aparece en BASE_DATOS
+  if (r.cedula && CFG.scriptUrl) {
+    jsonp(CFG.scriptUrl, {action:'contar_interviniente', cedula:encodeURIComponent(r.cedula)}, function(d) {
+      var cEl = E('intCount'), cTxt = E('intCountTxt');
+      if (!cEl || !cTxt) return;
+      var n = (d && d.total !== undefined) ? parseInt(d.total) : 0;
+      cEl.style.display = 'block';
+      cTxt.textContent = n > 0
+        ? '\uD83D\uDCCA Este interviniente tiene ' + n + ' acto(s) registrado(s) en el sistema.'
+        : '\uD83D\uDC64 Primera vez que este interviniente aparece en registros.';
+    });
+  }
 }
 
 // ── AUX ─────────────────────────────────────────────────────
@@ -1096,9 +1110,7 @@ function doSave() {
     E('sp').textContent = '\u2713 Conectado'; E('sp').className = 'ok';
     E('bsv').textContent = '\uD83D\uDCBE Guardar'; E('bsv').disabled = false;
     EDIT = null; EDITROW = -1; EDITIDX = -1;
-    showAlert('\u2705', 'Guardado exitosamente',
-      'Funcionario: ' + FUNC + '\nN\u00B0 Matriz: ' + (datos[6]||'\u2014') +
-      '\nCliente: ' + (datos[48]||'\u2014') + '\nTotal pago: $ ' + datos[12] + '\nEstado: GUARDADO', true);
+    showSaveModal(datos[6], datos[48], datos[12]);
   }
   function onErr(msg) {
     if (intentos < 3) { E('bsv').textContent = 'Reintento ' + intentos + '/3...'; setTimeout(enviar, intentos * 2000); return; }
@@ -1335,6 +1347,105 @@ function doPrint() {
 }
 
 // ── ARRANCAR ─────────────────────────────────────────────────
+// ── MODAL POST-GUARDADO ─────────────────────────────────────────────────
+function showSaveModal(nroMat, cliente, totalPago) {
+  var ov = E('ovSaveModal');
+  if (!ov) {
+    var d = document.createElement('div');
+    d.className = 'ov'; d.id = 'ovSaveModal';
+    d.innerHTML = '<div class="md" style="max-width:460px;text-align:center">' +
+      '<div style="font-size:44px;margin-bottom:10px">\u2705</div>' +
+      '<h3 style="text-align:center;margin-bottom:10px">Guardado exitosamente</h3>' +
+      '<div id="svInfo" style="background:#F0FDF4;border-radius:9px;padding:12px;margin-bottom:16px;font-size:12px;color:#374151;text-align:left;line-height:1.8"></div>' +
+      '<p style="font-size:13px;font-weight:700;color:#1B3A6B;margin-bottom:14px">\u00BFQu\u00E9 desea hacer a continuaci\u00F3n?</p>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">' +
+        '<button onclick="closeSaveModal(true)" class="btn bp" style="font-size:11px;padding:12px 8px;line-height:1.5">' +
+          '\uD83D\uDDD1\uFE0F Limpiar todo<br><small style="font-weight:400">Nuevo interviniente<br>y nuevo acto</small></button>' +
+        '<button onclick="closeSaveModal(false)" class="btn bs" style="font-size:11px;padding:12px 8px;line-height:1.5">' +
+          '\uD83D\uDC65 Nuevo interviniente<br><small style="font-weight:400">Mantiene N\u00B0 Matriz,<br>bien y formas de pago</small></button>' +
+      '</div>' +
+      '<p style="font-size:10px;color:#9CA3AF;line-height:1.6">Con <strong>Nuevo interviniente</strong> puede agregar otro comprador, vendedor, etc. al mismo acto sin volver a ingresar los datos del bien.</p>' +
+      '</div>';
+    document.body.appendChild(d);
+    ov = d;
+  }
+  var info = E('svInfo');
+  if (info) info.innerHTML =
+    '\uD83D\uDCCB N\u00B0 Matriz: <strong>' + (nroMat||'\u2014') + '</strong><br>' +
+    '\uD83D\uDC64 Cliente: <strong>' + (cliente||'\u2014') + '</strong><br>' +
+    '\uD83D\uDCB0 Total pago: <strong>$ ' + (totalPago||'0.00') + '</strong><br>' +
+    '&#128203; Estado: <strong style="color:#065F46">GUARDADO</strong>';
+  ov.classList.add('show');
+}
+
+function closeSaveModal(limpiarTodo) {
+  var ov = E('ovSaveModal'); if (ov) ov.classList.remove('show');
+  if (limpiarTodo) {
+    doNew(); // Limpia todo el formulario
+  } else {
+    resetSoloInterviniente(); // Solo limpia datos del interviniente
+  }
+}
+
+function resetSoloInterviniente() {
+  // Limpiar búsqueda
+  var ic = E('intCed'); if (ic) ic.value = '';
+  var ir = E('intRes'); if (ir) ir.innerHTML = '';
+  var ib = E('intBdg'); if (ib) { ib.style.display='none'; ib.textContent=''; }
+  var ico = E('intCount'); if (ico) ico.style.display='none';
+  var ict = E('intCountTxt'); if (ict) ict.textContent='';
+  // Limpiar campos del cliente (Sección II)
+  ['tipo_id','cedula','nombres','ruc','nacion','ecivil','profesion',
+   'actividad','direccion','ciudad_cli','telefono','correo','empresa','tact'].forEach(function(id) {
+    var e = E(id); if (e) { e.value = ''; e.classList.remove('ef'); }
+  });
+  // Limpiar cónyuge (Sección III)
+  ['ctipo_id','cced','cnom','cruc','cnac','cprof','cact','cdir','ctel','ccorreo','cemp'].forEach(function(id) {
+    var e = E(id); if (e) e.value = '';
+  });
+  togCony('');
+  // Limpiar tributaria
+  ['fsri','rsri'].forEach(function(id){ var e=E(id); if(e) e.value=''; });
+  ['eruc','regimen','oblig','contrib'].forEach(function(n) {
+    document.querySelectorAll('input[name="'+n+'"]').forEach(function(r){ r.checked=false; });
+  });
+  // Limpiar económico
+  ['ingreso','patrimonio','ofondos','odetalle'].forEach(function(id){ var e=E(id); if(e) e.value=''; });
+  document.querySelectorAll('.rdoc').forEach(function(e){ e.checked=false; });
+  // Limpiar beneficiario final
+  ['bfnom','bfced','bfnac','bfdir','bftel','bfcorreo','bfrel'].forEach(function(id){ var e=E(id); if(e) e.value=''; });
+  ['cpropia'].forEach(function(n){ document.querySelectorAll('input[name="'+n+'"]').forEach(function(r){ r.checked=false; }); });
+  var bff=E('bff'); if(bff) bff.style.display='none';
+  // Limpiar PJ
+  ['pjraz','pjruc','pjrep','pjci','pjben'].forEach(function(id){ var e=E(id); if(e) e.value=''; });
+  ['pjestr'].forEach(function(n){ document.querySelectorAll('input[name="'+n+'"]').forEach(function(r){ r.checked=false; }); });
+  // Limpiar bases
+  document.querySelectorAll('.bchk').forEach(function(e){ e.checked=false; e.closest('label').classList.remove('sel'); });
+  var fb=E('fbases'); if(fb) fb.value='';
+  // Limpiar PEP
+  ['pepent','pepcargo','pepperiodo'].forEach(function(id){ var e=E(id); if(e) e.value=''; });
+  ['espep','pepfam'].forEach(function(n){ document.querySelectorAll('input[name="'+n+'"]').forEach(function(r){ r.checked=false; }); });
+  var pf=E('pepf'); if(pf) pf.style.display='none';
+  // Limpiar riesgo y decisión
+  document.querySelectorAll('.rfact').forEach(function(e){ e.checked=false; e.closest('label').classList.remove('sel'); });
+  var ro=E('rotro'); if(ro) ro.value='';
+  document.querySelectorAll('.rp').forEach(function(p){ p.classList.remove('on'); });
+  RIESGO='';
+  ['dacept'].forEach(function(n){ document.querySelectorAll('input[name="'+n+'"]').forEach(function(r){ r.checked=false; }); });
+  ['decision'].forEach(function(n){ document.querySelectorAll('input[name="'+n+'"]').forEach(function(r){ r.checked=false; }); });
+  // Limpiar uso interno
+  ['ncomp','ffirma','func','fdilig','obs'].forEach(function(id){ var e=E(id); if(e) e.value=''; });
+  // Actualizar contadores de caracteres
+  document.querySelectorAll('.cc').forEach(function(el) {
+    var inp = el.previousElementSibling;
+    if (inp && inp.maxLength > 0) el.textContent = '0/' + inp.maxLength;
+  });
+  // Rehabilitar botón guardar
+  E('bsv').disabled = !FUNC;
+  // Abrir sección II y hacer scroll
+  var s2 = E('s2'); if (s2) { s2.classList.add('open'); s2.scrollIntoView({behavior:'smooth', block:'start'}); }
+}
+
 window.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
