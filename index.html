@@ -212,7 +212,7 @@ textarea{resize:vertical;min-height:54px}
       <div style="margin-top:14px">
         <div style="font-size:10px;font-weight:700;color:#374151;margin-bottom:8px">
           Formas de Pago <span class="req">*</span>
-          <span style="font-weight:400;color:#6B7280"> &#8212; La suma debe igualar el <strong>Avalu&oacute; Catastral</strong></span>
+          <span style="font-weight:400;color:#6B7280"> &#8212; La suma debe igualar la <strong>Cuant&iacute;a / Monto Total</strong></span>
           <span id="fpref" style="font-size:10px;color:#0D7377;font-weight:600;margin-left:8px"></span>
         </div>
         <div id="fp_cards">
@@ -313,7 +313,7 @@ textarea{resize:vertical;min-height:54px}
             <span id="fppct" style="color:#6B7280;font-weight:500"></span>
           </div>
           <div id="fpbalb">
-            <div class="fbr"><span>Avalu&oacute; catastral (referencia)</span><span class="val" id="fprefv">&#8212;</span></div>
+            <div class="fbr"><span>Cuant&iacute;a / Monto Total (referencia)</span><span class="val" id="fprefv">&#8212;</span></div>
             <div class="fbr"><span>Total formas de pago</span><span class="val" id="fpsum">$ 0.00</span></div>
             <div class="fbr tot"><span id="fpdtxt">Diferencia</span><span class="val" id="fpdiff">$ 0.00</span></div>
             <div id="fppb"><div id="fppbi"></div></div>
@@ -325,9 +325,9 @@ textarea{resize:vertical;min-height:54px}
       <div style="margin-top:16px">
         <div style="font-size:10px;font-weight:700;color:#374151;margin-bottom:8px">Tipo de Bien Objeto de la Operaci&oacute;n</div>
         <div class="g3">
-          <div class="fld"><label>Tipo de bien</label><select id="tipo_bien" ><option value="">— Seleccionar —</option><option>Casa</option><option>Departamento</option><option>Terreno</option><option>Local comercial</option><option>Oficina</option><option>Bodega</option><option>Galp&oacute;n industrial</option><option>Finca / Hacienda</option><option>Lote urbanizado</option><option>Bien en construcci&oacute;n</option><option>Bien rural</option><option>Condominio / PH</option><option>Otro tipo de bien</option></select></div>
+          <div class="fld"><label>Tipo de bien</label><select id="tipo_bien" ><option value="">— Seleccionar —</option><option value="CAS">Casa</option><option value="DEP">Departamento</option><option value="TER">Terreno</option><option value="EDI">Edificio</option><option value="OFI">Oficina</option><option value="VEH">Veh&iacute;culo</option><option value="EMB">Embarcaciones</option><option value="OTR">Otros</option></select></div>
           <div class="fld"><label>Direcci&oacute;n del bien</label><input type="text" id="dir_bien" maxlength="80" placeholder="" oninput="cc(this,80)"><div class="cc">0/80</div></div>
-          <div class="fld"><label>Estado del bien</label><select id="estado_bien" ><option value="">— Seleccionar —</option><option>Nuevo</option><option>Usado</option><option>En construcci&oacute;n</option><option>Preventas</option></select></div>
+          <div class="fld"><label>Moneda</label><select id="estado_bien" ><option value="">— Seleccionar —</option><option>USD - D&oacute;lar Americano</option><option>EUR - Euro</option><option>COP - Peso Colombiano</option><option>PEN - Sol Peruano</option><option>GBP - Libra Esterlina</option><option>Otra moneda</option></select></div>
         </div>
       </div>
       <!-- ENTIDAD -->
@@ -588,7 +588,7 @@ textarea{resize:vertical;min-height:54px}
     <button class="btn bo" onclick="openHist()">&#128203; Historial / Editar</button>
     <button class="btn bo" onclick="doNew()">&#8635; Nuevo</button>
     <button class="btn bp" id="bsv" onclick="doSave()" disabled>&#128190; Guardar</button>
-    <div style="margin-left:auto;font-size:9px;color:#9CA3AF">Powered by <strong style="color:#0D7377">Soluciones D&amp;S</strong></div>
+    <div style="margin-left:auto;font-size:9px;color:#9CA3AF">Powered by <strong style="color:#0D7377">Soluciones D&amp;S</strong> &mdash; <a href="mailto:esantiagoguerrerov@hotmail.com" style="color:#9CA3AF;text-decoration:none">esantiagoguerrerov@hotmail.com</a> &mdash; <a href="tel:+593984759373" style="color:#9CA3AF;text-decoration:none">+593 98 475 9373</a></div>
   </div>
 </div>
 
@@ -679,10 +679,10 @@ var FP_NAMES = ['Valor debitado','Valor crédito','Valor efectivo','Cheque','Val
 var CFG = {};
 function loadCfg() {
   try { CFG = JSON.parse(localStorage.getItem('dd_cfg') || '{}'); } catch(e) { CFG = {}; }
-  if (!CFG.scriptUrl) CFG.scriptUrl = '';
+  if (!CFG.scriptUrl) CFG.scriptUrl = 'https://script.google.com/macros/s/AKfycbwVjlR1oPal4ZpSuoATeMsMoFDzaNbpikw6dB98xe8s57Bc_HD3wOb2GQu0KHW9tYx0/exec';
   if (!CFG.pass)      CFG.pass      = ADMIN_DEF;
-  if (!CFG.anio)      CFG.anio      = String(new Date().getFullYear());
-  if (!CFG.nombre)    CFG.nombre    = '';
+  if (!CFG.anio)      CFG.anio      = '2026';
+  if (!CFG.nombre)    CFG.nombre    = 'NOTARÍA ÚNICA DEL CANTÓN BAÑOS';
   if (!CFG.mat)       CFG.mat       = ['Funcionario 1','Funcionario 2','Funcionario 3'];
   if (!CFG.tipoActos) CFG.tipoActos = [
     '73 - Promesas de celebrar contratos',
@@ -705,9 +705,9 @@ function loadCfg() {
     '90 - Cesión de participaciones',
     '74 - Reconocimiento de firmas de vehículo'
   ];
-  if (CFG._nomL  === undefined) CFG._nomL  = false;
-  if (CFG._anioL === undefined) CFG._anioL = false;
-  if (CFG._urlL  === undefined) CFG._urlL  = false;
+  if (CFG._nomL  === undefined) CFG._nomL  = true;
+  if (CFG._anioL === undefined) CFG._anioL = true;
+  if (CFG._urlL  === undefined) CFG._urlL  = true;
 }
 loadCfg();
 
@@ -818,8 +818,8 @@ function onFPM(k, val) {
 }
 
 function getRef() {
-  // P10: validar contra AVALÚO únicamente
-  return parseFloat(V('avaluo')) || 0;
+  // Validar FP contra CUANTÍA
+  return parseFloat(V('cuantia')) || 0;
 }
 
 function sumFP() {
@@ -845,9 +845,9 @@ function serFP() {
 
 function onAvaluo() {
   calcFP();
-  var a = parseFloat(V('avaluo')) || 0;
+  var c2 = parseFloat(V('cuantia')) || 0;
   var ri = E('fpref');
-  if (ri) ri.innerHTML = a > 0 ? '<strong style="color:#0D7377">\u2714 Avalu\u00F3 referencia FP: $' + a.toFixed(2) + '</strong>' : '';
+  if (ri) ri.innerHTML = a > 0 ? '<strong style="color:#0D7377">\u2714 Cuant\u00EDa referencia FP: $' + c2.toFixed(2) + '</strong>' : '';
 }
 
 function calcFP() {
@@ -1053,8 +1053,8 @@ function validate() {
     if (!el || !el.value.trim()) { errs.push(p[1]); if (el) el.classList.add('ef'); }
     else if (el) el.classList.remove('ef');
   });
-  var av = parseFloat(V('avaluo')) || 0;
-  if (av <= 0) errs.push('Ingrese el Avalu\u00F3 Catastral (requerido para validar FP)');
+  var av = parseFloat(V('cuantia')) || 0;
+  if (av <= 0) errs.push('Ingrese la Cuant\u00EDa (requerida para validar las formas de pago)');
   var fpAct = FP_KEYS.filter(function(k) { var c = E('fpc_' + k); return c && c.classList.contains('on'); });
   if (fpAct.length === 0) {
     errs.push('Seleccionar al menos una Forma de Pago');
