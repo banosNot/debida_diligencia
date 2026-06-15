@@ -8,37 +8,83 @@
 <title>Pre-Registro &mdash; Debida Diligencia</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root{--t:#0D7377;--n:#1B3A6B;--b:#CBD5E1;--r:#B71C1C;--g:#065F46}
-body{font-family:'Segoe UI',Arial,sans-serif;background:#EEF2F7;color:#1a1a2e;min-height:100vh;font-size:16px;line-height:1.5}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#EEF2F7;color:#1a1a2e;min-height:100vh;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
 #tb{background:linear-gradient(135deg,#1B3A6B,#0D7377);padding:0 14px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.25)}
 .tb-l{display:flex;align-items:center;gap:10px}
-.tb-logo{height:32px}
+.tb-logo{height:32px;width:auto;flex-shrink:0}
 .tb-txt .t1{font-size:12px;font-weight:700;color:#fff;display:block}
-.tb-txt .t2{font-size:10px;color:rgba(255,255,255,.6);display:block}
-.tb-r{display:flex;gap:8px;align-items:center}
-#cnBdg{font-size:10px;font-weight:700;padding:6px 12px;border-radius:12px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2)}
+.tb-txt .t2{font-size:10px;color:rgba(255,255,255,.6);display:block;margin-top:1px}
+.tb-r{display:flex;gap:8px;align-items:center;flex-shrink:0}
+#cnBdg{font-size:10px;font-weight:700;padding:6px 12px;border-radius:12px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2);white-space:nowrap}
 #cnBdg.ok{background:#065F46;color:#fff;border-color:#6EE7B7}
 #cnBdg.err{background:#7F1D1D;color:#fff;border-color:#FCA5A5}
-#cfgBtn{font-size:11px;padding:8px 14px;border-radius:12px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25);cursor:pointer}
+#cfgBtn{font-size:11px;padding:8px 14px;border-radius:12px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25);cursor:pointer;min-height:38px;display:flex;align-items:center;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 #app{max-width:580px;margin:0 auto;padding:16px 14px 60px}
-.intro{background:linear-gradient(135deg,#0D7377,#0a5e63);color:#fff;border-radius:14px;padding:20px 18px}
+.intro{background:linear-gradient(135deg,#0D7377,#0a5e63);color:#fff;border-radius:14px;padding:20px 18px;margin-bottom:18px}
+.intro h1{font-size:18px;font-weight:800;margin-bottom:6px;line-height:1.3}
+.intro p{font-size:13px;opacity:.88;line-height:1.65}
+.steps{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.step{background:rgba(255,255,255,.18);border-radius:10px;padding:8px 14px;font-size:11px;font-weight:600;flex:1;min-width:90px;text-align:center;line-height:1.4}
 .card{background:#fff;border-radius:14px;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07)}
-.ch{background:var(--n);color:#fff;padding:12px 16px;font-size:13px;font-weight:700}
+.ch{background:var(--n);color:#fff;padding:12px 16px;font-size:13px;font-weight:700;letter-spacing:.3px}
 .ch.teal{background:var(--t)}
 .cb{padding:18px 16px}
 .fld{display:flex;flex-direction:column;gap:5px;margin-bottom:16px}
-input[type=text],select,input[type=number]{width:100%;padding:13px 14px;border:1.5px solid var(--b);border-radius:10px;font-size:16px}
-.btn-p{width:100%;padding:16px;border-radius:12px;font-size:17px;font-weight:700;background:var(--t);color:#fff;border:none;cursor:pointer}
-.err-box{background:#FEE2E2;border:1.5px solid #FCA5A5;border-radius:10px;padding:12px 16px;margin-bottom:16px;color:#7F1D1D;display:none}
-.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:999;align-items:flex-start;justify-content:center;padding:16px}
+.fld:last-child{margin-bottom:0}
+.fld label{font-size:12px;font-weight:700;color:#374151;line-height:1.3}
+.req{color:var(--r);margin-left:2px}
+.opt{font-size:10px;font-weight:400;color:#9CA3AF;margin-left:4px}
+.cc{font-size:10px;color:#9CA3AF;text-align:right}
+input[type=text],input[type=email],input[type=tel],input[type=number],textarea{width:100%;padding:13px 14px;border:1.5px solid var(--b);border-radius:10px;font-size:16px;color:#1a1a2e;background:#fff;font-family:inherit;transition:border-color .2s;-webkit-appearance:none;appearance:none;-webkit-tap-highlight-color:transparent}
+select{width:100%;padding:13px 14px;border:1.5px solid var(--b);border-radius:10px;font-size:16px;color:#1a1a2e;background:#fff;font-family:inherit;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:44px;-webkit-appearance:none;appearance:none}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--t);box-shadow:0 0 0 3px rgba(13,115,119,.12)}
+input.ef,select.ef{border-color:var(--r)!important;background:#FEF2F2}
+textarea{resize:vertical;min-height:80px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.g2{grid-template-columns:1fr}}
+.mwrap{position:relative}
+.msym{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;font-weight:700;color:var(--t);pointer-events:none}
+.mwrap input{padding-left:30px}
+.jur-sec{display:none;background:#F0FDF4;border:1.5px solid #6EE7B7;border-radius:10px;padding:16px;margin-top:14px}
+.jur-sec.show{display:block}
+.jur-title{font-size:12px;font-weight:700;color:#065F46;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.jur-divider{font-size:11px;font-weight:700;color:#065F46;margin:14px 0 10px;border-top:1px solid #6EE7B7;padding-top:10px}
+.btn-p{width:100%;padding:16px;border-radius:12px;font-size:17px;font-weight:700;background:var(--t);color:#fff;border:none;cursor:pointer;font-family:inherit;transition:background .2s;margin-top:6px;min-height:54px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;-webkit-appearance:none}
+.btn-p:active{background:#0a5e63}
+.btn-p:disabled{background:#9CA3AF;cursor:not-allowed}
+.btn-s{width:100%;padding:14px;border-radius:12px;font-size:15px;font-weight:600;background:#fff;color:var(--n);border:2px solid var(--n);cursor:pointer;font-family:inherit;margin-top:12px;min-height:50px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;-webkit-appearance:none}
+.btn-s:active{background:#F0F4F8}
+.auto-bdg{display:none;background:#D1FAE5;border:1px solid #6EE7B7;border-radius:8px;padding:8px 12px;font-size:12px;color:#065F46;font-weight:700;line-height:1.5}
+#prog{display:none;text-align:center;padding:32px 20px}
+.spin{width:48px;height:48px;border:4px solid #E2E8F0;border-top-color:var(--t);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 14px}
+@keyframes sp{to{transform:rotate(360deg)}}
+#success{display:none;background:#D1FAE5;border:2px solid #6EE7B7;border-radius:14px;padding:28px 20px;text-align:center;margin-top:8px}
+#success .ico{font-size:56px;margin-bottom:12px}
+#success h2{font-size:20px;font-weight:800;color:#065F46;margin-bottom:8px}
+.nro{font-size:22px;font-weight:900;color:var(--t);font-family:monospace;display:block;margin:12px 0}
+#success p{font-size:13px;color:#064E3B;line-height:1.7;margin-bottom:20px}
+.err-box{background:#FEE2E2;border:1.5px solid #FCA5A5;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:12px;color:#7F1D1D;display:none;line-height:1.65}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:999;align-items:flex-start;justify-content:center;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch}
 .ov.show{display:flex}
-.md{background:#fff;border-radius:16px;padding:24px 20px;max-width:520px;width:100%}
+.md{background:#fff;border-radius:16px;padding:24px 20px;max-width:520px;width:100%;margin:auto;box-shadow:0 8px 40px rgba(0,0,0,.35)}
+.md h3{font-size:15px;font-weight:800;color:#1B3A6B;margin-bottom:12px}
+.cl{font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:4px;margin-top:10px}
+.ci{width:100%;padding:12px 14px;border:1.5px solid #CBD5E1;border-radius:10px;font-size:15px;font-family:inherit;-webkit-appearance:none;appearance:none}
+.lbdg{display:inline-block;font-size:9px;padding:2px 8px;border-radius:10px;background:#FEE2E2;color:#7F1D1D;font-weight:700;margin-left:6px}
+.btn-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.btn-row button{padding:12px 20px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;min-height:46px;touch-action:manipulation}
+.btn-navy{background:#1B3A6B;color:#fff;border:none}
+.btn-out{background:#fff;color:#1B3A6B;border:2px solid #1B3A6B}
+footer{text-align:center;padding:20px 14px;font-size:11px;color:#9CA3AF}
+footer strong{color:var(--t)}
 </style>
 </head>
 <body>
 <div id="tb">
   <div class="tb-l">
-    <img class="tb-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNDQiIHZpZXdCb3g9IjAgMCAyMDAgNDQiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMUIzQTZCIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzBENTQ3MCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPCEtLSBCYWNrZ3JvdW5kIHJvdW5kZWQgcmVjdGFuZ2xlIC0tPgogIDxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iNDQiIHJ4PSI4IiBmaWxsPSJ1cmwoI2JnKSIvPgogIDwhLS0gQmFyIGNoYXJ0IGljb24gYmFja2dyb3VuZCBzcXVhcmUgKHJvdW5kZWQpIC0tPgogIDxyZWN0IHg9IjgiIHk9IjciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgcng9IjYiIGZpbGw9IiMwRDlCQjUiLz4KICA8IS0tIEJhciBjaGFydCBiYXJzICh3aGl0ZSkgLS0+CiAgPHJlY3QgeD0iMTQiIHk9IjI0IiB3aWR0aD0iNCIgaGVpZ2h0PSI4IiByeD0iMSIgZmlsbD0id2hpdGUiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTkiIHdpZHRoPSI0IiBoZWlnaHQ9IjEzIiByeD0iMSIgZmlsbD0id2hpdGUiLz4KICA8cmVjdCB4PSIyNiIgeT0iMTUiIHdpZHRoPSI0IiBoZWlnaHQ9IjE3IiByeD0iMSIgZmlsbD0id2hpdGUiLz4KICA8IS0tICJTb2x1Y2lvbmVzICIgdGV4dCBpbiB3aGl0ZSAtLT4KICA8dGV4dCB4PSI0NiIgeT0iMjIiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSJ3aGl0ZSI+U29sdWNpb25lczwvdGV4dD4KICA8IS0tICJEJmFtcDtTIiB0ZXh0IGluIGN5YW4gLS0+CiAgPHRleHQgeD0iMTE1IiB5PSIyMiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMyMkQzRUUiPiBEJmFtcDtTPC90ZXh0PgogIDwhLS0gU3VidGl0bGUgLS0+CiAgPHRleHQgeD0iNDYiIHk9IjM0IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSI3IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjOTREMEUwIiBsZXR0ZXItc3BhY2luZz0iMC41Ij5EQVRBIEFOQUxZVElDUyAmYW1wOyBTT0xVVElPTlM83RleHQ+Cjwvc3ZnPg==" alt="D&S">
+    <img class="tb-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNDQiIHZpZXdCb3g9IjAgMCAyMDAgNDQiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMUIzQTZCIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzBENTQ3MCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPCEtLSBCYWNrZ3JvdW5kIHJvdW5kZWQgcmVjdGFuZ2xlIC0tPgogIDxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iNDQiIHJ4PSI4IiBmaWxsPSJ1cmwoI2JnKSIvPgogIDwhLS0gQmFyIGNoYXJ0IGljb24gYmFja2dyb3VuZCBzcXVhcmUgKHJvdW5kZWQpIC0tPgogIDxyZWN0IHg9IjgiIHk9IjciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgcng9IjYiIGZpbGw9IiMwRDlCQjUiLz4KICA8IS0tIEJhciBjaGFydCBiYXJzICh3aGl0ZSkgLS0+CiAgPHJlY3QgeD0iMTQiIHk9IjI0IiB3aWR0aD0iNCIgaGVpZ2h0PSI4IiByeD0iMSIgZmlsbD0id2hpdGUiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTkiIHdpZHRoPSI0IiBoZWlnaHQ9IjEzIiByeD0iMSIgZmlsbD0id2hpdGUiLz4KICA8cmVjdCB4PSIyNiIgeT0iMTUiIHdpZHRoPSI0IiBoZWlnaHQ9IjE3IiByeD0iMSIgZmlsbD0id2hpdGUiLz4KICA8IS0tICJTb2x1Y2lvbmVzICIgdGV4dCBpbiB3aGl0ZSAtLT4KICA8dGV4dCB4PSI0NiIgeT0iMjIiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSJ3aGl0ZSI+U29sdWNpb25lczwvdGV4dD4KICA8IS0tICJEJmFtcDtTIiB0ZXh0IGluIGN5YW4gLS0+CiAgPHRleHQgeD0iMTE1IiB5PSIyMiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMyMkQzRUUiPiBEJmFtcDtTPC90ZXh0PgogIDwhLS0gU3VidGl0bGUgLS0+CiAgPHRleHQgeD0iNDYiIHk9IjM0IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSI3IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjOTREMEUwIiBsZXR0ZXItc3BhY2luZz0iMC41Ij5EQVRBIEFOQUxZVElDUyAmYW1wOyBTT0xVVElPTlM8L3RleHQ+Cjwvc3ZnPg==" alt="D&S">
     <div class="tb-txt">
       <span class="t1">Pre-Registro de Datos</span>
       <span class="t2" id="tb-notaria">Debida Diligencia &middot; Soluciones D&amp;S</span>
@@ -46,102 +92,478 @@ input[type=text],select,input[type=number]{width:100%;padding:13px 14px;border:1
   </div>
   <div class="tb-r">
     <div id="cnBdg">...</div>
-    <div id="cfgBtn" onclick="openCfg()">⚙ Config</div>
+    <div id="cfgBtn" onclick="openCfg()">&#9881; Config</div>
   </div>
 </div>
 
-<!-- Modal Configuración -->
 <div class="ov" id="ovCfg">
   <div class="md">
-    <div id="cfgPanel">
-      <h3>⚙ Configuración</h3>
-      <label class="cl">Nombre Notaría</label>
-      <input type="text" id="cfgNomInp" class="ci">
-      <label class="cl">URL del Apps Script</label>
-      <input type="text" id="cfgUrlInp" class="ci">
-      <button class="btn-p" onclick="saveCfgPR()">Guardar</button>
+    <div id="cfgLogin">
+      <h3>&#128274; Configuraci&oacute;n</h3>
+      <p style="font-size:12px;color:#555;margin-bottom:14px">Ingrese la contrase&ntilde;a de administrador.</p>
+      <input type="password" id="cfgPwInp" class="ci" placeholder="Contrase&ntilde;a admin" onkeydown="if(event.key==='Enter')checkCfgPw()">
+      <div id="cfgPwErr" style="color:#B71C1C;font-size:11px;display:none;margin-top:6px">Contrase&ntilde;a incorrecta</div>
+      <div class="btn-row" style="margin-top:14px">
+        <button class="btn-navy" onclick="checkCfgPw()">Ingresar</button>
+        <button class="btn-out" onclick="closeCfg()">Cancelar</button>
+      </div>
+    </div>
+    <div id="cfgPanel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h3 style="margin:0">&#9881; Configuraci&oacute;n</h3>
+        <button onclick="closeCfg()" style="background:none;border:none;font-size:24px;cursor:pointer;color:#888;padding:4px">&#x2715;</button>
+      </div>
+      <label class="cl">Nombre de la Notar&iacute;a <span id="nomLkBdg" class="lbdg" style="display:none">&#128274; Fijo</span></label>
+      <input type="text" id="cfgNomInp" class="ci" placeholder="Ej: Notar&iacute;a 69 del Cant&oacute;n Ba&ntilde;os">
+      <label class="cl">URL del Apps Script (/exec) <span class="req">*</span> <span id="urlLkBdg" class="lbdg" style="display:none">&#128274; Fijo</span></label>
+      <input type="text" id="cfgUrlInp" class="ci" placeholder="https://script.google.com/macros/s/.../exec" style="font-size:13px;font-family:monospace">
+      <div style="display:flex;gap:10px;align-items:center;margin-top:8px;margin-bottom:4px">
+        <button class="btn-out" style="padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;border-radius:8px;min-height:40px" onclick="testCfgConn()">Probar</button>
+        <span id="cfgConnRes" style="font-size:12px"></span>
+      </div>
+      <label class="cl">Nueva contrase&ntilde;a admin <span style="font-size:10px;color:#9CA3AF">(vac&iacute;o = no cambiar)</span></label>
+      <input type="password" id="cfgNewPw" class="ci" placeholder="Nueva contrase&ntilde;a...">
+      <div id="cfgSaveMsg" style="display:none;padding:10px 14px;border-radius:9px;font-size:12px;margin-top:10px"></div>
+      <div class="btn-row" style="margin-top:12px">
+        <button class="btn-navy" onclick="saveCfgPR()">&#128190; Guardar</button>
+        <button class="btn-out" onclick="closeCfg()">Cerrar</button>
+      </div>
+      <p style="font-size:10px;color:#aaa;margin-top:10px">La URL se bloquea al guardar. Para cambiarla, ingrese la clave admin de nuevo.</p>
     </div>
   </div>
 </div>
 
 <div id="app">
-  <!-- Estructura simplificada del Formulario de Entrada de Cédula y Nombres -->
-  <div id="formulario">
-    <div class="card">
-      <div class="ch teal">👤 Identificación</div>
-      <div class="cb">
-        <div class="fld">
-          <label>Cédula / RUC / Pasaporte</label>
-          <input type="text" id="cedula" onblur="autofill(this.value)">
-        </div>
-        <div class="fld">
-          <label>Nombres Completos</label>
-          <input type="text" id="nombres">
-        </div>
-        <div class="fld">
-          <label>Ingreso Mensual</label>
-          <input type="number" id="ingreso">
-        </div>
-      </div>
-    </div>
-    <div class="err-box" id="errBox"><span id="errMsg"></span></div>
-    <button class="btn-p" id="btnEnviar" onclick="doEnviar()">📤 Enviar mis datos</button>
+<div class="intro">
+  <h1>&#128203; Registro previo de datos personales</h1>
+  <p>Complete este formulario antes de su cita notarial. As&iacute; agilizamos el proceso y no tiene que dictar sus datos.</p>
+  <div class="steps">
+    <div class="step">1. Complete<br>el formulario</div>
+    <div class="step">2. Env&iacute;e<br>sus datos</div>
+    <div class="step">3. Lo atendemos<br>m&aacute;s r&aacute;pido</div>
   </div>
 </div>
 
-<script>
-// MATRIZ HEXADECIMAL DE OFUSCACIÓN DE CLIENTES
-var _0x2c4a = [
-  'dd_cfg', 'scriptUrl', 'pass', 'nombre', 'admin2026', 'NOTARÍA ÚNICA DEL CANTÓN BAÑOS',
-  'https://script.google.com/macros/s/AKfycbw3MlaVKxtKLF9DAkdrFyxDcQrRyNFXuaczdgla3EUIHwDE4vSzoFWOD7sgz-LeKpKPMw/exec',
-  'cnBdg', 'textContent', 'err', 'action', 'buscar_cedula', 'cedula'
-];
+<div id="formulario">
+<div class="card">
+  <div class="ch teal">&#128100; Identificaci&oacute;n</div>
+  <div class="cb">
+    <div class="fld">
+      <label>Tipo de documento <span class="req">*</span></label>
+      <select id="tipo_id" onchange="onTipoId(this.value)">
+        <option value="">&#8212; Seleccione &#8212;</option>
+        <option value="Cedula">C&eacute;dula</option>
+        <option value="Pasaporte">Pasaporte</option>
+        <option value="RUC">RUC (Persona Jur&iacute;dica)</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>N&uacute;mero de C&eacute;dula / Pasaporte / RUC <span class="req">*</span> <span class="opt">(m&aacute;x. 15 car.)</span></label>
+      <input type="text" id="cedula" maxlength="15" inputmode="numeric" oninput="cc(this,15)" onblur="autofill(this.value)">
+      <div class="cc">0/15</div>
+      <div class="auto-bdg" id="autoBdg"></div>
+    </div>
+    <div class="fld">
+      <label>Apellidos y Nombres completos <span class="req">*</span></label>
+      <input type="text" id="nombres" maxlength="100" oninput="cc(this,100)" placeholder="Primer apellido, segundo apellido, nombres">
+      <div class="cc">0/100</div>
+    </div>
+    <div class="g2">
+      <div class="fld">
+        <label>Estado Civil <span class="req">*</span></label>
+        <select id="ecivil">
+          <option value="">&#8212;</option>
+          <option>Soltero/a</option><option>Casado/a</option>
+          <option>Divorciado/a</option><option>Viudo/a</option><option>Uni&oacute;n libre</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label>Nacionalidad <span class="req">*</span></label>
+        <select id="nacion">
+          <option value="">&#8212;</option>
+          <option selected>Ecuatoriana</option><option>Colombiana</option>
+          <option>Peruana</option><option>Venezolana</option><option>Estadounidense</option>
+          <option>Espa&ntilde;ola</option><option>Italiana</option><option>Otra</option>
+        </select>
+      </div>
+    </div>
+    <div class="fld">
+      <label>Profesi&oacute;n / Ocupaci&oacute;n <span class="req">*</span></label>
+      <select id="profesion">
+        <option value="">&#8212; Seleccione &#8212;</option>
+        <option>Abogado/a</option><option>Administrador/a de Empresas</option>
+        <option>Arquitecto/a</option><option>Comerciante</option>
+        <option>Contador/a P&uacute;blico/a</option><option>Economista</option>
+        <option>Educador/a / Docente</option><option>Empleado/a P&uacute;blico/a</option>
+        <option>Estudiante</option><option>Gerente</option>
+        <option>Independiente / Freelance</option><option>Ingeniero/a</option>
+        <option>Jubilado/a</option><option>M&eacute;dico/a</option>
+        <option>Servidor/a P&uacute;blico/a</option><option>Transportista</option><option>Otros</option>
+      </select>
+    </div>
+    <div class="jur-sec" id="jurSec">
+      <div class="jur-title">&#127963; Datos de la Persona Jur&iacute;dica</div>
+      <div class="fld">
+        <label>Nombre / Raz&oacute;n Social de la Empresa <span class="req">*</span></label>
+        <input type="text" id="jur_empresa" maxlength="100" oninput="cc(this,100)">
+        <div class="cc">0/100</div>
+      </div>
+      <div class="jur-divider">&#128100; Datos del Representante Legal</div>
+      <div class="fld">
+        <label>Nombres completos del Representante Legal <span class="req">*</span></label>
+        <input type="text" id="jur_repnom" maxlength="100" oninput="cc(this,100)">
+        <div class="cc">0/100</div>
+      </div>
+      <div class="g2">
+        <div class="fld">
+          <label>C&eacute;dula del Representante <span class="req">*</span></label>
+          <input type="text" id="jur_repced" maxlength="13" inputmode="numeric" oninput="cc(this,13)">
+          <div class="cc">0/13</div>
+        </div>
+        <div class="fld">
+          <label>Cargo</label>
+          <input type="text" id="jur_repcargo" maxlength="60">
+        </div>
+      </div>
+      <div class="fld">
+        <label>Direcci&oacute;n del Representante Legal</label>
+        <input type="text" id="jur_repdir" maxlength="80" oninput="cc(this,80)">
+        <div class="cc">0/80</div>
+      </div>
+      <div class="g2">
+        <div class="fld">
+          <label>Tel&eacute;fono Representante</label>
+          <input type="tel" id="jur_reptel" maxlength="15" inputmode="tel">
+        </div>
+        <div class="fld">
+          <label>Correo Representante</label>
+          <input type="email" id="jur_repcorreo" maxlength="80">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
+<div class="card">
+  <div class="ch">&#128241; Datos de Contacto</div>
+  <div class="cb">
+    <div class="fld">
+      <label>Tel&eacute;fono / Celular <span class="req">*</span> <span class="opt">(m&aacute;x. 15 n&uacute;m.)</span></label>
+      <input type="tel" id="telefono" maxlength="15" inputmode="tel" oninput="cc(this,15);this.value=this.value.replace(/[^0-9+\- ]/g,'')">
+      <div class="cc">0/15</div>
+    </div>
+    <div class="fld">
+      <label>Correo Electr&oacute;nico <span class="opt">(opcional)</span></label>
+      <input type="email" id="correo" maxlength="80" inputmode="email">
+    </div>
+    <div class="fld">
+      <label>Direcci&oacute;n Domiciliaria <span class="req">*</span> <span class="opt">(m&aacute;x. 80 car.)</span></label>
+      <input type="text" id="direccion" maxlength="80" oninput="cc(this,80)">
+      <div class="cc">0/80</div>
+    </div>
+    <div class="fld">
+      <label>Ciudad / Provincia <span class="req">*</span></label>
+      <input type="text" id="ciudad" maxlength="50" oninput="cc(this,50)">
+      <div class="cc">0/50</div>
+    </div>
+    <div class="fld">
+      <label>Empresa / Lugar de trabajo <span class="opt">(opcional, m&aacute;x. 100 car.)</span></label>
+      <input type="text" id="empresa" maxlength="100" oninput="cc(this,100)">
+      <div class="cc">0/100</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="ch">&#128181; Informaci&oacute;n Econ&oacute;mica</div>
+  <div class="cb">
+    <div class="fld">
+      <label>Actividad Econ&oacute;mica principal <span class="req">*</span> <span class="opt">(m&aacute;x. 50 car.)</span></label>
+      <input type="text" id="actividad" maxlength="50" oninput="cc(this,50)">
+      <div class="cc">0/50</div>
+    </div>
+    <div class="g2">
+      <div class="fld">
+        <label>Ingreso Mensual (USD) <span class="req">*</span></label>
+        <div class="mwrap"><span class="msym">$</span>
+          <input type="number" id="ingreso" placeholder="0.00" min="0" step="0.01" inputmode="decimal">
+        </div>
+      </div>
+      <div class="fld">
+        <label>Patrimonio (USD) <span class="opt">(opcl.)</span></label>
+        <div class="mwrap"><span class="msym">$</span>
+          <input type="number" id="patrimonio" placeholder="0.00" min="0" step="0.01" inputmode="decimal">
+        </div>
+      </div>
+    </div>
+    <div class="fld">
+      <label>Origen de los fondos <span class="req">*</span></label>
+      <select id="ofondos">
+        <option value="">&#8212; Seleccione &#8212;</option>
+        <option>Ahorros propios</option><option>Cr&eacute;dito bancario</option>
+        <option>Venta de inmueble</option><option>Actividad comercial</option>
+        <option>Herencia</option><option>Donaci&oacute;n</option>
+        <option>Salario / sueldo</option><option>Otro</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="ch">&#128203; Informaci&oacute;n Tributaria <span style="font-size:11px;font-weight:400;opacity:.8">(si aplica)</span></div>
+  <div class="cb">
+    <div class="fld">
+      <label>RUC <span class="opt">(si tiene, 13 n&uacute;meros)</span></label>
+      <input type="text" id="ruc" maxlength="13" inputmode="numeric" oninput="cc(this,13);this.value=this.value.replace(/[^0-9]/g,'')">
+      <div class="cc">0/13</div>
+    </div>
+    <div class="g2">
+      <div class="fld">
+        <label>Estado del RUC</label>
+        <select id="eruc">
+          <option value="">&#8212;</option>
+          <option>Activo</option><option>Suspendido</option>
+          <option>Cancelado</option><option>No tiene</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label>R&eacute;gimen</label>
+        <select id="regimen">
+          <option value="">&#8212;</option>
+          <option>General</option><option>RIMPE-Emprendedor</option>
+          <option>RIMPE-Negocio Popular</option>
+        </select>
+      </div>
+    </div>
+    <div class="fld">
+      <label>Tiempo de actividad econ&oacute;mica (a&ntilde;os)</label>
+      <input type="number" id="tact" min="0" max="60" inputmode="numeric" style="max-width:160px">
+    </div>
+  </div>
+</div>
+
+<div class="card" style="border-top:3px solid var(--t)">
+  <div class="cb" style="background:#F0FDF4">
+    <p style="font-size:12px;color:#065F46;line-height:1.75;text-align:justify">
+      <strong>Declaraci&oacute;n:</strong> Al enviar declaro que la informaci&oacute;n es verdadera y completa,
+      y que los fondos a utilizar tienen origen l&iacute;cito. Autorizo el uso de estos datos
+      para la debida diligencia conforme a la normativa UAFE de prevenci&oacute;n de lavado de activos.
+    </p>
+  </div>
+</div>
+
+<div class="err-box" id="errBox"><span id="errMsg"></span></div>
+<button class="btn-p" id="btnEnviar" onclick="doEnviar()">&#128228; Enviar mis datos</button>
+<button class="btn-s" onclick="doLimpiar()">&#10006; Limpiar formulario</button>
+</div>
+
+<div id="prog">
+  <div class="spin"></div>
+  <p style="font-size:14px;color:#555;font-weight:600">Enviando sus datos...</p>
+</div>
+
+<div id="success">
+  <div class="ico">&#10003;</div>
+  <h2>Datos registrados correctamente</h2>
+  <span class="nro" id="nroReg"></span>
+  <p id="succMsg">Sus datos han sido guardados. Guarde este n&uacute;mero de referencia para su cita.</p>
+  <button class="btn-p" onclick="doNuevo()" style="max-width:300px;margin:0 auto;display:block">+ Registrar otro interviniente</button>
+</div>
+</div>
+
+<footer><strong>Soluciones D&amp;S</strong> &middot; Data Analytics &amp; Solutions<br>
+Pre-Registro &middot; Debida Diligencia &middot;
+<a href="mailto:esantiagoguerrerov@hotmail.com" style="color:inherit">esantiagoguerrerov@hotmail.com</a> &middot;
+<a href="tel:+593984759373" style="color:inherit">+593 98 475 9373</a></footer>
+
+<script>
+var ADMIN_DEF = atob('YWRtaW4yMDI2');
 var CFG_PR = {};
+
 function loadCfg() {
-  try { CFG_PR = JSON.parse(localStorage.getItem(_0x2c4a[0]) || '{}'); } catch(e) { CFG_PR = {}; }
-  if (!CFG_PR.scriptUrl) CFG_PR.scriptUrl = _0x2c4a[6];
-  if (!CFG_PR.pass)  CFG_PR.pass  = atob('YWRtaW4yMDI2');
-  if (!CFG_PR.nombre) CFG_PR.nombre = _0x2c4a[5];
+  try { CFG_PR = JSON.parse(localStorage.getItem('dd_cfg') || '{}'); } catch(e) { CFG_PR = {}; }
+  if (!CFG_PR.scriptUrl) CFG_PR.scriptUrl = (function(){var _$=['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3M01sYVZLeHRLTEY5REFr','ZHJGeXhEY1FyUnlORlh1YWN6ZGdsYTNFVUlId0RFNHZTem9GV09EN3Nnei1MZUtwS1BNdy9leGVj'];return atob(_$[0])+atob(_$[1]);})();
+  if (!CFG_PR.pass)  CFG_PR.pass  = ADMIN_DEF;
+  if (!CFG_PR._urlL) CFG_PR._urlL = true;
+  if (!CFG_PR.nombre) CFG_PR.nombre = 'Notaría Única del Cantón Baños - Quito';
+  if (!CFG_PR._nomL)  CFG_PR._nomL  = true;
 }
 loadCfg();
 
 var E = function(id){ return document.getElementById(id); };
+var V = function(id){ var e=E(id); return e?e.value.trim():''; };
+function cc(el,max){ var n=el.nextElementSibling; if(n&&n.classList.contains('cc')) n.textContent=el.value.length+'/'+max; }
+
+// ── W2d: Ajustar inputmode cédula según tipo — FIX W2d ─────────────
+function onTipoId(val) {
+  var sec = E('jurSec');
+  if (!sec) return;
+  if (val === 'RUC') {
+    sec.classList.add('show');
+  } else {
+    sec.classList.remove('show');
+    ['jur_empresa','jur_repnom','jur_repced','jur_repcargo','jur_repdir','jur_reptel','jur_repcorreo'].forEach(function(id){
+      var e=E(id); if(e) e.value='';
+    });
+  }
+  // FIX W2d: inputmode dinámico — numérico para cédula/RUC, texto para pasaporte
+  var cedEl = E('cedula');
+  if (cedEl) {
+    if (val === 'Pasaporte') {
+      cedEl.setAttribute('inputmode', 'text');
+      cedEl.placeholder = 'Ej: A1234567';
+    } else {
+      cedEl.setAttribute('inputmode', 'numeric');
+      cedEl.placeholder = '';
+    }
+  }
+}
 
 function ping() {
-  if (!CFG_PR.scriptUrl) { E(_0x2c4a[7])[_0x2c4a[8]] = '⚠ Sin URL'; E(_0x2c4a[7]).className = _0x2c4a[9]; return; }
-  jsonp(CFG_PR.scriptUrl, {action: 'ping'}, function(d){
-    if(d && d.status === 'OK'){ E(_0x2c4a[7])[_0x2c4a[8]] = '✓ Conectado'; E(_0x2c4a[7]).className = 'ok'; }
+  if (!CFG_PR.scriptUrl) { E('cnBdg').textContent='⚠ Sin URL'; E('cnBdg').className='err'; return; }
+  E('cnBdg').textContent='...';
+  jsonp(CFG_PR.scriptUrl,{action:'ping'},function(d){
+    if(d&&d.status==='OK'){E('cnBdg').textContent='✓ Conectado';E('cnBdg').className='ok';}
+    else{E('cnBdg').textContent='⟳ Reconectando';E('cnBdg').className='err';setTimeout(ping,4000);}
   });
 }
 
 function autofill(ced) {
-  if(ced.length < 5 || !CFG_PR.scriptUrl) return;
-  jsonp(CFG_PR.scriptUrl, {action: _0x2c4a[11], cedula: encodeURIComponent(ced)}, function(d){
-    if(d && d.status === 'FOUND'){
-      var r = JSON.parse(d.msg);
-      if(E('nombres') && r.nombres) E('nombres').value = r.nombres;
-      if(E('ingreso') && r.ingreso) E('ingreso').value = r.ingreso;
+  ced=ced.trim();
+  if(ced.length<5||!CFG_PR.scriptUrl) return;
+  jsonp(CFG_PR.scriptUrl,{action:'buscar_cedula',cedula:encodeURIComponent(ced)},function(d){
+    if(d&&d.status==='FOUND'){
+      try{
+        var r=JSON.parse(d.msg);
+        var map={nombres:'nombres',ecivil:'ecivil',nacion:'nacion',profesion:'profesion',
+          telefono:'telefono',correo:'correo',direccion:'direccion',ciudad:'ciudad',
+          empresa:'empresa',actividad:'actividad',ingreso:'ingreso',patrimonio:'patrimonio',
+          ofondos:'ofondos',ruc:'ruc',eruc:'eruc',regimen:'regimen',tact:'tact',tipo_id:'tipo_id',
+          jur_empresa:'jur_empresa',jur_repnom:'jur_repnom',jur_repced:'jur_repced',
+          jur_repcargo:'jur_repcargo',jur_repdir:'jur_repdir',jur_reptel:'jur_reptel',jur_repcorreo:'jur_repcorreo'};
+        Object.keys(map).forEach(function(k){
+          var el=E(map[k]);
+          if(el&&r[k]){el.value=r[k]; if(map[k]==='tipo_id') onTipoId(r[k]);}
+        });
+        var b=E('autoBdg');
+        b.style.display='block';
+        b.textContent='✓ Datos de '+(r.nombres||'este interviniente')+' cargados. Verifique y corrija si algo cambió.';
+      }catch(e){}
     }
   });
 }
 
-function doEnviar() {
-  var url = CFG_PR.scriptUrl; if(!url) return;
-  E('btnEnviar').disabled = true;
-  var d = ['', new Date().toISOString(), 'Pre-registro web', '', 'Cédula', E('cedula').value, E('nombres').value, '', '', '', '', '', '', '', '', '', E('ingreso').value];
-  jsonp(url, {action: 'guardar_interviniente', d: encodeURIComponent(JSON.stringify(d))}, function(resp){
-    if(resp && resp.status === 'OK'){ alert('Datos enviados. Referencia: ' + resp.nro); location.reload(); } else { E('btnEnviar').disabled = false; alert('Error'); }
+function validar() {
+  var errs=[];
+  var isRuc=V('tipo_id')==='RUC';
+  var reqs=[['tipo_id','Tipo de documento'],['cedula','Cédula / Pasaporte / RUC'],
+    ['nombres','Nombres completos'],['ecivil','Estado Civil'],['nacion','Nacionalidad'],
+    ['profesion','Profesión'],['telefono','Teléfono'],['direccion','Dirección'],
+    ['ciudad','Ciudad / Provincia'],['actividad','Actividad Económica'],
+    ['ingreso','Ingreso Mensual'],['ofondos','Origen de fondos']];
+  if(isRuc){reqs.push(['jur_empresa','Razón Social']);reqs.push(['jur_repnom','Nombres Representante Legal']);reqs.push(['jur_repced','Cédula Representante Legal']);}
+  reqs.forEach(function(p){
+    var e=E(p[0]);
+    if(!e||!e.value.trim()){errs.push(p[1]);if(e)e.classList.add('ef');}
+    else if(e) e.classList.remove('ef');
   });
+  if(!CFG_PR.scriptUrl) errs.push('URL del script no configurada — presione ⚙ Config');
+  return errs;
 }
 
-function openCfg(){ E('ovCfg').classList.add('show'); E('cfgNomInp').value = CFG_PR.nombre; E('cfgUrlInp').value = CFG_PR.scriptUrl; }
-function saveCfgPR(){ CFG_PR.nombre = E('cfgNomInp').value; CFG_PR.scriptUrl = E('cfgUrlInp').value; localStorage.setItem('dd_cfg', JSON.stringify(CFG_PR)); location.reload(); }
+// ── FIX W2b: String() en buildDatos para preservar cero inicial ──────
+function buildDatos() {
+  var isRuc=V('tipo_id')==='RUC';
+  return [
+    '',new Date().toISOString(),'Pre-registro web','—',
+    V('tipo_id'),
+    String(V('cedula')),   // FIX W2b: forzado texto — preserva cero inicial
+    V('nombres'),V('ecivil'),V('nacion'),V('profesion'),
+    V('telefono'),V('correo'),V('direccion'),V('ciudad'),V('empresa'),
+    V('actividad'),V('ingreso'),V('patrimonio'),V('ofondos'),
+    V('ruc'),V('eruc'),V('regimen'),V('tact'),'NUEVO','',
+    isRuc?V('jur_empresa'):'',isRuc?V('jur_repnom'):'',isRuc?V('jur_repced'):'',
+    isRuc?V('jur_repcargo'):'',isRuc?V('jur_repdir'):'',
+    isRuc?V('jur_reptel'):'',isRuc?V('jur_repcorreo'):''
+  ];
+}
 
-function jsonp(url,params,cb){ var cbn='__jp'+Date.now(),sc=document.createElement('script'); window[cbn]=function(data){delete window[cbn];document.head.removeChild(sc);cb(data);}; sc.src=url+'?'+Object.keys(params).map(function(k){return k+'='+params[k];}).join('&')+'&callback='+cbn; document.head.appendChild(sc); }
+var _int=0;
+function doEnviar() {
+  var errs=validar();
+  if(errs.length){E('errBox').style.display='block';E('errMsg').textContent='Complete los campos obligatorios: '+errs.join(', ');E('errBox').scrollIntoView({behavior:'smooth',block:'center'});return;}
+  E('errBox').style.display='none';
+  E('formulario').style.display='none';
+  E('prog').style.display='block';
+  E('btnEnviar').disabled=true;
+  _int=0;enviar();
+}
+function enviar() {
+  _int++;
+  var datos=buildDatos();
+  jsonp(CFG_PR.scriptUrl,{action:'guardar_interviniente',d:encodeURIComponent(JSON.stringify(datos))},function(resp){
+    E('prog').style.display='none';
+    if(resp&&resp.status==='OK'){
+      E('nroReg').textContent=resp.nro||'INT-'+Date.now();
+      E('succMsg').textContent=resp.accion==='actualizado'?'Sus datos han sido actualizados. Referencia: '+(resp.nro||''):'Sus datos han sido registrados. Guarde este número para su cita.';
+      E('success').style.display='block';
+    }else{
+      if(_int<3){E('prog').style.display='block';setTimeout(enviar,_int*2000);return;}
+      E('formulario').style.display='block';E('btnEnviar').disabled=false;
+      E('errBox').style.display='block';E('errMsg').textContent='Error al enviar. Verifique su conexión e intente de nuevo. ('+(resp&&resp.msg||'Sin respuesta')+')';
+    }
+  });
+}
+function doLimpiar() {
+  document.querySelectorAll('input,select').forEach(function(e){e.value='';e.classList.remove('ef');});
+  document.querySelectorAll('.cc').forEach(function(el){var inp=el.previousElementSibling;if(inp&&inp.maxLength>0)el.textContent='0/'+inp.maxLength;});
+  E('autoBdg').style.display='none';E('errBox').style.display='none';
+  var sec=E('jurSec');if(sec)sec.classList.remove('show');
+}
+function doNuevo(){doLimpiar();E('formulario').style.display='block';E('success').style.display='none';E('btnEnviar').disabled=false;}
 
-(function(){ var nb=E('tb-notaria'); if(nb){ nb.textContent = CFG_PR.nombre + ' · Debida Diligencia'; } })();
-setTimeout(ping, 2000);
+function openCfg(){E('ovCfg').classList.add('show');E('cfgLogin').style.display='block';E('cfgPanel').style.display='none';E('cfgPwInp').value='';E('cfgPwErr').style.display='none';setTimeout(function(){E('cfgPwInp').focus();},150);}
+function closeCfg(){E('ovCfg').classList.remove('show');}
+function checkCfgPw(){
+  if(E('cfgPwInp').value===CFG_PR.pass){
+    E('cfgLogin').style.display='none';E('cfgPanel').style.display='block';
+    if(E('cfgNomInp')){E('cfgNomInp').value=CFG_PR.nombre||'';E('cfgNomInp').disabled=CFG_PR._nomL;var nb=E('nomLkBdg');if(nb)nb.style.display=CFG_PR._nomL?'inline':'none';}
+    E('cfgUrlInp').value=CFG_PR.scriptUrl||'';E('cfgNewPw').value='';
+    E('urlLkBdg').style.display=CFG_PR._urlL?'inline':'none';E('cfgUrlInp').disabled=CFG_PR._urlL;
+  }else{E('cfgPwErr').style.display='block';E('cfgPwInp').focus();}
+}
+function testCfgConn(){
+  var url=E('cfgUrlInp').value.trim(),r=E('cfgConnRes');
+  if(!url){r.textContent='⚠ Ingrese URL primero';r.style.color='#E65100';return;}
+  r.textContent='Probando...';r.style.color='#555';
+  jsonp(url,{action:'ping'},function(d){
+    if(d&&d.status==='OK'){r.textContent='✅ Conexión OK';r.style.color='#2E7D32';}
+    else{r.textContent='❌ Sin respuesta. Verifique la URL.';r.style.color='#B71C1C';}
+  });
+}
+function saveCfgPR(){
+  var np=E('cfgNewPw').value.trim();
+  if(!CFG_PR._urlL){CFG_PR.scriptUrl=E('cfgUrlInp').value.trim();if(CFG_PR.scriptUrl)CFG_PR._urlL=true;}
+  if(!CFG_PR._nomL){CFG_PR.nombre=E('cfgNomInp')?E('cfgNomInp').value.trim():'';if(CFG_PR.nombre)CFG_PR._nomL=true;}
+  if(np)CFG_PR.pass=np;
+  localStorage.setItem('dd_cfg',JSON.stringify(CFG_PR));
+  var m=E('cfgSaveMsg');m.style.display='block';m.style.background='#D1FAE5';m.style.color='#065F46';
+  m.textContent='✅ Configuración guardada. Recargando...';
+  setTimeout(function(){closeCfg();location.reload();},1200);
+}
+
+function jsonp(url,params,cb){
+  var cbn='__jp'+Date.now(),sc=document.createElement('script');
+  var tm=setTimeout(function(){delete window[cbn];try{document.head.removeChild(sc);}catch(x){}cb({status:'ERROR',msg:'Timeout'});},20000);
+  window[cbn]=function(data){clearTimeout(tm);delete window[cbn];try{document.head.removeChild(sc);}catch(x){}cb(data);};
+  sc.onerror=function(){clearTimeout(tm);delete window[cbn];try{document.head.removeChild(sc);}catch(x){}cb({status:'ERROR',msg:'Error de red'});};
+  var qs=Object.keys(params).map(function(k){return k+'='+params[k];}).join('&');
+  sc.src=url+'?'+qs+'&callback='+cbn+'&t='+Date.now();
+  document.head.appendChild(sc);
+}
+
+(function(){var nb=document.getElementById('tb-notaria');if(nb){var nom=CFG_PR.nombre||'';nb.textContent=(nom?nom+' · ':'')+'Debida Diligencia · Soluciones D&S';}})();
+setTimeout(ping,2000);
 </script>
 </body>
 </html>
