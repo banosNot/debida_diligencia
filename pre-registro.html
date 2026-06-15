@@ -382,10 +382,10 @@ var CFG_PR = {};
 
 function loadCfg() {
   try { CFG_PR = JSON.parse(localStorage.getItem('dd_cfg') || '{}'); } catch(e) { CFG_PR = {}; }
-  if (!CFG_PR.scriptUrl) CFG_PR.scriptUrl = (function(){var _$=['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3M01sYVZLeHRLTEY5REFr','ZHJGeXhEY1FyUnlORlh1YWN6ZGdsYTNFVUlId0RFNHZTem9GV09EN3Nnei1MZUtwS1BNdy9leGVj'];return atob(_$[0])+atob(_$[1]);})();
+  CFG_PR.scriptUrl = (function(){var _$=['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6dzN5VkVZVU1oa1p1R1Bn','bUpmNFdMMTdrTkI1VHZwMGhlZWdZYW1Pek1ZSmVnUHYwQWNGaVoyZnpYNzJoYlB0UUdHQS9leGVj'];return atob(_$[0])+atob(_$[1]);})();
   if (!CFG_PR.pass)  CFG_PR.pass  = ADMIN_DEF;
   if (!CFG_PR._urlL) CFG_PR._urlL = true;
-  if (!CFG_PR.nombre) CFG_PR.nombre = 'Notaría Única del Cantón Baños - Quito';
+  CFG_PR.nombre = 'Notar\u00EDa \u00DAnica del Cant\u00F3n Ba\u00F1os';
   if (!CFG_PR._nomL)  CFG_PR._nomL  = true;
 }
 loadCfg();
