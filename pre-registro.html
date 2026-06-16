@@ -382,7 +382,7 @@ var CFG_PR = {};
 
 function loadCfg() {
   try { CFG_PR = JSON.parse(localStorage.getItem('dd_cfg') || '{}'); } catch(e) { CFG_PR = {}; }
-  CFG_PR.scriptUrl = (function(){var _$=['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6dzN5VkVZVU1oa1p1R1Bn','bUpmNFdMMTdrTkI1VHZwMGhlZWdZYW1Pek1ZSmVnUHYwQWNGaVoyZnpYNzJoYlB0UUdHQS9leGVj'];return atob(_$[0])+atob(_$[1]);})();
+  CFG_PR.scriptUrl = (function(){var _$=['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6X3lVejhxMXd0ckNiVE5n','bHFyS2J5cGZaaERFSDA5XzFjWFQwOVBRZUdscU40bzZxVVg1a015NkFnZUtmenk0ZDJ6Zy9leGVj'];return atob(_$[0])+atob(_$[1]);})();
   if (!CFG_PR.pass)  CFG_PR.pass  = ADMIN_DEF;
   if (!CFG_PR._urlL) CFG_PR._urlL = true;
   CFG_PR.nombre = 'Notar\u00EDa \u00DAnica del Cant\u00F3n Ba\u00F1os';
