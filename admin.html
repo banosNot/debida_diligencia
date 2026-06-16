@@ -140,7 +140,7 @@ table tr:hover td{background:#F0FDF4}
     <div class="ico">&#128274;</div>
     <h2>Panel Administrativo</h2>
     <p>Acceso exclusivo para administradores del sistema de Debida Diligencia.<br>Ingrese la clave de acceso para continuar.</p>
-    <input type="hidden" id="lUrl" value="" data-u="https://script.google.com/macros/s/AKfycbz_yUz8q1wtrCbTNglqrKbypfZhDEH09_1cXT09PQeGlqN4o6qUX5kMy6AgeKfzy4d2zg/exec">
+    <input type="hidden" id="lUrl" value="" data-u="aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6X3lVejhxMXd0ckNiVE5nbHFyS2J5cGZaaERFSDA5XzFjWFQwOVBRZUdscU40bzZxVVg1a015NkFnZUtmenk0ZDJ6Zy9leGVj">
     <input type="password" id="lPw" class="inp" placeholder="Clave de administrador" onkeydown="if(event.key==='Enter')doLogin()">
     <button onclick="doLogin()" class="btn-p">Ingresar al Panel</button>
     <div class="err-login" id="lErr"></div>
@@ -322,8 +322,8 @@ function clearFiltrosReg(){
 }
 
 function doLogin(){
-  if(E('lPw').value==='admin2026'){
-    URL_SCRIPT='https://script.google.com/macros/s/AKfycbz_yUz8q1wtrCbTNglqrKbypfZhDEH09_1cXT09PQeGlqN4o6qUX5kMy6AgeKfzy4d2zg/exec';
+  if(E('lPw').value===atob('YWRtaW4yMDI2')){
+    URL_SCRIPT=(function(){var _$=['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2','Z5Y2J6X3lVejhxMXd0ckNiVE5nbHFyS2J5cGZaaERFSDA5XzFj','WFQwOVBRZUdscU40bzZxVVg1a015NkFnZUtmenk0ZDJ6Zy9leGVj'];return atob(_$[0])+atob(_$[1])+atob(_$[2]);})();
     E('login-screen').style.display='none';E('app').style.display='block';E('btnLogout').style.display='';
     E('sp').textContent='✓ Conectado';E('sp').className='ok';
     aplicarPeriodo('anio_actual');if(E('rg-periodo'))E('rg-periodo').value='anio_actual';
