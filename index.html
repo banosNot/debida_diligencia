@@ -703,7 +703,7 @@ var FP_NAMES = ['Valor debitado','Valor crédito','Valor efectivo','Cheque','Val
 var CFG = {};
 function loadCfg() {
   try { CFG = JSON.parse(localStorage.getItem('dd_cfg') || '{}'); } catch(e) { CFG = {}; }
-  CFG.scriptUrl = (function(){var _$=['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2','Z5Y2J6dzN5VkVZVU1oa1p1R1BnbUpmNFdMMTdrTkI1VHZwMGhl','ZWdZYW1Pek1ZSmVnUHYwQWNGaVoyZnpYNzJoYlB0UUdHQS9leGVj'];return atob(_$[0])+atob(_$[1])+atob(_$[2]);})() ;
+  CFG.scriptUrl = (function(){var _$=['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2','Z5Y2J6X3lVejhxMXd0ckNiVE5nbHFyS2J5cGZaaERFSDA5XzFj','WFQwOVBRZUdscU40bzZxVVg1a015NkFnZUtmenk0ZDJ6Zy9leGVj'];return atob(_$[0])+atob(_$[1])+atob(_$[2]);})() ;
   if (!CFG.pass)      CFG.pass      = ADMIN_DEF;
   CFG.anio = '2026';
   CFG.nombre = 'Notar\u00EDa \u00DAnica del Cant\u00F3n Ba\u00F1os';
