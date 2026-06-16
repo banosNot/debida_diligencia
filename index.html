@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Cache-Control" content="no-cache,no-store">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Debida Diligencia &mdash; Soluciones D&S</title>
 <style>
@@ -690,11 +692,13 @@ textarea{resize:vertical;min-height:54px}
 <div id="pd"></div>
 <script>
 // ═══════════════════════════════════════════════════════════
-// DEBIDA DILIGENCIA v8 — Soluciones D&S — JS LIMPIO
-// Sin construcción dinámica de HTML — Todo el HTML es estático
+// DEBIDA DILIGENCIA v8.7 — Soluciones D&S
+// Notaría Única del Cantón Baños · 2026
+// © Soluciones D&S — Uso exclusivo autorizado
+// Modificar sin autorización puede causar pérdida de datos
 // ═══════════════════════════════════════════════════════════
 
-var ADMIN_DEF = atob('YWRtaW4yMDI2');
+var ADMIN_DEF = (function(){return atob('YWRtaW4yMDI2');})();
 
 var FP_KEYS = ['debito','credito','efectivo','cheque','bienes','servicios','tarjeta'];
 var FP_NAMES = ['Valor debitado','Valor crédito','Valor efectivo','Cheque','Valor en bienes','Valor en servicios','Tarjeta de crédito'];
@@ -703,7 +707,10 @@ var FP_NAMES = ['Valor debitado','Valor crédito','Valor efectivo','Cheque','Val
 var CFG = {};
 function loadCfg() {
   try { CFG = JSON.parse(localStorage.getItem('dd_cfg') || '{}'); } catch(e) { CFG = {}; }
-  CFG.scriptUrl = 'https://script.google.com/macros/s/AKfycbz_yUz8q1wtrCbTNglqrKbypfZhDEH09_1cXT09PQeGlqN4o6qUX5kMy6AgeKfzy4d2zg/exec';
+  /* URL del servicio — Notaría Baños */
+  CFG.scriptUrl = 'https://script.google.com/macros/s/AKf'
+    + 'ycbz_yUz8q1wtrCbTNglqrKbypfZhDEH09_1cX'
+    + 'T09PQeGlqN4o6qUX5kMy6AgeKfzy4d2zg/exec';
   if (!CFG.pass)      CFG.pass      = ADMIN_DEF;
   CFG.anio = '2026';
   CFG.nombre = 'Notar\u00EDa \u00DAnica del Cant\u00F3n Ba\u00F1os';
