@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache,no-store">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Panel Administrativo v2.1 — Debida Diligencia</title>
+<title>Panel Administrativo v3.0 — Debida Diligencia</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--n:#1B3A6B;--t:#0D7377;--r:#B71C1C;--g:#065F46;--b:#E2E8F0;--bg:#F0F4F8}
@@ -111,8 +111,11 @@ table tr:hover td{background:#F0FDF4}
 .btn-f,.btn-print{align-self:flex-end!important;height:36px!important;white-space:nowrap!important;flex-shrink:0!important}
 .btn-print{padding:9px 16px;border-radius:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;font-family:inherit;align-self:flex-end;height:36px;background:#6A1B9A;color:#fff}
 .btn-edit{background:#1B3A6B;color:#fff;border:none;padding:4px 10px;border-radius:6px;font-size:10px;cursor:pointer;font-family:inherit;font-weight:700}
+/* Banner de estado de conexión */
+#connBanner{display:none;background:#FEF3C7;border:1.5px solid #F59E0B;border-radius:8px;padding:10px 16px;margin-bottom:14px;font-size:12px;color:#92400E;font-weight:600;align-items:center;gap:10px}
+#connBanner.show{display:flex}
 @media print{
-  #tb .tb-r,.tabs,.filters,.pag,.btn-edit,.btn-print,.spin-ov,#btnLogout,#btnExport{display:none!important}
+  #tb .tb-r,.tabs,.filters,.pag,.btn-edit,.btn-print,.spin-ov,#btnLogout,#btnExport,#connBanner{display:none!important}
   .panel{display:none!important}.panel.show{display:block!important}
   th{background:#1B3A6B!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
 }
@@ -121,7 +124,7 @@ table tr:hover td{background:#F0FDF4}
 <body>
 <div id="tb">
   <div class="tb-l">
-    <img class="tb-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNDQiIHZpZXdCb3g9IjAgMCAyMDAgNDQiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMUIzQTZCIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzBENTQ3MCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPCEtLSBCYWNrZ3JvdW5kIHJvdW5kZWQgcmVjdGFuZ2xlIC0tPgogIDxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iNDQiIHJ4PSI4IiBmaWxsPSJ1cmwoI2JnKSIvPgogIDwhLS0gQmFyIGNoYXJ0IGljb24gYmFja2dyb3VuZCBzcXVhcmUgKHJvdW5kZWQpIC0tPgogIDxyZWN0IHg9IjgiIHk9IjciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgcng9IjYiIGZpbGw9IiMwRDlCQjUiLz4KICA8IS0tIEJhciBjaGFydCBiYXJzICh3aGl0ZSkgLS0+CiAgPHJlY3QgeD0iMTQiIHk9IjI0IiB3aWR0aD0iNCIgaGVpZ2h0PSI4IiByeD0iMSIgZmlsbD0id2hpdGUiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTkiIHdpZHRoPSI0IiBoZWlnaHQ9IjEzIiByeD0iMSIgZmlsbD0id2hpdGUiLz4KICA8cmVjdCB4PSIyNiIgeT0iMTUiIHdpZHRoPSI0IiBoZWlnaHQ9IjE3IiByeD0iMSIgZmlsbD0id2hpdGUiLz4KICA8IS0tICJTb2x1Y2lvbmVzICIgdGV4dCBpbiB3aGl0ZSAtLT4KICA8dGV4dCB4PSI0NiIgeT0iMjIiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSJ3aGl0ZSI+U29sdWNpb25lczwvdGV4dD4KICA8IS0tICJEJmFtcDtTIiB0ZXh0IGluIGN5YW4gLS0+CiAgPHRleHQgeD0iMTE1IiB5PSIyMiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMyMkQzRUUiPiBEJmFtcDtTPC90ZXh0PgogIDwhLS0gU3VidGl0bGUgLS0+CiAgPHRleHQgeD0iNDYiIHk9IjM0IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSI3IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjOTREMEUwIiBsZXR0ZXItc3BhY2luZz0iMC41Ij5EQVRBIEFOQUxZVElDUyAmYW1wOyBTT0xVVElPTlM8L3RleHQ+Cjwvc3ZnPg==" alt="D&S">
+    <img class="tb-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNDQiIHZpZXdCb3g9IjAgMCAyMDAgNDQiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMUIzQTZCIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzBENTQ3MCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSI0NCIgcng9IjgiIGZpbGw9InVybCgjYmcpIi8+CiAgPHJlY3QgeD0iOCIgeT0iNyIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIiByeD0iNiIgZmlsbD0iIzBEOUJCNSIvPgogIDxyZWN0IHg9IjE0IiB5PSIyNCIgd2lkdGg9IjQiIGhlaWdodD0iOCIgcng9IjEiIGZpbGw9IndoaXRlIi8+CiAgPHJlY3QgeD0iMjAiIHk9IjE5IiB3aWR0aD0iNCIgaGVpZ2h0PSIxMyIgcng9IjEiIGZpbGw9IndoaXRlIi8+CiAgPHJlY3QgeD0iMjYiIHk9IjE1IiB3aWR0aD0iNCIgaGVpZ2h0PSIxNyIgcng9IjEiIGZpbGw9IndoaXRlIi8+CiAgPHRleHQgeD0iNDYiIHk9IjIyIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0id2hpdGUiPlNvbHVjaW9uZXM8L3RleHQ+CiAgPHRleHQgeD0iMTE1IiB5PSIyMiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMyMkQzRUUiPiBEJmFtcDtTPC90ZXh0PgogIDx0ZXh0IHg9IjQ2IiB5PSIzNCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNyIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzk0RDBFMCIgbGV0dGVyLXNwYWNpbmc9IjAuNSI+REFUQSBBTEFOQVRJQ1MgJmFtcDsgU09MVVRJT05TPC90ZXh0Pgo8L3N2Zz4=" alt="D&amp;S">
     <div class="tb-txt">
       <span class="t1">Panel Administrativo</span>
       <span class="t2">Notar&iacute;a &Uacute;nica del Cant&oacute;n Ba&ntilde;os &middot; 2026</span>
@@ -129,7 +132,7 @@ table tr:hover td{background:#F0FDF4}
   </div>
   <div class="tb-r">
     <div id="sp">Sin conexi&oacute;n</div>
-    <button onclick="doLogout()" style="font-size:10px;padding:5px 12px;border-radius:12px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2);cursor:pointer" id="btnLogout" style="display:none">Salir</button>
+    <button onclick="doLogout()" style="font-size:10px;padding:5px 12px;border-radius:12px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2);cursor:pointer;display:none" id="btnLogout">Salir</button>
   </div>
 </div>
 
@@ -140,22 +143,28 @@ table tr:hover td{background:#F0FDF4}
     <div class="ico">&#128274;</div>
     <h2>Panel Administrativo</h2>
     <p>Acceso exclusivo para administradores del sistema de Debida Diligencia.<br>Ingrese la clave de acceso para continuar.</p>
-    <input type="hidden" id="lUrl" value="" data-u="aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6X3lVejhxMXd0ckNiVE5nbHFyS2J5cGZaaERFSDA5XzFjWFQwOVBRZUdscU40bzZxVVg1a015NkFnZUtmenk0ZDJ6Zy9leGVj">
     <input type="password" id="lPw" class="inp" placeholder="Clave de administrador" onkeydown="if(event.key==='Enter')doLogin()">
     <button onclick="doLogin()" class="btn-p">Ingresar al Panel</button>
     <div class="err-login" id="lErr"></div>
+    <div style="margin-top:16px;font-size:10px;color:#9CA3AF">
+      Conectado a: Google Apps Script &mdash; Notaría Baños 2026
+    </div>
   </div>
 </div>
 
 <div id="app">
+  <div id="connBanner">
+    &#9888; Advertencia: No se pudo conectar con el servidor. Verifique su conexión o que el script esté publicado correctamente.
+  </div>
   <div class="tabs">
-    <button class="tab act" onclick="showTab('resumen')">&#128200; Resumen</button>
-    <button class="tab" onclick="showTab('registros')">&#128203; Registros</button>
-    <button class="tab" onclick="showTab('extranjeros')">&#127758; Extranjeros</button>
-    <button class="tab" onclick="showTab('riesgo')">&#9888;&#65039; Riesgo</button>
-    <button class="tab" onclick="showTab('editar')">&#9998;&#65039; Editar Registro</button>
+    <button class="tab act" onclick="showTab('resumen',this)">&#128200; Resumen</button>
+    <button class="tab" onclick="showTab('registros',this)">&#128203; Registros</button>
+    <button class="tab" onclick="showTab('extranjeros',this)">&#127758; Extranjeros</button>
+    <button class="tab" onclick="showTab('riesgo',this)">&#9888;&#65039; Riesgo</button>
+    <button class="tab" onclick="showTab('editar',this)">&#9998;&#65039; Editar Registro</button>
   </div>
 
+  <!-- RESUMEN -->
   <div class="panel show" id="p-resumen">
     <div class="filters">
       <div class="flt"><label>A&ntilde;o</label><select id="r-anio"><option value="">Todos</option><option value="2026">2026</option><option value="2025">2025</option></select></div>
@@ -164,7 +173,7 @@ table tr:hover td{background:#F0FDF4}
       <button class="btn-f p" onclick="loadResumen()">&#128269; Aplicar</button>
       <button class="btn-print" onclick="window.print()">&#128438; PDF</button>
     </div>
-    <div class="kpi-grid" id="kpiGrid">
+    <div class="kpi-grid">
       <div class="kpi"><div class="kpi-val" id="k-total">—</div><div class="kpi-lbl">Total Registros</div><div class="kpi-sub">Formularios guardados</div></div>
       <div class="kpi green"><div class="kpi-val" id="k-guard">—</div><div class="kpi-lbl">Estado GUARDADO</div><div class="kpi-sub">Registros completos</div></div>
       <div class="kpi amber"><div class="kpi-val" id="k-monto">—</div><div class="kpi-lbl">Total Pagos (USD)</div><div class="kpi-sub">Suma de todas las operaciones</div></div>
@@ -179,6 +188,7 @@ table tr:hover td{background:#F0FDF4}
     </div>
   </div>
 
+  <!-- REGISTROS -->
   <div class="panel" id="p-registros">
     <div class="filters">
       <div class="flt"><label>Per&iacute;odo r&aacute;pido</label>
@@ -189,8 +199,8 @@ table tr:hover td{background:#F0FDF4}
           <option value="mes_anterior">Mes anterior</option>
         </select>
       </div>
-      <div class="flt"><label>Desde (Fecha Op.) *</label><input type="date" id="rg-desde"></div>
-      <div class="flt"><label>Hasta (Fecha Op.) *</label><input type="date" id="rg-hasta"></div>
+      <div class="flt"><label>Desde (Fecha Op.)</label><input type="date" id="rg-desde"></div>
+      <div class="flt"><label>Hasta (Fecha Op.)</label><input type="date" id="rg-hasta"></div>
       <div class="flt"><label>A&ntilde;o</label><select id="rg-anio"><option value="">Todos</option><option value="2026" selected>2026</option><option value="2025">2025</option></select></div>
       <div class="flt" style="flex:2;max-width:300px"><label>Buscar (reg, c&eacute;dula, nombre...)</label>
         <input type="text" id="rg-busq" placeholder="Escriba para filtrar..." onkeydown="if(event.key==='Enter')loadRegistros(1)">
@@ -200,14 +210,35 @@ table tr:hover td{background:#F0FDF4}
       <button id="btnExport" onclick="exportarExcel()" style="display:none;padding:9px 16px;border-radius:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;font-family:inherit;align-self:flex-end;height:36px;background:#1B6B38;color:#fff">&#128190; Exportar</button>
       <button class="btn-print" onclick="window.print()">&#128438; PDF</button>
     </div>
-    <div id="rg-warn" style="display:none;background:#FEF3C7;border:1.5px solid #F59E0B;border-radius:8px;padding:8px 14px;margin-bottom:10px;font-size:12px;color:#92400E;font-weight:600">
-      &#9888; Seleccione un período o ingrese fechas para buscar.
-    </div>
     <div class="tbl-wrap">
       <div class="tbl-head"><h3>Registros</h3><div style="display:flex;align-items:center;gap:12px"><div class="tbl-info" id="rg-info">-</div></div></div>
       <div style="overflow-x:auto">
         <table id="tblReg" style="min-width:2800px">
-          <thead><tr><th>N° Registro</th><th>Fecha Ingreso</th><th>Matrizador</th><th>Notaría</th><th>Año</th><th>Estado</th><th>N° Matriz</th><th>Tipo Interviniente</th><th>Fecha Operación</th><th>Cuantía USD</th><th>Avaluó USD</th><th>FP Resumen</th><th>Total Pago USD</th><th>Entidad Financiera</th><th>N° Cuenta</th><th>Tipo Cuenta</th><th>FP Valor Debitado</th><th>FP Valor Crédito</th><th>FP Valor Efectivo</th><th>FP Cheque</th><th>FP Valor Bienes</th><th>FP Valor Servicios</th><th>FP Tarjeta Crédito</th><th>Tipo de Bien</th><th>Dirección del Bien</th><th>Estado del Bien</th><th>Actos Seleccionados</th><th>Otro Acto</th><th>Tipo Identificación</th><th>Cédula / Pasaporte</th><th>Nombres Completos</th><th>RUC</th><th>Nacionalidad</th><th>Estado Civil</th><th>Profesión</th><th>Actividad Económica</th><th>Dirección Domiciliaria</th><th>Ciudad / Provincia</th><th>Teléfono</th><th>Correo</th><th>Empresa / Trabajo</th><th>Tiempo Actividad</th><th>Cónyuge Tipo ID</th><th>Cónyuge Cédula</th><th>Cónyuge Nombres</th><th>Cónyuge RUC</th><th>Cónyuge Nacionalidad</th><th>Cónyuge Profesión</th><th>Cónyuge Actividad</th><th>Cónyuge Dirección</th><th>Cónyuge Teléfono</th><th>Cónyuge Correo</th><th>Cónyuge Empresa</th><th>Estado RUC</th><th>Régimen Tributario</th><th>Obligado Contabilidad</th><th>Contribuyente Especial</th><th>Fecha Verificación SRI</th><th>Resultado SRI</th><th>Ingreso Mensual USD</th><th>Patrimonio USD</th><th>Origen de Fondos</th><th>Descripción Fondos</th><th>Respaldo Documental</th><th>Actúa Cuenta Propia</th><th>BF Nombres</th><th>BF Cédula</th><th>BF Nacionalidad</th><th>BF Dirección</th><th>BF Teléfono</th><th>BF Correo</th><th>BF Relación</th><th>PJ Razón Social</th><th>PJ RUC</th><th>PJ Representante</th><th>PJ CI Representante</th><th>PJ Estructura Compleja</th><th>PJ Beneficiarios</th><th>Bases Consultadas</th><th>Fecha Consulta Bases</th><th>Es PEP</th><th>PEP Familiar</th><th>PEP Entidad</th><th>PEP Cargo</th><th>PEP Período</th><th>Declaración Aceptada</th><th>Nombre Compareciente</th><th>Fecha Firma</th><th>Funcionario Diligencia</th><th>Fecha Diligencia</th><th>Factores Riesgo</th><th>Otro Factor</th><th>Nivel Riesgo</th><th>Decisión</th><th>Observaciones</th><th>Fecha Registro</th><th>Acc.</th></tr></thead>
+          <thead><tr>
+            <th>N° Registro</th><th>Fecha Ingreso</th><th>Matrizador</th><th>Notaría</th><th>Año</th><th>Estado</th>
+            <th>N° Matriz</th><th>Tipo Interviniente</th><th>Fecha Operación</th><th>Cuantía USD</th><th>Avaluó USD</th>
+            <th>FP Resumen</th><th>Total Pago USD</th><th>Entidad Financiera</th><th>N° Cuenta</th><th>Tipo Cuenta</th>
+            <th>FP Valor Debitado</th><th>FP Valor Crédito</th><th>FP Valor Efectivo</th><th>FP Cheque</th>
+            <th>FP Valor Bienes</th><th>FP Valor Servicios</th><th>FP Tarjeta Crédito</th><th>Tipo de Bien</th>
+            <th>Dirección del Bien</th><th>Estado del Bien</th><th>Actos Seleccionados</th><th>Otro Acto</th>
+            <th>Tipo Identificación</th><th>Cédula / Pasaporte</th><th>Nombres Completos</th><th>RUC</th>
+            <th>Nacionalidad</th><th>Estado Civil</th><th>Profesión</th><th>Actividad Económica</th>
+            <th>Dirección Domiciliaria</th><th>Ciudad / Provincia</th><th>Teléfono</th><th>Correo</th>
+            <th>Empresa / Trabajo</th><th>Tiempo Actividad</th><th>Cónyuge Tipo ID</th><th>Cónyuge Cédula</th>
+            <th>Cónyuge Nombres</th><th>Cónyuge RUC</th><th>Cónyuge Nacionalidad</th><th>Cónyuge Profesión</th>
+            <th>Cónyuge Actividad</th><th>Cónyuge Dirección</th><th>Cónyuge Teléfono</th><th>Cónyuge Correo</th>
+            <th>Cónyuge Empresa</th><th>Estado RUC</th><th>Régimen Tributario</th><th>Obligado Contabilidad</th>
+            <th>Contribuyente Especial</th><th>Fecha Verificación SRI</th><th>Resultado SRI</th>
+            <th>Ingreso Mensual USD</th><th>Patrimonio USD</th><th>Origen de Fondos</th><th>Descripción Fondos</th>
+            <th>Respaldo Documental</th><th>Actúa Cuenta Propia</th><th>BF Nombres</th><th>BF Cédula</th>
+            <th>BF Nacionalidad</th><th>BF Dirección</th><th>BF Teléfono</th><th>BF Correo</th><th>BF Relación</th>
+            <th>PJ Razón Social</th><th>PJ RUC</th><th>PJ Representante</th><th>PJ CI Representante</th>
+            <th>PJ Estructura Compleja</th><th>PJ Beneficiarios</th><th>Bases Consultadas</th><th>Fecha Consulta Bases</th>
+            <th>Es PEP</th><th>PEP Familiar</th><th>PEP Entidad</th><th>PEP Cargo</th><th>PEP Período</th>
+            <th>Declaración Aceptada</th><th>Nombre Compareciente</th><th>Fecha Firma</th><th>Funcionario Diligencia</th>
+            <th>Fecha Diligencia</th><th>Factores Riesgo</th><th>Otro Factor</th><th>Nivel Riesgo</th>
+            <th>Decisión</th><th>Observaciones</th><th>Fecha Registro</th><th>Acc.</th>
+          </tr></thead>
           <tbody id="bodyReg"><tr><td colspan="97" style="text-align:center;padding:30px;color:#9CA3AF">Seleccione un período y haga clic en Buscar</td></tr></tbody>
         </table>
       </div>
@@ -215,6 +246,7 @@ table tr:hover td{background:#F0FDF4}
     </div>
   </div>
 
+  <!-- EXTRANJEROS -->
   <div class="panel" id="p-extranjeros">
     <div class="filters">
       <div class="flt"><label>A&ntilde;o</label><select id="ex-anio"><option value="">Todos</option><option value="2026">2026</option><option value="2025">2025</option></select></div>
@@ -232,6 +264,7 @@ table tr:hover td{background:#F0FDF4}
     </div>
   </div>
 
+  <!-- RIESGO -->
   <div class="panel" id="p-riesgo">
     <div class="filters">
       <div class="flt"><label>A&ntilde;o</label><select id="rs-anio"><option value="">Todos</option><option value="2026">2026</option><option value="2025">2025</option></select></div>
@@ -252,6 +285,7 @@ table tr:hover td{background:#F0FDF4}
     </div>
   </div>
 
+  <!-- EDITAR -->
   <div class="panel" id="p-editar">
     <div class="filters">
       <div class="flt" style="flex:2"><label>N&uacute;mero de Registro (ej: DD-0001)</label>
@@ -263,9 +297,12 @@ table tr:hover td{background:#F0FDF4}
       <div class="tbl-wrap">
         <div class="tbl-head">
           <h3 id="edTit">Registro —</h3>
-          <div style="display:flex;align-items:center;gap:12px"><div style="font-size:11px;color:#6B7280" id="edHoja"></div><button id="btnPrintEd" onclick="imprimirRegistroEditado()" style="display:none;padding:7px 16px;border-radius:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;background:#1B3A6B;color:#fff;font-family:inherit">&#128438; Imprimir</button></div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="font-size:11px;color:#6B7280" id="edHoja"></div>
+            <button id="btnPrintEd" onclick="imprimirRegistroEditado()" style="display:none;padding:7px 16px;border-radius:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;background:#1B3A6B;color:#fff;font-family:inherit">&#128438; Imprimir</button>
+          </div>
         </div>
-        <div class="cb" style="padding:16px 20px">
+        <div style="padding:16px 20px">
           <p style="font-size:12px;color:#6B7280;margin-bottom:14px">&#128204; Haga clic en el valor de cualquier campo para editarlo.</p>
           <div class="campos-list" id="camposList"></div>
         </div>
@@ -274,6 +311,7 @@ table tr:hover td{background:#F0FDF4}
   </div>
 </div>
 
+<!-- MODAL EDITAR CAMPO -->
 <div class="ov" id="ovEdit">
   <div class="md">
     <h3>&#9998;&#65039; Editar campo</h3>
@@ -290,18 +328,56 @@ table tr:hover td{background:#F0FDF4}
 </div>
 
 <script>
-var DATOS_EXPORT=[];
-function fmtF(v){if(!v)return'-';var s=String(v).trim();if(/^\d{4}-\d{2}-\d{2}/.test(s)){var p=s.slice(0,10).split('-');return p[2]+'/'+p[1]+'/'+p[0];}var n=parseFloat(s);if(!isNaN(n)&&n>40000){var dt=new Date(Math.round((n-25569)*86400*1000));return('0'+dt.getDate()).slice(-2)+'/'+('0'+(dt.getMonth()+1)).slice(-2)+'/'+dt.getFullYear();}return s.slice(0,10);}
-function fmtN(v){var n=parseFloat(v);return isNaN(n)?'0.00':n.toLocaleString('es-EC',{minimumFractionDigits:2,maximumFractionDigits:2});}
+// ============================================================
+// URL DEL GOOGLE APPS SCRIPT — DIRECTAMENTE CONFIGURADA
+// ============================================================
+var URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbz_yUz8q1wtrCbTNglqrKbypfZhDEH09_1cXT09PQeGlqN4o6qUX5kMy6AgeKfzy4d2zg/exec';
 
-var URL_SCRIPT='';
-var CURRENT_PG=1;
-var EDIT_DATA=null;
-var FULL_H=["N° Registro","Fecha Ingreso","Matrizador","Notaría","Año","Estado","N° Matriz","Tipo Interviniente","Fecha Operación","Cuantía USD","Avaluó USD","FP Resumen","Total Pago USD","Entidad Financiera","N° Cuenta","Tipo Cuenta","FP Valor Debitado","FP Valor Crédito","FP Valor Efectivo","FP Cheque","FP Valor Bienes","FP Valor Servicios","FP Tarjeta Crédito","Tipo de Bien","Dirección del Bien","Moneda","Actos Seleccionados","Otro Acto","","","","","","","","","","","","","","","","","","","","","","Tipo Identificación","Cédula / Pasaporte","Nombres Completos","RUC","Nacionalidad","Estado Civil","Profesión","Actividad Económica","Dirección Domiciliaria","Ciudad / Provincia","Teléfono","Correo","Empresa / Trabajo","Tiempo Actividad","Cónyuge Tipo ID","Cónyuge Cédula","Cónyuge Nombres","Cónyuge RUC","Cónyuge Nacionalidad","Cónyuge Profesión","Cónyuge Actividad","Cónyuge Dirección","Cónyuge Teléfono","Cónyuge Correo","Cónyuge Empresa","Estado RUC","Régimen Tributario","Obligado Contabilidad","Contribuyente Especial","Fecha Verificación SRI","Resultado SRI","Ingreso Mensual USD","Patrimonio USD","Origen de Fondos","Descripción Fondos","Respaldo Documental","Actúa Cuenta Propia","BF Nombres","BF Cédula","BF Nacionalidad","BF Dirección","BF Teléfono","BF Correo","BF Relación","PJ Razón Social","PJ RUC","PJ Representante","PJ CI Representante","PJ Estructura Compleja","PJ Beneficiarios","Bases Consultadas","Fecha Consulta Bases","Es PEP","PEP Familiar","PEP Entidad","PEP Cargo","PEP Período","Declaración Aceptada","Nombre Compareciente","Fecha Firma","Funcionario Diligencia","Fecha Diligencia","Factores Riesgo","Otro Factor","Nivel Riesgo","Decisión","Observaciones","Fecha Registro"];
-var COLS_PROT=[1,2,4,5,115];
+var DATOS_EXPORT = [];
+var CURRENT_PG   = 1;
+var EDIT_DATA    = null;
 
+var FULL_H = ["N° Registro","Fecha Ingreso","Matrizador","Notaría","Año","Estado","N° Matriz","Tipo Interviniente","Fecha Operación","Cuantía USD","Avaluó USD","FP Resumen","Total Pago USD","Entidad Financiera","N° Cuenta","Tipo Cuenta","FP Valor Debitado","FP Valor Crédito","FP Valor Efectivo","FP Cheque","FP Valor Bienes","FP Valor Servicios","FP Tarjeta Crédito","Tipo de Bien","Dirección del Bien","Moneda","Actos Seleccionados","Otro Acto","","","","","","","","","","","","","","","","","","","","","","Tipo Identificación","Cédula / Pasaporte","Nombres Completos","RUC","Nacionalidad","Estado Civil","Profesión","Actividad Económica","Dirección Domiciliaria","Ciudad / Provincia","Teléfono","Correo","Empresa / Trabajo","Tiempo Actividad","Cónyuge Tipo ID","Cónyuge Cédula","Cónyuge Nombres","Cónyuge RUC","Cónyuge Nacionalidad","Cónyuge Profesión","Cónyuge Actividad","Cónyuge Dirección","Cónyuge Teléfono","Cónyuge Correo","Cónyuge Empresa","Estado RUC","Régimen Tributario","Obligado Contabilidad","Contribuyente Especial","Fecha Verificación SRI","Resultado SRI","Ingreso Mensual USD","Patrimonio USD","Origen de Fondos","Descripción Fondos","Respaldo Documental","Actúa Cuenta Propia","BF Nombres","BF Cédula","BF Nacionalidad","BF Dirección","BF Teléfono","BF Correo","BF Relación","PJ Razón Social","PJ RUC","PJ Representante","PJ CI Representante","PJ Estructura Compleja","PJ Beneficiarios","Bases Consultadas","Fecha Consulta Bases","Es PEP","PEP Familiar","PEP Entidad","PEP Cargo","PEP Período","Declaración Aceptada","Nombre Compareciente","Fecha Firma","Funcionario Diligencia","Fecha Diligencia","Factores Riesgo","Otro Factor","Nivel Riesgo","Decisión","Observaciones","Fecha Registro"];
+var COLS_PROT = [1,2,4,5,115];
+
+var CAMPOS_SELECT = {
+  "Estado":["GUARDADO","PENDIENTE","ANULADO"],
+  "Tipo Interviniente":["Vendedor","Comprador","Deudor Hipotecario","Acreedor Hipotecario","Donante","Donatario","Permutante","Otro"],
+  "Estado Civil":["Soltero/a","Casado/a","Divorciado/a","Viudo/a","Unión de hecho"],
+  "Tipo Identificación":["Cédula","Pasaporte","RUC"],
+  "Cónyuge Tipo ID":["Cédula","Pasaporte","RUC"],
+  "Estado RUC":["Activo","Suspendido","Cancelado","No tiene"],
+  "Régimen Tributario":["General","RIMPE-Emprendedor","RIMPE-Negocio Popular","No aplica"],
+  "Obligado Contabilidad":["Sí","No"],
+  "Contribuyente Especial":["Sí","No"],
+  "Actúa Cuenta Propia":["Sí","No"],
+  "Es PEP":["Sí","No"],
+  "PEP Familiar":["Sí","No"],
+  "Declaración Aceptada":["Sí","No"],
+  "Nivel Riesgo":["BAJO","MEDIO","ALTO","MUY ALTO"],
+  "Decisión":["Continuar operación","Continuar con alertas","No continuar operación","En investigación"],
+  "Origen de Fondos":["Ahorros propios","Crédito bancario","Venta de inmueble","Actividad comercial","Herencia","Donación","Salario / sueldo","Otro"]
+};
+
+var CAMPOS_TEXTAREA = ["Dirección del Bien","Actos Seleccionados","Otro Acto","Dirección Domiciliaria","Actividad Económica","Empresa / Trabajo","Descripción Fondos","Respaldo Documental","Cónyuge Actividad","Cónyuge Dirección","BF Dirección","PJ Beneficiarios","Bases Consultadas","Factores Riesgo","Observaciones","FP Resumen"];
+
+// ---- Helpers ----
 function E(id){return document.getElementById(id);}
 function V(id){var e=E(id);return e?e.value.trim():'';}
+
+function fmtF(v){
+  if(!v)return'-';
+  var s=String(v).trim();
+  if(/^\d{4}-\d{2}-\d{2}/.test(s)){var p=s.slice(0,10).split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+  var n=parseFloat(s);
+  if(!isNaN(n)&&n>40000){var dt=new Date(Math.round((n-25569)*86400*1000));return('0'+dt.getDate()).slice(-2)+'/'+('0'+(dt.getMonth()+1)).slice(-2)+'/'+dt.getFullYear();}
+  return s.slice(0,10);
+}
+function fmtN(v){var n=parseFloat(v);return isNaN(n)?'0.00':n.toLocaleString('es-EC',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fmtNum(n){var f=parseFloat(n);if(isNaN(f))return'0.00';return f.toLocaleString('es-EC',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escJs(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');}
+function spin(show){E('spinOv').className=show?'spin-ov show':'spin-ov';}
 
 function aplicarPeriodo(val){
   var hoy=new Date(),d1,d2;
@@ -313,6 +389,7 @@ function aplicarPeriodo(val){
   if(E('rg-desde'))E('rg-desde').value=fmt(d1);
   if(E('rg-hasta'))E('rg-hasta').value=fmt(d2);
 }
+
 function clearFiltrosReg(){
   ['rg-desde','rg-hasta','rg-busq'].forEach(function(id){var e=E(id);if(e)e.value='';});
   aplicarPeriodo('anio_actual');
@@ -321,175 +398,429 @@ function clearFiltrosReg(){
   if(E('rg-info'))E('rg-info').textContent='';
 }
 
+// ---- Login / Logout ----
 function doLogin(){
-  if(E('lPw').value===atob('YWRtaW4yMDI2')){
-    URL_SCRIPT=(function(){var _$=['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2','Z5Y2J6X3lVejhxMXd0ckNiVE5nbHFyS2J5cGZaaERFSDA5XzFj','WFQwOVBRZUdscU40bzZxVVg1a015NkFnZUtmenk0ZDJ6Zy9leGVj'];return atob(_$[0])+atob(_$[1])+atob(_$[2]);})();
-    E('login-screen').style.display='none';E('app').style.display='block';E('btnLogout').style.display='';
-    E('sp').textContent='✓ Conectado';E('sp').className='ok';
-    aplicarPeriodo('anio_actual');if(E('rg-periodo'))E('rg-periodo').value='anio_actual';
+  var pw = E('lPw').value;
+  if(pw === atob('YWRtaW4yMDI2')){
+    E('login-screen').style.display='none';
+    E('app').style.display='block';
+    E('btnLogout').style.display='';
+    E('sp').textContent='✓ Conectado';
+    E('sp').className='ok';
+    aplicarPeriodo('anio_actual');
+    if(E('rg-periodo'))E('rg-periodo').value='anio_actual';
     loadResumen();
-  }else{showLErr('Clave incorrecta');E('lPw').focus();}
+  } else {
+    var el=E('lErr');
+    el.style.display='block';
+    el.textContent='Clave incorrecta. Intente de nuevo.';
+    E('lPw').focus();
+  }
 }
-function showLErr(msg){E('lErr').style.display='block';E('lErr').textContent=msg;}
-function doLogout(){URL_SCRIPT='';E('login-screen').style.display='flex';E('app').style.display='none';E('btnLogout').style.display='none';E('sp').textContent='Sin conexión';E('sp').className='';}
 
-function showTab(tab){
+function doLogout(){
+  E('login-screen').style.display='flex';
+  E('app').style.display='none';
+  E('btnLogout').style.display='none';
+  E('sp').textContent='Sin conexión';
+  E('sp').className='';
+  E('lPw').value='';
+}
+
+// ---- Tabs ----
+function showTab(tab, btn){
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('show');});
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('act');});
-  E('p-'+tab).classList.add('show');event.target.classList.add('act');
+  E('p-'+tab).classList.add('show');
+  if(btn) btn.classList.add('act');
 }
 
-function loadResumen(){
-  spin(true);
-  jsonp(URL_SCRIPT,{action:'reporte_resumen',anio:V('r-anio'),desde:V('r-desde'),hasta:V('r-hasta')},function(d){
-    spin(false);
-    if(!d||d.status!=='OK'){alert('Error: '+(d?d.msg:'sin respuesta'));return;}
-    E('k-total').textContent=d.total||0;E('k-guard').textContent=d.guardados||0;
-    E('k-monto').textContent='$'+fmtNum(d.montoTotal);E('k-ext').textContent=d.extranjeros||0;E('k-int').textContent=d.totalInt||0;
-    renderBars('chartRiesgo',d.porRiesgo,{'MUY ALTO':'red','ALTO':'amber','MEDIO':'amber','BAJO':'green','SIN':'navy'});
-    renderBars('chartTipoInt',d.porTipoInt,{});renderBars('chartMat',d.porMatrizador,{});renderBars('chartMes',d.porMes,{});
-  });
-}
-function renderBars(containerId,data,colors){
-  var cont=E(containerId);if(!cont)return;
-  var entries=Object.entries(data||{}).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
-  if(!entries.length){cont.innerHTML='<div style="color:#9CA3AF;font-size:11px;text-align:center;padding:20px">Sin datos</div>';return;}
-  var max=Math.max.apply(null,entries.map(function(e){return e[1];}));
-  cont.innerHTML=entries.map(function(e){var pct=Math.round((e[1]/max)*100);var cls=(colors[e[0]]||'navy');return'<div class="bar-row"><div class="bar-lbl" title="'+e[0]+'">'+e[0]+'</div><div class="bar-track"><div class="bar-fill '+cls+'" style="width:'+pct+'%"></div></div><div class="bar-num">'+e[1]+'</div></div>';}).join('');
-}
+// ---- JSONP (para llamar al Apps Script desde el navegador) ----
+function jsonp(url, params, cb){
+  var cbn = '__jp' + Date.now() + Math.floor(Math.random()*10000);
+  var sc  = document.createElement('script');
+  var tm  = setTimeout(function(){
+    delete window[cbn];
+    try{document.head.removeChild(sc);}catch(x){}
+    cb({status:'ERROR', msg:'Timeout — el servidor tardó demasiado. Verifique que el script esté publicado como "Cualquiera (incluso anónimo)".'});
+  }, 30000);
 
-function loadRegistros(pg){
-  var desde=V('rg-desde'),hasta=V('rg-hasta'),busq=V('rg-busq');
-  if(E('rg-warn'))E('rg-warn').style.display='none';
-  CURRENT_PG=pg||1;spin(true);
-  jsonp(URL_SCRIPT,{action:'reporte_registros',anio:V('rg-anio')||'',desde:desde,hasta:hasta,busq:encodeURIComponent(busq||''),pagina:CURRENT_PG},function(d){
-    spin(false);
-    if(!d||d.status!=='OK'){alert('Error: '+(d?d.msg:'sin respuesta'));return;}
-    DATOS_EXPORT=d.registros||[];
-    if(E('rg-info'))E('rg-info').textContent=d.total+' registros encontrados';
-    var ex=E('btnExport');if(ex)ex.style.display=d.total>0?'inline-block':'none';
-    var html='';
-    (d.registros||[]).forEach(function(r){
-      var cells=['<td><strong>'+(r.nreg||'-')+'</strong></td>','<td>'+fmtF(r.fecha)+'</td>','<td>'+(r.mat||'-')+'</td>','<td>'+(r.notaria||'-')+'</td>','<td>'+(r.anio||'-')+'</td>','<td><span class="badge g">'+(r.estado||'-')+'</span></td>','<td>'+(r.nmat||'-')+'</td>','<td><span class="badge b">'+(r.tipo_int||'-')+'</span></td>','<td>'+fmtF(r.fecha_op)+'</td>','<td>'+(+r.cuantia?'$'+fmtN(r.cuantia):'-')+'</td>','<td>'+(+r.avaluo?'$'+fmtN(r.avaluo):'-')+'</td>','<td>'+(r.fp_resumen||'-')+'</td>','<td>'+(+r.total?'$'+fmtN(r.total):'-')+'</td>','<td>'+(r.entidad||'-')+'</td>','<td>'+(r.nro_cta||'-')+'</td>','<td>'+(r.tipo_cta||'-')+'</td>','<td>'+(+r.fp_debito?'$'+fmtN(r.fp_debito):'-')+'</td>','<td>'+(+r.fp_credito?'$'+fmtN(r.fp_credito):'-')+'</td>','<td>'+(+r.fp_efectivo?'$'+fmtN(r.fp_efectivo):'-')+'</td>','<td>'+(+r.fp_cheque?'$'+fmtN(r.fp_cheque):'-')+'</td>','<td>'+(+r.fp_bienes?'$'+fmtN(r.fp_bienes):'-')+'</td>','<td>'+(+r.fp_servicios?'$'+fmtN(r.fp_servicios):'-')+'</td>','<td>'+(+r.fp_tarjeta?'$'+fmtN(r.fp_tarjeta):'-')+'</td>','<td>'+(r.tipo_bien||'-')+'</td>','<td>'+(r.dir_bien||'-')+'</td>','<td>'+(r.moneda||'-')+'</td>','<td>'+(r.actos||'-')+'</td>','<td>'+(r.otro_acto||'-')+'</td>','<td>'+(r.tipo_id||'-')+'</td>','<td>'+(r.cedula||'-')+'</td>','<td>'+(r.nombres||'-')+'</td>','<td>'+(r.ruc||'-')+'</td>','<td>'+(r.nacion||'-')+'</td>','<td>'+(r.ecivil||'-')+'</td>','<td>'+(r.profesion||'-')+'</td>','<td>'+(r.actividad||'-')+'</td>','<td>'+(r.direccion||'-')+'</td>','<td>'+(r.ciudad||'-')+'</td>','<td>'+(r.telefono||'-')+'</td>','<td>'+(r.correo||'-')+'</td>','<td>'+(r.empresa||'-')+'</td>','<td>'+(r.tact||'-')+'</td>','<td>'+(r.c_tipo_id||'-')+'</td>','<td>'+(r.c_cedula||'-')+'</td>','<td>'+(r.c_nombres||'-')+'</td>','<td>'+(r.c_ruc||'-')+'</td>','<td>'+(r.c_nacion||'-')+'</td>','<td>'+(r.c_prof||'-')+'</td>','<td>'+(r.c_act||'-')+'</td>','<td>'+(r.c_dir||'-')+'</td>','<td>'+(r.c_tel||'-')+'</td>','<td>'+(r.c_correo||'-')+'</td>','<td>'+(r.c_empresa||'-')+'</td>','<td>'+(r.eruc||'-')+'</td>','<td>'+(r.regimen||'-')+'</td>','<td>'+(r.oblig||'-')+'</td>','<td>'+(r.contrib||'-')+'</td>','<td>'+fmtF(r.fsri)+'</td>','<td>'+(r.rsri||'-')+'</td>','<td>'+(+r.ingreso?'$'+fmtN(r.ingreso):'-')+'</td>','<td>'+(+r.patrimonio?'$'+fmtN(r.patrimonio):'-')+'</td>','<td>'+(r.ofondos||'-')+'</td>','<td>'+(r.odetalle||'-')+'</td>','<td>'+(r.respaldo||'-')+'</td>','<td>'+(r.cpropia||'-')+'</td>','<td>'+(r.bf_nom||'-')+'</td>','<td>'+(r.bf_ced||'-')+'</td>','<td>'+(r.bf_nac||'-')+'</td>','<td>'+(r.bf_dir||'-')+'</td>','<td>'+(r.bf_tel||'-')+'</td>','<td>'+(r.bf_correo||'-')+'</td>','<td>'+(r.bf_rel||'-')+'</td>','<td>'+(r.pj_razon||'-')+'</td>','<td>'+(r.pj_ruc||'-')+'</td>','<td>'+(r.pj_rep||'-')+'</td>','<td>'+(r.pj_ci||'-')+'</td>','<td>'+(r.pj_estr||'-')+'</td>','<td>'+(r.pj_ben||'-')+'</td>','<td>'+(r.bases||'-')+'</td>','<td>'+fmtF(r.fbases)+'</td>','<td>'+(r.espep||'-')+'</td>','<td>'+(r.pepfam||'-')+'</td>','<td>'+(r.pepent||'-')+'</td>','<td>'+(r.pepcargo||'-')+'</td>','<td>'+(r.pepperiodo||'-')+'</td>','<td>'+(r.dacept||'-')+'</td>','<td>'+(r.ncomp||'-')+'</td>','<td>'+fmtF(r.ffirma)+'</td>','<td>'+(r.func_dilig||'-')+'</td>','<td>'+fmtF(r.fdilig)+'</td>','<td>'+(r.factores||'-')+'</td>','<td>'+(r.otro_factor||'-')+'</td>','<td>'+(r.riesgo?'<span class="badge '+(r.riesgo==='MUY ALTO'||r.riesgo==='ALTO'?'r':'g')+'">'+r.riesgo+'</span>':'-')+'</td>','<td>'+(r.decision||'-')+'</td>','<td>'+(r.obs||'-')+'</td>','<td>'+fmtF(r.fecha_reg)+'</td>','<td><button onclick="abrirEditar(\''+r.nreg+'\')" class="btn-edit">Editar</button></td>'];
-      html+='<tr>'+cells.join('')+'</tr>';
-    });
-    if(E('bodyReg'))E('bodyReg').innerHTML=html||'<tr><td colspan="97" style="text-align:center;padding:24px;color:#9CA3AF">Sin resultados</td></tr>';
-    renderPag('pagReg',d.pagina,d.paginas,'loadRegistros');
-  });
-}
+  window[cbn] = function(data){
+    clearTimeout(tm);
+    delete window[cbn];
+    try{document.head.removeChild(sc);}catch(x){}
+    cb(data);
+  };
 
-function loadExtranjeros(){
-  spin(true);
-  jsonp(URL_SCRIPT,{action:'reporte_extranjeros',anio:V('ex-anio'),desde:V('ex-desde'),hasta:V('ex-hasta')},function(d){
-    spin(false);if(!d||d.status!=='OK'){alert('Error: '+(d?d.msg:'sin respuesta'));return;}
-    if(E('ex-info'))E('ex-info').textContent=d.total+' intervinientes extranjeros';
-    var html='';
-    (d.registros||[]).forEach(function(r){html+='<tr><td>'+(r.nreg||'-')+'</td><td>'+(r.nmat||'-')+'</td><td>'+fmtF(r.fecha_op)+'</td><td>'+(r.tipo_id||'-')+'</td><td>'+(r.cedula||'-')+'</td><td>'+(r.nombres||'-')+'</td><td>'+(r.nacion||'-')+'</td><td><span class="badge b">'+(r.tipo_int||'-')+'</span></td><td>'+(r.riesgo?'<span class="badge '+(r.riesgo==='MUY ALTO'||r.riesgo==='ALTO'?'r':'g')+'">'+r.riesgo+'</span>':'-')+'</td></tr>';});
-    if(E('bodyEx'))E('bodyEx').innerHTML=html||'<tr><td colspan="9" style="text-align:center;padding:24px;color:#9CA3AF">Sin intervinientes extranjeros</td></tr>';
-  });
-}
+  sc.onerror = function(){
+    clearTimeout(tm);
+    delete window[cbn];
+    try{document.head.removeChild(sc);}catch(x){}
+    cb({status:'ERROR', msg:'Error de red — no se pudo contactar el servidor. Verifique la URL del script o su conexión a Internet.'});
+  };
 
-function loadRiesgo(){
-  spin(true);
-  jsonp(URL_SCRIPT,{action:'reporte_riesgo',anio:V('rs-anio'),nivel:encodeURIComponent(V('rs-nivel')),desde:V('rs-desde'),hasta:V('rs-hasta')},function(d){
-    spin(false);if(!d||d.status!=='OK'){alert('Error: '+(d?d.msg:'sin respuesta'));return;}
-    E('rs-info').textContent=d.total+' registros encontrados';
-    var html='';
-    (d.registros||[]).forEach(function(r){html+='<tr><td>'+r.nreg+'</td><td>'+r.nmat+'</td><td>'+fmtF(r.fecha_op)+'</td><td>'+r.cedula+'</td><td>'+r.nombres+'</td><td>'+r.tipo_int+'</td><td>'+(r.riesgo?'<span class="badge '+(r.riesgo==='MUY ALTO'||r.riesgo==='ALTO'?'r':'g')+'">'+r.riesgo+'</span>':'-')+'</td><td>'+r.decision+'</td><td>'+r.mat+'</td><td><button onclick="abrirEditar(\''+r.nreg+'\')" class="btn-edit">Editar</button></td></tr>';});
-    E('bodyRs').innerHTML=html||'<tr><td colspan="10" style="text-align:center;padding:24px;color:#9CA3AF">Sin resultados</td></tr>';
-  });
-}
-
-var SECCIONES_ED=[["I. Información General de la Operación",1,28],["II. Identificación del Cliente",48,61],["III. Cónyuge / Conviviente",62,72],["IV. Información Tributaria",73,78],["V. Perfil Económico y Origen de Fondos",79,84],["VI. Beneficiario Final",85,91],["VII. Persona Jurídica",92,97],["VIII. Bases Consultadas",98,99],["IX. PEP — Persona Expuesta Políticamente",100,104],["XII. Uso Interno / Firma",105,109],["X-XI. Riesgo y Decisión Institucional",110,115]];
-var CAMPOS_SELECT={"Estado":["GUARDADO","PENDIENTE","ANULADO"],"Tipo Interviniente":["Vendedor","Comprador","Deudor Hipotecario","Acreedor Hipotecario","Donante","Donatario","Permutante","Otro"],"Estado Civil":["Soltero/a","Casado/a","Divorciado/a","Viudo/a","Unión de hecho"],"Tipo Identificación":["Cédula","Pasaporte","RUC"],"Cónyuge Tipo ID":["Cédula","Pasaporte","RUC"],"Estado RUC":["Activo","Suspendido","Cancelado","No tiene"],"Régimen Tributario":["General","RIMPE-Emprendedor","RIMPE-Negocio Popular","No aplica"],"Obligado Contabilidad":["Sí","No"],"Contribuyente Especial":["Sí","No"],"Actúa Cuenta Propia":["Sí","No"],"Es PEP":["Sí","No"],"PEP Familiar":["Sí","No"],"Declaración Aceptada":["Sí","No"],"Nivel Riesgo":["BAJO","MEDIO","ALTO","MUY ALTO"],"Decisión":["Continuar operación","Continuar con alertas","No continuar operación","En investigación"],"Origen de Fondos":["Ahorros propios","Crédito bancario","Venta de inmueble","Actividad comercial","Herencia","Donación","Salario / sueldo","Otro"]};
-var CAMPOS_TEXTAREA=["Dirección del Bien","Actos Seleccionados","Otro Acto","Dirección Domiciliaria","Actividad Económica","Empresa / Trabajo","Descripción Fondos","Respaldo Documental","Cónyuge Actividad","Cónyuge Dirección","BF Dirección","PJ Beneficiarios","Bases Consultadas","Factores Riesgo","Observaciones","FP Resumen"];
-
-function buscarParaEditar(){
-  var nreg=V('ed-nreg');if(!nreg){alert('Ingrese un N° de Registro (ej: DD-0001)');return;}
-  spin(true);
-  jsonp(URL_SCRIPT,{action:'buscar_registro',nreg:encodeURIComponent(nreg)},function(d){
-    spin(false);var area=E('edArea');
-    if(!d||d.status!=='OK'){area.style.display='block';E('edAlert').innerHTML='<div class="alert err">⚠ '+(d?d.msg:'Sin respuesta del servidor')+'</div>';E('camposList').innerHTML='';return;}
-    area.style.display='block';E('edAlert').innerHTML='<div class="alert ok">✓ Registro encontrado: '+nreg+'</div>';
-    E('edTit').textContent='Registro '+nreg;E('edHoja').textContent='Hoja: '+d.hoja+' | Fila: '+d.fila;
-    if(E('btnPrintEd'))E('btnPrintEd').style.display='inline-block';
-    var html='<div class="det-grid">';var datos=d.datos||[];while(datos.length<115){datos.push('');}
-    FULL_H.forEach(function(h,i){if(!h)return;var val=datos[i]!==undefined?String(datos[i]):'';var prot=COLS_PROT.indexOf(i+1)>=0;var col1=i+1;
-      html+='<div class="det-fld"><div class="det-lbl">'+h+' <span style="color:#9CA3AF;font-size:9px">col '+col1+'</span></div>'+(prot?'<div class="det-val" style="color:#9CA3AF">'+escHtml(val||'—')+'</div>':'<div class="det-val editable" title="Clic para editar" onclick="openEditCampo(\''+d.hoja+'\','+d.fila+','+col1+',\''+escJs(h)+'\',\''+escJs(val)+'\')">'+escHtml(val||'—')+'</div>')+'</div>';});
-    html+='</div>';E('camposList').innerHTML=html;
-  });
-}
-function abrirEditar(nreg){showTab('editar');document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('act');});document.querySelectorAll('.tab')[4].classList.add('act');E('ed-nreg').value=nreg;buscarParaEditar();window.scrollTo({top:0,behavior:'smooth'});}
-function openEditCampo(hoja,fila,col,header,valActual){
-  EDIT_DATA={hoja:hoja,fila:fila,col:col,header:header,valActual:valActual};
-  E('editCampoInfo').innerHTML='<strong>Campo:</strong> '+escHtml(header)+' &nbsp;|&nbsp; <strong>Columna:</strong> '+col+' &nbsp;|&nbsp; <strong>Hoja:</strong> '+escHtml(hoja)+', Fila '+fila;
-  E('editValActual').value=valActual;E('editClave').value='';E('editMsg').style.display='none';
-  var wrap=E('editInputWrap');
-  var opts=CAMPOS_SELECT[header];
-  if(opts){var s='<select id="editValNuevo" style="width:100%;padding:10px 14px;border:1.5px solid #CBD5E1;border-radius:9px;font-size:13px;font-family:inherit"><option value="">— Seleccione —</option>';opts.forEach(function(o){s+='<option value="'+escHtml(o)+'"'+(o===valActual?' selected':'')+'>'+escHtml(o)+'</option>';});s+='</select>';wrap.innerHTML='<label style="font-size:11px;font-weight:700;color:#6B7280">Nuevo valor <span style="color:#B71C1C">*</span></label>'+s;}
-  else if(CAMPOS_TEXTAREA.indexOf(header)>=0){wrap.innerHTML='<label style="font-size:11px;font-weight:700;color:#6B7280">Nuevo valor <span style="color:#B71C1C">*</span></label><textarea id="editValNuevo" style="width:100%;padding:10px 14px;border:1.5px solid #CBD5E1;border-radius:9px;font-size:13px;font-family:inherit;min-height:90px;resize:vertical">'+escHtml(valActual)+'</textarea>';}
-  else{wrap.innerHTML='<label style="font-size:11px;font-weight:700;color:#6B7280">Nuevo valor <span style="color:#B71C1C">*</span></label><input type="text" id="editValNuevo" value="'+escHtml(valActual)+'" style="width:100%;padding:10px 14px;border:1.5px solid #CBD5E1;border-radius:9px;font-size:13px;font-family:inherit" onkeydown="if(event.key===\'Enter\')doEditarCampo()">';}
-  E('ovEdit').classList.add('show');setTimeout(function(){var el=E('editValNuevo');if(el){el.focus();if(el.select)el.select();}},100);
-}
-function doEditarCampo(){
-  if(!EDIT_DATA)return;var el=E('editValNuevo');var nuevoVal=el?el.value.trim():'';var clave=V('editClave');
-  if(!clave){showEditMsg('Ingrese la clave de administrador',false);return;}
-  if(nuevoVal===EDIT_DATA.valActual){showEditMsg('El valor no cambió',false);return;}
-  var m=E('editMsg');m.style.display='block';m.style.background='#EDE9FE';m.style.color='#5B21B6';m.textContent='Guardando...';
-  jsonp(URL_SCRIPT,{action:'editar_campo',hoja:encodeURIComponent(EDIT_DATA.hoja),fila:EDIT_DATA.fila,col:EDIT_DATA.col,valor:encodeURIComponent(nuevoVal),clave:encodeURIComponent(clave)},function(d){
-    if(d&&d.status==='OK'){showEditMsg('✓ Campo actualizado correctamente',true);setTimeout(function(){closeEdit();buscarParaEditar();},1200);}
-    else{showEditMsg('✗ '+(d?d.msg:'Error al guardar'),false);}
-  });
-}
-function showEditMsg(msg,ok){var m=E('editMsg');m.style.display='block';m.style.background=ok?'#D1FAE5':'#FEE2E2';m.style.color=ok?'#065F46':'#7F1D1D';m.style.padding='8px 12px';m.style.borderRadius='7px';m.style.fontSize='12px';m.textContent=msg;}
-function closeEdit(){E('ovEdit').classList.remove('show');EDIT_DATA=null;}
-
-function fmtNum(n){var f=parseFloat(n);if(isNaN(f))return'0.00';return f.toLocaleString('es-EC',{minimumFractionDigits:2,maximumFractionDigits:2});}
-function fmtFecha(s){if(!s)return'—';var d=new Date(s);if(isNaN(d))return String(s).substring(0,10);return d.toLocaleDateString('es-EC',{day:'2-digit',month:'2-digit',year:'numeric'});}
-function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function escJs(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');}
-function spin(show){E('spinOv').className=show?'spin-ov show':'spin-ov';}
-function renderPag(containerId,pg,total,fnName){
-  var cont=E(containerId);if(!cont)return;if(total<=1){cont.innerHTML='';return;}
-  var html='<button class="pag-btn" onclick="'+fnName+'('+(pg-1)+')" '+(pg<=1?'disabled':'')+'>&laquo; Anterior</button>';
-  var start=Math.max(1,pg-2),end=Math.min(total,pg+2);
-  for(var i=start;i<=end;i++)html+='<button class="pag-btn'+(i===pg?' act':'')+'" onclick="'+fnName+'('+i+')">'+i+'</button>';
-  html+='<button class="pag-btn" onclick="'+fnName+'('+(pg+1)+')" '+(pg>=total?'disabled':'')+'">Siguiente &raquo;</button>';
-  html+='<span style="font-size:11px;color:#9CA3AF;margin-left:8px">Pág. '+pg+' de '+total+'</span>';
-  cont.innerHTML=html;
-}
-function jsonp(url,params,cb){
-  var cbn='__jp'+Date.now();var sc=document.createElement('script');
-  var tm=setTimeout(function(){delete window[cbn];try{document.head.removeChild(sc);}catch(x){}cb({status:'ERROR',msg:'Timeout'});},30000);
-  window[cbn]=function(data){clearTimeout(tm);delete window[cbn];try{document.head.removeChild(sc);}catch(x){}cb(data);};
-  sc.onerror=function(){clearTimeout(tm);delete window[cbn];try{document.head.removeChild(sc);}catch(x){}cb({status:'ERROR',msg:'Error de red'});};
-  var qs=Object.keys(params).map(function(k){return k+'='+params[k];}).join('&');
-  sc.src=url+'?'+qs+'&callback='+cbn+'&t='+Date.now();
+  var qs = Object.keys(params).map(function(k){return k+'='+params[k];}).join('&');
+  sc.src = url + '?' + qs + '&callback=' + cbn + '&t=' + Date.now();
   document.head.appendChild(sc);
 }
+
+// ---- Resumen ----
+function loadResumen(){
+  spin(true);
+  jsonp(URL_SCRIPT, {action:'reporte_resumen', anio:V('r-anio'), desde:V('r-desde'), hasta:V('r-hasta')}, function(d){
+    spin(false);
+    if(!d || d.status !== 'OK'){
+      showConnError(d ? d.msg : 'Sin respuesta del servidor');
+      return;
+    }
+    hideConnError();
+    E('k-total').textContent = d.total || 0;
+    E('k-guard').textContent = d.guardados || 0;
+    E('k-monto').textContent = '$' + fmtNum(d.montoTotal);
+    E('k-ext').textContent   = d.extranjeros || 0;
+    E('k-int').textContent   = d.totalInt || 0;
+    renderBars('chartRiesgo',  d.porRiesgo,     {'MUY ALTO':'red','ALTO':'amber','MEDIO':'amber','BAJO':'green','SIN':'navy'});
+    renderBars('chartTipoInt', d.porTipoInt,    {});
+    renderBars('chartMat',     d.porMatrizador, {});
+    renderBars('chartMes',     d.porMes,        {});
+  });
+}
+
+function renderBars(containerId, data, colors){
+  var cont = E(containerId);
+  if(!cont) return;
+  var entries = Object.entries(data || {}).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
+  if(!entries.length){cont.innerHTML='<div style="color:#9CA3AF;font-size:11px;text-align:center;padding:20px">Sin datos</div>';return;}
+  var max = Math.max.apply(null, entries.map(function(e){return e[1];}));
+  cont.innerHTML = entries.map(function(e){
+    var pct = Math.round((e[1]/max)*100);
+    var cls = (colors[e[0]] || 'navy');
+    return '<div class="bar-row"><div class="bar-lbl" title="'+e[0]+'">'+e[0]+'</div><div class="bar-track"><div class="bar-fill '+cls+'" style="width:'+pct+'%"></div></div><div class="bar-num">'+e[1]+'</div></div>';
+  }).join('');
+}
+
+// ---- Registros ----
+function loadRegistros(pg){
+  var desde = V('rg-desde'), hasta = V('rg-hasta'), busq = V('rg-busq');
+  CURRENT_PG = pg || 1;
+  spin(true);
+  jsonp(URL_SCRIPT, {action:'reporte_registros', anio:V('rg-anio')||'', desde:desde, hasta:hasta, busq:encodeURIComponent(busq||''), pagina:CURRENT_PG}, function(d){
+    spin(false);
+    if(!d || d.status !== 'OK'){showConnError(d ? d.msg : 'Sin respuesta');return;}
+    hideConnError();
+    DATOS_EXPORT = d.registros || [];
+    if(E('rg-info')) E('rg-info').textContent = d.total + ' registros encontrados';
+    var ex = E('btnExport'); if(ex) ex.style.display = d.total > 0 ? 'inline-block' : 'none';
+    var html = '';
+    (d.registros || []).forEach(function(r){
+      var cells = [
+        '<td><strong>'+(r.nreg||'-')+'</strong></td>',
+        '<td>'+fmtF(r.fecha)+'</td>',
+        '<td>'+(r.mat||'-')+'</td>',
+        '<td>'+(r.notaria||'-')+'</td>',
+        '<td>'+(r.anio||'-')+'</td>',
+        '<td><span class="badge g">'+(r.estado||'-')+'</span></td>',
+        '<td>'+(r.nmat||'-')+'</td>',
+        '<td><span class="badge b">'+(r.tipo_int||'-')+'</span></td>',
+        '<td>'+fmtF(r.fecha_op)+'</td>',
+        '<td>'+(+r.cuantia?'$'+fmtN(r.cuantia):'-')+'</td>',
+        '<td>'+(+r.avaluo?'$'+fmtN(r.avaluo):'-')+'</td>',
+        '<td>'+(r.fp_resumen||'-')+'</td>',
+        '<td>'+(+r.total?'$'+fmtN(r.total):'-')+'</td>',
+        '<td>'+(r.entidad||'-')+'</td>',
+        '<td>'+(r.nro_cta||'-')+'</td>',
+        '<td>'+(r.tipo_cta||'-')+'</td>',
+        '<td>'+(+r.fp_debito?'$'+fmtN(r.fp_debito):'-')+'</td>',
+        '<td>'+(+r.fp_credito?'$'+fmtN(r.fp_credito):'-')+'</td>',
+        '<td>'+(+r.fp_efectivo?'$'+fmtN(r.fp_efectivo):'-')+'</td>',
+        '<td>'+(+r.fp_cheque?'$'+fmtN(r.fp_cheque):'-')+'</td>',
+        '<td>'+(+r.fp_bienes?'$'+fmtN(r.fp_bienes):'-')+'</td>',
+        '<td>'+(+r.fp_servicios?'$'+fmtN(r.fp_servicios):'-')+'</td>',
+        '<td>'+(+r.fp_tarjeta?'$'+fmtN(r.fp_tarjeta):'-')+'</td>',
+        '<td>'+(r.tipo_bien||'-')+'</td>',
+        '<td>'+(r.dir_bien||'-')+'</td>',
+        '<td>'+(r.moneda||'-')+'</td>',
+        '<td>'+(r.actos||'-')+'</td>',
+        '<td>'+(r.otro_acto||'-')+'</td>',
+        '<td>'+(r.tipo_id||'-')+'</td>',
+        '<td>'+(r.cedula||'-')+'</td>',
+        '<td>'+(r.nombres||'-')+'</td>',
+        '<td>'+(r.ruc||'-')+'</td>',
+        '<td>'+(r.nacion||'-')+'</td>',
+        '<td>'+(r.ecivil||'-')+'</td>',
+        '<td>'+(r.profesion||'-')+'</td>',
+        '<td>'+(r.actividad||'-')+'</td>',
+        '<td>'+(r.direccion||'-')+'</td>',
+        '<td>'+(r.ciudad||'-')+'</td>',
+        '<td>'+(r.telefono||'-')+'</td>',
+        '<td>'+(r.correo||'-')+'</td>',
+        '<td>'+(r.empresa||'-')+'</td>',
+        '<td>'+(r.tact||'-')+'</td>',
+        '<td>'+(r.c_tipo_id||'-')+'</td>',
+        '<td>'+(r.c_cedula||'-')+'</td>',
+        '<td>'+(r.c_nombres||'-')+'</td>',
+        '<td>'+(r.c_ruc||'-')+'</td>',
+        '<td>'+(r.c_nacion||'-')+'</td>',
+        '<td>'+(r.c_prof||'-')+'</td>',
+        '<td>'+(r.c_act||'-')+'</td>',
+        '<td>'+(r.c_dir||'-')+'</td>',
+        '<td>'+(r.c_tel||'-')+'</td>',
+        '<td>'+(r.c_correo||'-')+'</td>',
+        '<td>'+(r.c_empresa||'-')+'</td>',
+        '<td>'+(r.eruc||'-')+'</td>',
+        '<td>'+(r.regimen||'-')+'</td>',
+        '<td>'+(r.oblig||'-')+'</td>',
+        '<td>'+(r.contrib||'-')+'</td>',
+        '<td>'+fmtF(r.fsri)+'</td>',
+        '<td>'+(r.rsri||'-')+'</td>',
+        '<td>'+(+r.ingreso?'$'+fmtN(r.ingreso):'-')+'</td>',
+        '<td>'+(+r.patrimonio?'$'+fmtN(r.patrimonio):'-')+'</td>',
+        '<td>'+(r.ofondos||'-')+'</td>',
+        '<td>'+(r.odetalle||'-')+'</td>',
+        '<td>'+(r.respaldo||'-')+'</td>',
+        '<td>'+(r.cpropia||'-')+'</td>',
+        '<td>'+(r.bf_nom||'-')+'</td>',
+        '<td>'+(r.bf_ced||'-')+'</td>',
+        '<td>'+(r.bf_nac||'-')+'</td>',
+        '<td>'+(r.bf_dir||'-')+'</td>',
+        '<td>'+(r.bf_tel||'-')+'</td>',
+        '<td>'+(r.bf_correo||'-')+'</td>',
+        '<td>'+(r.bf_rel||'-')+'</td>',
+        '<td>'+(r.pj_razon||'-')+'</td>',
+        '<td>'+(r.pj_ruc||'-')+'</td>',
+        '<td>'+(r.pj_rep||'-')+'</td>',
+        '<td>'+(r.pj_ci||'-')+'</td>',
+        '<td>'+(r.pj_estr||'-')+'</td>',
+        '<td>'+(r.pj_ben||'-')+'</td>',
+        '<td>'+(r.bases||'-')+'</td>',
+        '<td>'+fmtF(r.fbases)+'</td>',
+        '<td>'+(r.espep||'-')+'</td>',
+        '<td>'+(r.pepfam||'-')+'</td>',
+        '<td>'+(r.pepent||'-')+'</td>',
+        '<td>'+(r.pepcargo||'-')+'</td>',
+        '<td>'+(r.pepperiodo||'-')+'</td>',
+        '<td>'+(r.dacept||'-')+'</td>',
+        '<td>'+(r.ncomp||'-')+'</td>',
+        '<td>'+fmtF(r.ffirma)+'</td>',
+        '<td>'+(r.func_dilig||'-')+'</td>',
+        '<td>'+fmtF(r.fdilig)+'</td>',
+        '<td>'+(r.factores||'-')+'</td>',
+        '<td>'+(r.otro_factor||'-')+'</td>',
+        '<td>'+(r.riesgo?'<span class="badge '+(r.riesgo==='MUY ALTO'||r.riesgo==='ALTO'?'r':'g')+'">'+r.riesgo+'</span>':'-')+'</td>',
+        '<td>'+(r.decision||'-')+'</td>',
+        '<td>'+(r.obs||'-')+'</td>',
+        '<td>'+fmtF(r.fecha_reg)+'</td>',
+        '<td><button onclick="abrirEditar(\''+r.nreg+'\')" class="btn-edit">Editar</button></td>'
+      ];
+      html += '<tr>' + cells.join('') + '</tr>';
+    });
+    if(E('bodyReg')) E('bodyReg').innerHTML = html || '<tr><td colspan="97" style="text-align:center;padding:24px;color:#9CA3AF">Sin resultados para los filtros aplicados</td></tr>';
+    renderPag('pagReg', d.pagina, d.paginas, 'loadRegistros');
+  });
+}
+
+// ---- Extranjeros ----
+function loadExtranjeros(){
+  spin(true);
+  jsonp(URL_SCRIPT, {action:'reporte_extranjeros', anio:V('ex-anio'), desde:V('ex-desde'), hasta:V('ex-hasta')}, function(d){
+    spin(false);
+    if(!d || d.status !== 'OK'){showConnError(d?d.msg:'Sin respuesta');return;}
+    hideConnError();
+    if(E('ex-info')) E('ex-info').textContent = d.total + ' intervinientes extranjeros';
+    var html = '';
+    (d.registros || []).forEach(function(r){
+      html += '<tr><td>'+(r.nreg||'-')+'</td><td>'+(r.nmat||'-')+'</td><td>'+fmtF(r.fecha_op)+'</td><td>'+(r.tipo_id||'-')+'</td><td>'+(r.cedula||'-')+'</td><td>'+(r.nombres||'-')+'</td><td>'+(r.nacion||'-')+'</td><td><span class="badge b">'+(r.tipo_int||'-')+'</span></td><td>'+(r.riesgo?'<span class="badge '+(r.riesgo==='MUY ALTO'||r.riesgo==='ALTO'?'r':'g')+'">'+r.riesgo+'</span>':'-')+'</td></tr>';
+    });
+    if(E('bodyEx')) E('bodyEx').innerHTML = html || '<tr><td colspan="9" style="text-align:center;padding:24px;color:#9CA3AF">Sin intervinientes extranjeros</td></tr>';
+  });
+}
+
+// ---- Riesgo ----
+function loadRiesgo(){
+  spin(true);
+  jsonp(URL_SCRIPT, {action:'reporte_riesgo', anio:V('rs-anio'), nivel:encodeURIComponent(V('rs-nivel')), desde:V('rs-desde'), hasta:V('rs-hasta')}, function(d){
+    spin(false);
+    if(!d || d.status !== 'OK'){showConnError(d?d.msg:'Sin respuesta');return;}
+    hideConnError();
+    E('rs-info').textContent = d.total + ' registros encontrados';
+    var html = '';
+    (d.registros || []).forEach(function(r){
+      html += '<tr><td>'+r.nreg+'</td><td>'+r.nmat+'</td><td>'+fmtF(r.fecha_op)+'</td><td>'+r.cedula+'</td><td>'+r.nombres+'</td><td>'+r.tipo_int+'</td><td>'+(r.riesgo?'<span class="badge '+(r.riesgo==='MUY ALTO'||r.riesgo==='ALTO'?'r':'g')+'">'+r.riesgo+'</span>':'-')+'</td><td>'+r.decision+'</td><td>'+r.mat+'</td><td><button onclick="abrirEditar(\''+r.nreg+'\')" class="btn-edit">Editar</button></td></tr>';
+    });
+    E('bodyRs').innerHTML = html || '<tr><td colspan="10" style="text-align:center;padding:24px;color:#9CA3AF">Sin resultados</td></tr>';
+  });
+}
+
+// ---- Editar registro ----
+function buscarParaEditar(){
+  var nreg = V('ed-nreg');
+  if(!nreg){alert('Ingrese un N° de Registro (ej: DD-0001)');return;}
+  spin(true);
+  jsonp(URL_SCRIPT, {action:'buscar_registro', nreg:encodeURIComponent(nreg)}, function(d){
+    spin(false);
+    var area = E('edArea');
+    if(!d || d.status !== 'OK'){
+      area.style.display = 'block';
+      E('edAlert').innerHTML = '<div class="alert err">⚠ ' + (d ? d.msg : 'Sin respuesta del servidor') + '</div>';
+      E('camposList').innerHTML = '';
+      return;
+    }
+    area.style.display = 'block';
+    E('edAlert').innerHTML = '<div class="alert ok">✓ Registro encontrado: ' + nreg + '</div>';
+    E('edTit').textContent  = 'Registro ' + nreg;
+    E('edHoja').textContent = 'Hoja: ' + d.hoja + ' | Fila: ' + d.fila;
+    if(E('btnPrintEd')) E('btnPrintEd').style.display = 'inline-block';
+    var html  = '<div class="det-grid">';
+    var datos = d.datos || [];
+    while(datos.length < 115){ datos.push(''); }
+    FULL_H.forEach(function(h, i){
+      if(!h) return;
+      var val  = datos[i] !== undefined ? String(datos[i]) : '';
+      var prot = COLS_PROT.indexOf(i+1) >= 0;
+      var col1 = i + 1;
+      html += '<div class="det-fld"><div class="det-lbl">'+h+' <span style="color:#9CA3AF;font-size:9px">col '+col1+'</span></div>';
+      if(prot){
+        html += '<div class="det-val" style="color:#9CA3AF">'+escHtml(val||'—')+'</div>';
+      } else {
+        html += '<div class="det-val editable" title="Clic para editar" onclick="openEditCampo(\''+escJs(d.hoja)+'\','+d.fila+','+col1+',\''+escJs(h)+'\',\''+escJs(val)+'\')">'+escHtml(val||'—')+'</div>';
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+    E('camposList').innerHTML = html;
+  });
+}
+
+function abrirEditar(nreg){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('show');});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('act');});
+  E('p-editar').classList.add('show');
+  document.querySelectorAll('.tab')[4].classList.add('act');
+  E('ed-nreg').value = nreg;
+  buscarParaEditar();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function openEditCampo(hoja, fila, col, header, valActual){
+  EDIT_DATA = {hoja:hoja, fila:fila, col:col, header:header, valActual:valActual};
+  E('editCampoInfo').innerHTML = '<strong>Campo:</strong> '+escHtml(header)+' &nbsp;|&nbsp; <strong>Columna:</strong> '+col+' &nbsp;|&nbsp; <strong>Hoja:</strong> '+escHtml(hoja)+', Fila '+fila;
+  E('editValActual').value = valActual;
+  E('editClave').value = '';
+  E('editMsg').style.display = 'none';
+  var wrap = E('editInputWrap');
+  var opts = CAMPOS_SELECT[header];
+  if(opts){
+    var s = '<select id="editValNuevo" style="width:100%;padding:10px 14px;border:1.5px solid #CBD5E1;border-radius:9px;font-size:13px;font-family:inherit"><option value="">— Seleccione —</option>';
+    opts.forEach(function(o){s += '<option value="'+escHtml(o)+'"'+(o===valActual?' selected':'')+'>'+escHtml(o)+'</option>';});
+    s += '</select>';
+    wrap.innerHTML = '<label style="font-size:11px;font-weight:700;color:#6B7280">Nuevo valor <span style="color:#B71C1C">*</span></label>'+s;
+  } else if(CAMPOS_TEXTAREA.indexOf(header) >= 0){
+    wrap.innerHTML = '<label style="font-size:11px;font-weight:700;color:#6B7280">Nuevo valor <span style="color:#B71C1C">*</span></label><textarea id="editValNuevo" style="width:100%;padding:10px 14px;border:1.5px solid #CBD5E1;border-radius:9px;font-size:13px;font-family:inherit;min-height:90px;resize:vertical">'+escHtml(valActual)+'</textarea>';
+  } else {
+    wrap.innerHTML = '<label style="font-size:11px;font-weight:700;color:#6B7280">Nuevo valor <span style="color:#B71C1C">*</span></label><input type="text" id="editValNuevo" value="'+escHtml(valActual)+'" style="width:100%;padding:10px 14px;border:1.5px solid #CBD5E1;border-radius:9px;font-size:13px;font-family:inherit" onkeydown="if(event.key===\'Enter\')doEditarCampo()">';
+  }
+  E('ovEdit').classList.add('show');
+  setTimeout(function(){var el=E('editValNuevo');if(el){el.focus();if(el.select)el.select();}},100);
+}
+
+function doEditarCampo(){
+  if(!EDIT_DATA) return;
+  var el = E('editValNuevo');
+  var nuevoVal = el ? el.value.trim() : '';
+  var clave = V('editClave');
+  if(!clave){showEditMsg('Ingrese la clave de administrador',false);return;}
+  if(nuevoVal === EDIT_DATA.valActual){showEditMsg('El valor no ha cambiado',false);return;}
+  var m = E('editMsg');
+  m.style.display='block';m.style.background='#EDE9FE';m.style.color='#5B21B6';m.textContent='Guardando...';
+  jsonp(URL_SCRIPT, {action:'editar_campo', hoja:encodeURIComponent(EDIT_DATA.hoja), fila:EDIT_DATA.fila, col:EDIT_DATA.col, valor:encodeURIComponent(nuevoVal), clave:encodeURIComponent(clave)}, function(d){
+    if(d && d.status === 'OK'){
+      showEditMsg('✓ Campo actualizado correctamente',true);
+      setTimeout(function(){closeEdit();buscarParaEditar();},1200);
+    } else {
+      showEditMsg('✗ '+(d?d.msg:'Error al guardar'),false);
+    }
+  });
+}
+
+function showEditMsg(msg, ok){
+  var m = E('editMsg');
+  m.style.display='block';
+  m.style.background=ok?'#D1FAE5':'#FEE2E2';
+  m.style.color=ok?'#065F46':'#7F1D1D';
+  m.style.padding='8px 12px';
+  m.style.borderRadius='7px';
+  m.style.fontSize='12px';
+  m.textContent=msg;
+}
+
+function closeEdit(){E('ovEdit').classList.remove('show');EDIT_DATA=null;}
+
+// ---- Paginación ----
+function renderPag(containerId, pg, total, fnName){
+  var cont = E(containerId);
+  if(!cont) return;
+  if(total<=1){cont.innerHTML='';return;}
+  var html = '<button class="pag-btn" onclick="'+fnName+'('+(pg-1)+')" '+(pg<=1?'disabled':'')+'>&laquo; Anterior</button>';
+  var start=Math.max(1,pg-2), end=Math.min(total,pg+2);
+  for(var i=start;i<=end;i++) html += '<button class="pag-btn'+(i===pg?' act':'')+'" onclick="'+fnName+'('+i+')">'+i+'</button>';
+  html += '<button class="pag-btn" onclick="'+fnName+'('+(pg+1)+')" '+(pg>=total?'disabled':'')+'>Siguiente &raquo;</button>';
+  html += '<span style="font-size:11px;color:#9CA3AF;margin-left:8px">Pág. '+pg+' de '+total+'</span>';
+  cont.innerHTML = html;
+}
+
+// ---- Banner de error de conexión ----
+function showConnError(msg){
+  var b = E('connBanner');
+  b.textContent = '⚠ Error de conexión: ' + (msg || 'No se pudo conectar con el servidor.');
+  b.classList.add('show');
+}
+function hideConnError(){
+  E('connBanner').classList.remove('show');
+}
+
+// ---- Exportar CSV ----
 function exportarExcel(){
-  if(!DATOS_EXPORT||!DATOS_EXPORT.length){alert('Sin datos');return;}
-  var H=['N° Registro','Fecha Ingreso','Matrizador','Notaría','Año','Estado','N° Matriz','Tipo Interviniente','Fecha Operación','Cuantía USD','Avaluó USD','FP Resumen','Total Pago USD','Entidad Financiera','N° Cuenta','Tipo Cuenta','FP Valor Debitado','FP Valor Crédito','FP Valor Efectivo','FP Cheque','FP Valor Bienes','FP Valor Servicios','FP Tarjeta Crédito','Tipo de Bien','Dirección del Bien','Moneda','Actos Seleccionados','Otro Acto','Tipo Identificación','Cédula / Pasaporte','Nombres Completos','RUC','Nacionalidad','Estado Civil','Profesión','Actividad Económica','Dirección Domiciliaria','Ciudad / Provincia','Teléfono','Correo','Empresa / Trabajo','Tiempo Actividad','Cónyuge Tipo ID','Cónyuge Cédula','Cónyuge Nombres','Cónyuge RUC','Cónyuge Nacionalidad','Cónyuge Profesión','Cónyuge Actividad','Cónyuge Dirección','Cónyuge Teléfono','Cónyuge Correo','Cónyuge Empresa','Estado RUC','Régimen Tributario','Obligado Contabilidad','Contribuyente Especial','Fecha Verificación SRI','Resultado SRI','Ingreso Mensual USD','Patrimonio USD','Origen de Fondos','Descripción Fondos','Respaldo Documental','Actúa Cuenta Propia','BF Nombres','BF Cédula','BF Nacionalidad','BF Dirección','BF Teléfono','BF Correo','BF Relación','PJ Razón Social','PJ RUC','PJ Representante','PJ CI Representante','PJ Estructura Compleja','PJ Beneficiarios','Bases Consultadas','Fecha Consulta Bases','Es PEP','PEP Familiar','PEP Entidad','PEP Cargo','PEP Período','Declaración Aceptada','Nombre Compareciente','Fecha Firma','Funcionario Diligencia','Fecha Diligencia','Factores Riesgo','Otro Factor','Nivel Riesgo','Decisión','Observaciones','Fecha Registro'];
-  var rows=[H];
-  DATOS_EXPORT.forEach(function(r){rows.push([(r.nreg||''),fmtF(r.fecha),(r.mat||''),(r.notaria||''),(r.anio||''),(r.estado||''),(r.nmat||''),(r.tipo_int||''),fmtF(r.fecha_op),(r.cuantia||''),(r.avaluo||''),(r.fp_resumen||''),(r.total||''),(r.entidad||''),(r.nro_cta||''),(r.tipo_cta||''),(r.fp_debito||''),(r.fp_credito||''),(r.fp_efectivo||''),(r.fp_cheque||''),(r.fp_bienes||''),(r.fp_servicios||''),(r.fp_tarjeta||''),(r.tipo_bien||''),(r.dir_bien||''),(r.moneda||''),(r.actos||''),(r.otro_acto||''),(r.tipo_id||''),(r.cedula||''),(r.nombres||''),(r.ruc||''),(r.nacion||''),(r.ecivil||''),(r.profesion||''),(r.actividad||''),(r.direccion||''),(r.ciudad||''),(r.telefono||''),(r.correo||''),(r.empresa||''),(r.tact||''),(r.c_tipo_id||''),(r.c_cedula||''),(r.c_nombres||''),(r.c_ruc||''),(r.c_nacion||''),(r.c_prof||''),(r.c_act||''),(r.c_dir||''),(r.c_tel||''),(r.c_correo||''),(r.c_empresa||''),(r.eruc||''),(r.regimen||''),(r.oblig||''),(r.contrib||''),fmtF(r.fsri),(r.rsri||''),(r.ingreso||''),(r.patrimonio||''),(r.ofondos||''),(r.odetalle||''),(r.respaldo||''),(r.cpropia||''),(r.bf_nom||''),(r.bf_ced||''),(r.bf_nac||''),(r.bf_dir||''),(r.bf_tel||''),(r.bf_correo||''),(r.bf_rel||''),(r.pj_razon||''),(r.pj_ruc||''),(r.pj_rep||''),(r.pj_ci||''),(r.pj_estr||''),(r.pj_ben||''),(r.bases||''),fmtF(r.fbases),(r.espep||''),(r.pepfam||''),(r.pepent||''),(r.pepcargo||''),(r.pepperiodo||''),(r.dacept||''),(r.ncomp||''),fmtF(r.ffirma),(r.func_dilig||''),fmtF(r.fdilig),(r.factores||''),(r.otro_factor||''),(r.riesgo||''),(r.decision||''),(r.obs||''),fmtF(r.fecha_reg)]);});
-  var csv=rows.map(function(row){return row.map(function(c){var s=String(c===null||c===undefined?'':c).replace(/"/g,'""');return(s.indexOf(';')>=0||s.indexOf('"')>=0)?'"'+s+'"':s;}).join(';');}).join('\r\n');
-  var blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
-  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download='DebidaDiligencia_'+new Date().toISOString().slice(0,10)+'.csv';
+  if(!DATOS_EXPORT||!DATOS_EXPORT.length){alert('Sin datos para exportar');return;}
+  var H = ['N° Registro','Fecha Ingreso','Matrizador','Notaría','Año','Estado','N° Matriz','Tipo Interviniente','Fecha Operación','Cuantía USD','Avaluó USD','FP Resumen','Total Pago USD','Entidad Financiera','N° Cuenta','Tipo Cuenta','FP Valor Debitado','FP Valor Crédito','FP Valor Efectivo','FP Cheque','FP Valor Bienes','FP Valor Servicios','FP Tarjeta Crédito','Tipo de Bien','Dirección del Bien','Moneda','Actos Seleccionados','Otro Acto','Tipo Identificación','Cédula / Pasaporte','Nombres Completos','RUC','Nacionalidad','Estado Civil','Profesión','Actividad Económica','Dirección Domiciliaria','Ciudad / Provincia','Teléfono','Correo','Empresa / Trabajo','Tiempo Actividad','Cónyuge Tipo ID','Cónyuge Cédula','Cónyuge Nombres','Cónyuge RUC','Cónyuge Nacionalidad','Cónyuge Profesión','Cónyuge Actividad','Cónyuge Dirección','Cónyuge Teléfono','Cónyuge Correo','Cónyuge Empresa','Estado RUC','Régimen Tributario','Obligado Contabilidad','Contribuyente Especial','Fecha Verificación SRI','Resultado SRI','Ingreso Mensual USD','Patrimonio USD','Origen de Fondos','Descripción Fondos','Respaldo Documental','Actúa Cuenta Propia','BF Nombres','BF Cédula','BF Nacionalidad','BF Dirección','BF Teléfono','BF Correo','BF Relación','PJ Razón Social','PJ RUC','PJ Representante','PJ CI Representante','PJ Estructura Compleja','PJ Beneficiarios','Bases Consultadas','Fecha Consulta Bases','Es PEP','PEP Familiar','PEP Entidad','PEP Cargo','PEP Período','Declaración Aceptada','Nombre Compareciente','Fecha Firma','Funcionario Diligencia','Fecha Diligencia','Factores Riesgo','Otro Factor','Nivel Riesgo','Decisión','Observaciones','Fecha Registro'];
+  var rows = [H];
+  DATOS_EXPORT.forEach(function(r){
+    rows.push([(r.nreg||''),fmtF(r.fecha),(r.mat||''),(r.notaria||''),(r.anio||''),(r.estado||''),(r.nmat||''),(r.tipo_int||''),fmtF(r.fecha_op),(r.cuantia||''),(r.avaluo||''),(r.fp_resumen||''),(r.total||''),(r.entidad||''),(r.nro_cta||''),(r.tipo_cta||''),(r.fp_debito||''),(r.fp_credito||''),(r.fp_efectivo||''),(r.fp_cheque||''),(r.fp_bienes||''),(r.fp_servicios||''),(r.fp_tarjeta||''),(r.tipo_bien||''),(r.dir_bien||''),(r.moneda||''),(r.actos||''),(r.otro_acto||''),(r.tipo_id||''),(r.cedula||''),(r.nombres||''),(r.ruc||''),(r.nacion||''),(r.ecivil||''),(r.profesion||''),(r.actividad||''),(r.direccion||''),(r.ciudad||''),(r.telefono||''),(r.correo||''),(r.empresa||''),(r.tact||''),(r.c_tipo_id||''),(r.c_cedula||''),(r.c_nombres||''),(r.c_ruc||''),(r.c_nacion||''),(r.c_prof||''),(r.c_act||''),(r.c_dir||''),(r.c_tel||''),(r.c_correo||''),(r.c_empresa||''),(r.eruc||''),(r.regimen||''),(r.oblig||''),(r.contrib||''),fmtF(r.fsri),(r.rsri||''),(r.ingreso||''),(r.patrimonio||''),(r.ofondos||''),(r.odetalle||''),(r.respaldo||''),(r.cpropia||''),(r.bf_nom||''),(r.bf_ced||''),(r.bf_nac||''),(r.bf_dir||''),(r.bf_tel||''),(r.bf_correo||''),(r.bf_rel||''),(r.pj_razon||''),(r.pj_ruc||''),(r.pj_rep||''),(r.pj_ci||''),(r.pj_estr||''),(r.pj_ben||''),(r.bases||''),fmtF(r.fbases),(r.espep||''),(r.pepfam||''),(r.pepent||''),(r.pepcargo||''),(r.pepperiodo||''),(r.dacept||''),(r.ncomp||''),fmtF(r.ffirma),(r.func_dilig||''),fmtF(r.fdilig),(r.factores||''),(r.otro_factor||''),(r.riesgo||''),(r.decision||''),(r.obs||''),fmtF(r.fecha_reg)]);
+  });
+  var csv = rows.map(function(row){
+    return row.map(function(c){
+      var s=String(c===null||c===undefined?'':c).replace(/"/g,'""');
+      return(s.indexOf(';')>=0||s.indexOf('"')>=0)?'"'+s+'"':s;
+    }).join(';');
+  }).join('\r\n');
+  var blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'DebidaDiligencia_' + new Date().toISOString().slice(0,10) + '.csv';
   document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
+
+// ---- Imprimir registro ----
 function imprimirRegistroEditado(){
-  var nreg=V('ed-nreg');var hojaEl=E('edHoja');var hoja=hojaEl?hojaEl.textContent:'';
-  var campos=[];
+  var nreg = V('ed-nreg');
+  var hojaEl = E('edHoja');
+  var hoja = hojaEl ? hojaEl.textContent : '';
+  var campos = [];
   document.querySelectorAll('#camposList .det-fld').forEach(function(f){
     var lbl=f.querySelector('.det-lbl');var val=f.querySelector('.det-val');
     if(lbl&&val){var l=lbl.textContent.replace(/col \d+/,'').trim();var v=val.textContent.trim();if(v&&v!=='—'&&v!=='-')campos.push({l:l,v:v});}
   });
-  var rows='';campos.forEach(function(c){rows+='<div class="fld"><div class="lbl">'+c.l+'</div><div class="val">'+c.v+'</div></div>';});
+  var rows='';
+  campos.forEach(function(c){rows+='<div class="fld"><div class="lbl">'+c.l+'</div><div class="val">'+c.v+'</div></div>';});
   var html='<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Registro '+nreg+'</title><style>body{font-family:Arial,sans-serif;font-size:11px;color:#1a1a2e;margin:20px}h1{font-size:13px;color:#1B3A6B;margin-bottom:3px}h2{font-size:10px;color:#6B7280;font-weight:400;margin-bottom:14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 18px}.fld{border-bottom:1px solid #e2e8f0;padding:4px 0}.lbl{font-size:9px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:.4px}.val{font-size:11px;color:#1a1a2e}.footer{margin-top:18px;border-top:1px solid #e2e8f0;padding-top:6px;font-size:9px;color:#9CA3AF;text-align:center}@media print{body{margin:8px}}</style></head><body><h1>&#128203; FORMULARIO DE DEBIDA DILIGENCIA \u2014 Notar\u00EDa \u00DAnica del Cant\u00F3n Ba\u00F1os</h1><h2>'+hoja+' &nbsp;|&nbsp; Generado: '+new Date().toLocaleString("es-EC")+'</h2><div class="grid">'+rows+'</div><div class="footer">Notar\u00EDa \u00DAnica del Cant\u00F3n Ba\u00F1os &middot; 2026 &middot; Debida Diligencia</div><scr'+'ipt>window.onload=function(){window.print();}<\/scr'+'ipt></body></html>';
-  var w=window.open('','_blank','width=920,height=720');if(w){w.document.write(html);w.document.close();}else{alert('Active las ventanas emergentes en su navegador para imprimir.');}
+  var w=window.open('','_blank','width=920,height=720');
+  if(w){w.document.write(html);w.document.close();}
+  else{alert('Active las ventanas emergentes en su navegador para imprimir.');}
 }
-window.addEventListener('DOMContentLoaded',function(){aplicarPeriodo('anio_actual');});
+
+// ---- Init ----
+window.addEventListener('DOMContentLoaded',function(){
+  aplicarPeriodo('anio_actual');
+});
 </script>
 </body>
 </html>
